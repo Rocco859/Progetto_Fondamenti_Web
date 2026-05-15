@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <title>Stop allo Spreco - Web App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        /* =========================================
+           RESET E STILI BASE (Stile Wireframe)
+           ========================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            /* Colori scuri per simulare lo schizzo */
+            background-color: #8fbc8f;
+            color: #3d3c3c;
+            padding: 20px;
+        }
+
+        /* =========================================
+           HEADER (Barra in alto)
+           ========================================= */
+        header {
+            display: flex;
+            background-color:  #fffaf0;;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #3d3c3c;
+            border-radius: 50px; /* Bordo arrotondato come nel disegno */
+            padding: 15px 30px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            color: #3d3c3c;
+            font-weight: normal;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-account {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Finto cerchio per l'icona account nell'header */
+        .user-account::before {
+            content: '';
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #3d3c3c;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #3d3c3c;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* =========================================
+           LAYOUT PRINCIPALE A 2 COLONNE
+           ========================================= */
+       .layout-container {
+            display: flex;
+            gap: 100px; 
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 80vh; /* <-- AGGIUNGI QUESTO! Forza il contenitore ad allungarsi */
+        }
+
+        /* =========================================
+           MAIN (Parte centrale/sinistra)
+           ========================================= */
+        main {
+            flex: 2; /* Prende 2/3 dello spazio */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra i blocchi orizzontalmente */
+            gap: 50px;
+            margin-top: 20px;
+        }
+
+
+        #aggiunta-alimenti {
+           display: flex;
+           align-items: center;
+           background-color: #fffaf0;
+           border: 2px solid #3d3c3c;
+           border-radius: 50px;
+           padding: 5px 15px;
+           width: 100%;
+           max-width: 550px;
+           gap: 10px;
+            
+        }
+        /* Barra di ricerca / Aggiungi alimento */
+        #aggiunta-alimenti form {
+            display: flex;
+            background-color: #fffaf0;
+            justify-content: space-between;
+            /* align-items: center; */
+            align-self: stretch;
+          
+            
+            border-radius: 50px;
+            padding: 10px 20px;
+            width: 100%;
+            max-width: none;
+           
+        }
+
+        #aggiunta-alimenti input {
+            background: transparent;
+            border: none;
+            color: #3d3c3c;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .scanner-btn {
+            background: transparent;
+            border: 2px solid #3d3c3c;
+            color: #3d3c3c;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* Quadrati "Frigo" e "Lista Spesa" */
+        #categorie {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 150px;
+            padding: 150px;
+            height: 150px;
+            background: #fffaf0;
+            border: 2px solid #3d3c3c;
+            color: #3d3c3c;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* =========================================
+           ASIDE (Sidebar di destra: Scadenze)
+           ========================================= */
+
+      
+
+       aside#sidebar-scadenza {
+            flex: 1; 
+            border: 2px solid #3d3c3c;
+            background-color: #fffaf0;
+            padding: 30px 20px;
+            
+            /* Trasformiamo l'aside in un contenitore flex per gestire la lista interna */
+            display: flex;
+            flex-direction: column;
+        }
+
+        aside#sidebar-scadenza h2 {
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        aside#sidebar-scadenza ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; 
+            justify-content: space-evenly;
+        }
+
+        /* Linee per simulare la lista nello schizzo */
+        aside#sidebar-scadenza li {
+            border-bottom: 2px solid #3d3c3c;
+            padding: 15px 0;
+            margin-bottom: 10px;
+            width: 80%;
+            color: transparent; /* Nascondo il testo per simulare le righe vuote del disegno */
+        }
+
+        /* =========================================
+           CHATBOT (In basso a sinistra)
+           ========================================= */
+        aside#chatbot-widget {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+        }
+
+        .chatbot-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: transparent;
+            border: none;
+            color: #3d3c3c;
+            cursor: pointer;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        /* Cerchio attorno all'icona del chatbot */
+        .chatbot-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #3d3c3c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatbot-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* =========================================
+           RESPONSIVITÀ (MEDIA QUERIES)
+           ========================================= */
+        /* Se lo schermo è più piccolo di 800px, mettiamo tutto in colonna (effetto smartphone) */
+        @media (max-width: 800px) {
+            .layout-container {
+                flex-direction: column;
+            }
+
+            #categorie {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            aside#sidebar-scadenza {
+                width: 100%;
+                min-height: 300px;
+            }
+            
+            aside#chatbot-widget {
+                /* Su smartphone potrebbe servire posizionarlo diversamente per non coprire il testo */
+                position: relative;
+                bottom: 0;
+                left: 0;
+                margin-top: 40px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NOME APP</h1>
+        <nav>
+            <span class="user-account">NOME ACCOUNT</span>
+            <button type="button" class="menu-btn" aria-label="Menu">≡</button>
+        </nav>
+    </header>
+
+    <div class="layout-container">
+        
+        <main>
+            <section id="aggiunta-alimenti">
+                <form action="/aggiungi" method="post">
+                    <input type="text" name="alimento" placeholder="+ AGGIUNGI ALIMENTO">
+                    <button type="button" class="scanner-btn" aria-label="Scanner">[ |||| ]</button>
+                </form>
+            </section>
+
+            <section id="categorie">
+                <button type="button" class="card">FRIGO</button>
+                <button type="button" class="card">LISTA SPESA</button>
+            </section>
+        </main>
+
+        <aside id="sidebar-scadenza">
+            <h2>ALIMENTI IN SCADENZA</h2>
+            <ul>
+                <li>Riga 1</li>
+                <li>Riga 2</li>
+                <li>Riga 3</li>
+                <li>Riga 4</li>
+                <li>Riga 5</li>
+            </ul>
+        </aside>
+
+    </div> <aside id="chatbot-widget">
+        <button type="button" class="chatbot-btn">
+            <span>CHAT BOT</span>
+            <div class="chatbot-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Omino Chatbot" style="filter: invert(1);">
+            </div>
+        </button>
+    </aside>
+
+</body>
+</html>

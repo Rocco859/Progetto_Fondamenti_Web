@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartFridge - Finestre Modali</title>
+  <style>
+    body {
+      background-color: #e5efe5;
+      font-family: sans-serif;
+      padding: 50px;
+    }
+
+    .bottoni-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn-card {
+      background-color: #fffaf0;
+      border: 2px solid #d4c4a8; 
+      border-radius: 20px;
+      padding: 30px 40px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #2b4227;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+
+    .btn-card:hover {
+      transform: scale(1.05);
+    }
+
+    .modale-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modale-overlay.attivo {
+      display: flex;
+    }
+
+    .modale-contenuto {
+      background-color: #fffaf0;
+      color: #2b4227;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      text-align: left;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-chiudi {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #2b4227;
+      font-weight: bold;
+    }
+
+    .lista-elementi {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .lista-elementi li {
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bottoni-container">
+    <button id="btn-frigo" class="btn-card">IL TUO<br>FRIGO</button>
+    <button id="btn-spesa" class="btn-card">LISTA<br>SPESA</button>
+  </div>
+
+  <div id="modale-frigo" class="modale-overlay">
+    <div class="modale-contenuto">
+      <button id="chiudi-frigo" class="btn-chiudi">✕</button>
+      <h2>IL TUO FRIGO</h2>
+      <ul class="lista-elementi">
+        <li>🍅 Pomodori (Scad: 25/05)</li>
+        <li>🥛 Latte Intero (Scad: 17/05)</li>
+        <li>🥚 Uova (Scad: 30/05)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="modale-spesa" class="modale-overlay">
+    <div class="modale-contenuto">
+      <button id="chiudi-spesa" class="btn-chiudi">✕</button>
+      <h2>LISTA DELLA SPESA</h2>
+      <ul class="lista-elementi">
+        <li>🛒 Pane integrale</li>
+        <li>🛒 Mele fuji (1kg)</li>
+        <li>🛒 Acqua frizzante (6 bottiglie)</li>
+        <li>🛒 Detersivo piatti</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="click_bottoni.js" defer></script>
+
+</body>
+</html>

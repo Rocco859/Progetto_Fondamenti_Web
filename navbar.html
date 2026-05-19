@@ -50,21 +50,21 @@
               display: flex;
             flex-direction: row;
             gap: 10px;
-            margin-right: 30px;
+            margin-right: 20px;
         }
         .section-dx
         {
             display: flex;
             justify-content:right;
             width: 100%;
-            margin-right: 30px;
+            margin-right: 20px;
             flex-direction: row;
         }
         .sectionnolog-dx
         {
             display: flex;
             justify-content:space-between;
-            margin-right: 30px;
+            
             flex-direction: row;
         }
         
@@ -88,24 +88,134 @@
     overflow: hidden; 
     border: 2px solid #3d3c3c; 
 }
-.btn-accedi {
+.btn-accedi-nav, .btn-accedi-nav a {
     justify-content:right;
 color: #3d3c3c;
     display:flex;
-    margin-right: 30px;
-    margin-top: 6px;
+    margin-right: 20px;
     flex-direction: row;
     align-content: right;  
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer; /* Manina al passaggio del mouse */
-    transition: all 0.3s ease; /* Rende il cambio di colore fluido */
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+
+.btn-accedi-nav :hover {
+    justify-content:right;
+    color: #3b6b4c;
+    display:flex;
+    margin-right: 20px;
+    flex-direction: row;
+    align-content: right;  
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+.menu-tendina a,.menu-tendina-nolog a {
+    color:  #3b6b4c;
+    text-decoration: none; 
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: bold;
+   transition: all 0.3s ease;
+}
+.menu-tendina a:hover,.menu-tendina-nolog a:hover {
+    background-color: #3b6b4c;
+    color: #fffaf0;
+      
 }
 
      button{width: 40px; 
         height: 30px;
     margin: 3px;}
+    .menu-tendina {
+   
+    position: absolute; 
+    top: 90px; 
+    right: 40px;
+    margin-left: 100px; 
+    
+    background-color: #fffaf0; 
+    border-radius: 15px; 
+    border: 2px solid #3d3c3c; 
+    width: 200px;
+    height: 200px; 
 
+  
+    display: flex;
+    justify-content:space-between;
+    flex-direction: column;
+    overflow: hidden; 
+
+}
+
+.menu-tendina hr {
+    margin: 0;
+    border: none;
+    border-top: 2px solid #3d3c3c; 
+}
+.testo-rosso {
+    color: #d32f2f !important; 
+}
+.logreg-popup{
+    background-color: #fffaf0;
+    border-radius: 15px;
+    border: 2px solid #3d3c3c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 40%;
+    position: absolute;
+
+}
+.overlay
+{
+    background-color: rgba(41, 41, 41, 0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+}
+.input-logreg
+{
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.btn-logreg
+{
+
+    font-family: Sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #3b6b4c; 
+    width: 100%;
+    border-radius: 5px;
+    color: #fffaf0;
+    border: 2px solid #3d3c3c;
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
+.btn-logreg:hover
+{  font-family: Sans-serif;
+    font-weight: bold;
+    background-color: #fffaf0; 
+    width: 100%;
+    border-radius: 5px;
+    color: #3b6b4c;
+    border: 2px solid #3d3c3c;
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}
     </style>
 
 </head>
@@ -117,21 +227,18 @@ color: #3d3c3c;
             <h1>Fridgy</h1>
         </section>
         </div>
-
-
-
-
-
-
-        <div class="sectionnolog-dx">
-    
-    <a class="btn-accedi">Accedi</a><a></a><a class="btn-accedi">Registrati</a>
-
-    <button class="btn-hamburger">☰</button>
-
+        <!--  NAVBAR PER UTENTE NON LOGGATO-->
+        
+<div class="sectionnolog-dx">
+    <div class="btn-accedi-nav">
+     <a class="btn-accedi-nav">Accedi</a>
 </div>
+<div class="btn-accedi-nav"><a>Registrati</a>
+</div>
+</div>
+  
        
-
+   <!--  NAVBAR PER UTENTE LOGGATO-->
 <!--
         <div class="section-dx">
 
@@ -141,13 +248,62 @@ color: #3d3c3c;
         </div>
           <a id="nomeutente" class="nomeutente">Nome Utente</a>
           <button class="btn-hamburger">☰</button>
-        </div>    -->
-        
+        </div>   
+    --> 
+      <!--  NAVBAR APERTA PER UTENTE LOGGATO-->
+        <!--
+        <aside> <div class="menu-tendina">
+        <a href="#">Il mio Frigo</a>
+        <a href="#">Lista della Spesa</a>
+        <a href="#">Ricette</a>
+        <hr> <a href="#" class="testo-rosso">Esci</a>
+    </div></aside> -->
+   
         </div>
           
     </nav>
-    </header>
 
+    
+    </header>
+    
+      
+
+      <!--  POPUP DI LOGIN-->
+          <!--
+    <div class="overlay">
+        <div class="login-popup">
+            <h2>Accedi al tuo account</h2>
+            <form>
+                <input type="text" id="Username" class="input-logreg" placeholder="Username" required>
+                <input type="password" id="Password" class="input-logreg" placeholder="Password" required>
+                <button  class="btn-logreg" id="submit" class="btn-logreg">Accedi</button>
+            </form>
+        </div>
+    </div>
+
+-->
+
+<!--  POPUP DI registrazione-->
+  <!--
+     <div class="overlay">
+        <div class="logreg-popup">
+
+
+            <h2>Registrati</h2>
+            <form>
+                <input type="text" id="Nome" class="input-logreg" placeholder="Nome" required>
+                <input type="text" id="Cognome" class="input-logreg" placeholder="Cognome" required>
+                <input type="text" id="codiceFiscale" class="input-logreg" placeholder="Codice Fiscale" minlength="16" maxlength="16" required>
+                <input type="email" id="email" class="input-logreg" placeholder="Email" required>
+                <input type="password" id="Password" class="input-logreg" placeholder="Password" minlength="8"required>
+                <input type="password" id="ConfermaPassword" class="input-logreg" placeholder="Conferma Password"minlength="8" required>
+                <button  class="btn-logreg" id="submit" class="btn-logreg">Registrati</button>
+            </form>
+        </div>
+    </div>
+    -->
+       
+    
 </body>
 </html>
 

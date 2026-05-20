@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #8fbc8f;
+    font-family: sans-serif;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    list-style-type: none; 
+    padding: 0;            
+    margin: 0;             
+}
+
+/* Reset di base per tutti i bottoni del sito */
+button {
+    width: 40px; 
+    height: 30px;
+    margin: 3px;
+}

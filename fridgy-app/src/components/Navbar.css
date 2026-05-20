@@ -1,0 +1,149 @@
+/* --- STRUTTURA DELLA NAVBAR --- */
+.navbar-container {
+    background-color: #fffaf0;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px; 
+    margin: 15px auto;  
+    width: 95%;        
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.section-sx {
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    color: #3d3c3c;
+    margin: 0;
+    font-size: 28px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.sectionnolog-dx {
+    display: flex;
+    align-items: center;
+}
+
+/* --- PULSANTI ACCEDI / REGISTRATI --- */
+.btn-accreg-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 30px; /* Spazio perfetto tra i due link */
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Rimuove i pallini della lista */
+}
+
+/* Lo stile pulito applicato direttamente sul tag <a> */
+.link-nav {
+    color: #3d3c3c !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-decoration: none !important; /* Toglie la sottolineatura blu brutta */
+    cursor: pointer !important; 
+    transition: color 0.2s ease;
+    display: inline-block;
+    /* Forza il browser ad ignorare i vecchi blocchi da 40px */
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+.link-nav:hover {
+    color: #3b6b4c !important; /* Diventa verde quando ci passi sopra */
+}
+
+/* --- UTENTE LOGGATO --- */
+.section-dx {
+    display: flex;
+    align-items: center;
+}
+
+.accesso-eff {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.nomeutente {
+    color: #3d3c3c;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.foto-circolare {
+    width: 35px; 
+    height: 35px;
+    border-radius: 50%; 
+    overflow: hidden; 
+    border: 2px solid #3d3c3c; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.foto-circolare img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-hamburger {
+    background: none !important;
+    border: none !important;
+    font-size: 22px;
+    color: #3d3c3c;
+    cursor: pointer;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+/* --- MENU A TENDINA UTENTE --- */
+.menu-tendina {
+    position: absolute; 
+    top: 65px; 
+    right: 20px;
+    background-color: #fffaf0; 
+    border-radius: 15px; 
+    border: 2px solid #3d3c3c; 
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+} 
+
+.menu-tendina a {
+    color: #3b6b4c;
+    text-decoration: none; 
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.menu-tendina a:hover {
+    background-color: #3b6b4c;
+    color: #fffaf0;
+}
+
+.menu-tendina hr {
+    margin: 0;
+    border: none;
+    border-top: 2px solid #3d3c3c; 
+}
+
+.testo-rosso {
+    color: #d32f2f !important; 
+}

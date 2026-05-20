@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -141,15 +142,26 @@ color: #3d3c3c;
     border-radius: 15px; 
     border: 2px solid #3d3c3c; 
     width: 200px;
-    height: 200px; 
+    height: 200px;
+    opacity: 0;
+    pointer-events: none;
+    /* Trasla (sposta) la tendina verso l'alto di 20px rispetto alla sua posizione originale */
+    transform: translateY(-20px); 
+    
+    /* Anima sia l'opacità che il movimento (transform) */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+} 
 
-  
+  menu-tendina.aperta {
+    opacity: 1;
     display: flex;
     justify-content:space-between;
     flex-direction: column;
     overflow: hidden; 
+    transform: translateY(0);
 
 }
+
 
 .menu-tendina hr {
     margin: 0;
@@ -182,6 +194,13 @@ color: #3d3c3c;
     display: flex;
     justify-content: center;    
     align-items: center;
+    opacity: 0;            
+    pointer-events: none;  
+    transition: opacity 0.4s ease;
+}
+.overlay.open {
+    opacity: 1;           /* Torna visibile */
+    pointer-events: auto; /* Torna cliccabile e blocca lo sfondo */
 }
 .input-logreg
 {
@@ -216,6 +235,11 @@ color: #3d3c3c;
     cursor: pointer; 
     transition: all 0.3s ease; 
 }
+ul {
+    list-style-type: none; /* Rimuove completamente il pallino */
+    padding: 0;            /* Rimuove lo spazio vuoto a sinistra che il browser mette di default per il pallino */
+    margin: 0;             /* Rimuove eventuali margini automatici */
+}
     </style>
 
 </head>
@@ -230,12 +254,15 @@ color: #3d3c3c;
         <!--  NAVBAR PER UTENTE NON LOGGATO-->
         
 <div class="sectionnolog-dx">
-    <div class="btn-accreg-nav">
-     <a >Accedi</a>
-</div>
-<div class="btn-accreg-nav">
-     <a>Registrati</a>
-</div>
+    <!-- <div class="btn-accreg-nav"> -->  <ul class="btn-accreg-nav">
+                                   <li>  <a>Accedi</a></li>
+                                   <li>  <a>Registrati</a></li> </ul>
+     <!-- <a >Accedi</a>-->
+ <!--</div>-->
+ <!--<div class="btn-accreg-nav">-->
+    <!--  <a>Registrati</a>-->ù
+
+ <!--</div>-->
 </div>
   
        

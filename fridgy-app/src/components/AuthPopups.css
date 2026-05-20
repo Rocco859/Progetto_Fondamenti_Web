@@ -1,0 +1,117 @@
+/* --- L'OVERLAY (SFONDO OSCURATO) --- */
+.overlay {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;    
+    align-items: center !important;
+    opacity: 0;            
+    pointer-events: none;  
+    transition: opacity 0.4s ease-in-out;
+    z-index: 99999 !important;
+}
+
+.overlay.visible {
+    opacity: 1 !important;           
+    pointer-events: auto !important; 
+}
+
+/* --- LE SCATOLE DEI POPUP (Centrate con Flexbox) --- */
+.login-popup, .logreg-popup {
+    background-color: #fffaf0 !important;
+    border-radius: 20px !important;
+    border: 2px solid #3d3c3c !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 30px !important;
+    width: 400px !important; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+    
+    /* Le togliamo dal flusso, ci pensa l'overlay a centrarle */
+    position: absolute !important; 
+    
+    /* Animazione pulita */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.9) !important; 
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.login-popup.visible, .logreg-popup.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1) !important;
+}
+
+/* --- TESTI E FORM --- */
+.login-popup h2, .logreg-popup h2 {
+    color: #3d3c3c;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+.login-popup form, .logreg-popup form {
+    width: 100%;
+}
+
+/* --- INPUT DEI FORM --- */
+.input-logreg {
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 8px 0 !important;
+    border: 2px solid #ccc !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    background-color: #ffffff !important;
+}
+
+.input-logreg:focus {
+    border-color: #3b6b4c !important;
+    outline: none;
+}
+
+/* --- BOTTONE INVIA --- */
+.btn-logreg {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #3b6b4c !important; 
+    width: 100% !important;
+    height: 45px !important;
+    border-radius: 8px !important;
+    color: #fffaf0 !important;
+    border: 2px solid #3d3c3c !important;
+    cursor: pointer !important; 
+    margin-top: 15px !important;
+    transition: all 0.2s ease; 
+}
+
+.btn-logreg:hover {
+    background-color: #fffaf0 !important; 
+    color: #3b6b4c !important;
+}
+
+/* --- BOTTONE CHIUDI (X) --- */
+.btn-chiudi {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    color: #3d3c3c !important;
+    width: auto !important; 
+    height: auto !important;
+    margin: 0 !important;
+}
+
+.btn-chiudi:hover {
+    color: #d32f2f !important;
+}

@@ -1,0 +1,155 @@
+/* =========================================
+   LAYOUT CONTENITORE PULSANTI
+   ========================================= */
+.pulsanti-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.bottoni-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* =========================================
+   BOTTONI PRINCIPALI (Corazzati contro stili globali)
+   ========================================= */
+.btn-card {
+    background-color: #fffaf0 !important;
+    border: 2px solid #3d3c3c !important;
+    border-radius: 20px !important;
+    padding: 25px 40px !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: #3b6b4c !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease !important;
+    
+    /* LE REGOLE SALVAVITA: Cancellano le dimensioni fisse globali */
+    width: auto !important;
+    height: auto !important;
+    min-width: 180px !important; 
+    display: inline-block !important;
+    line-height: 1.4 !important; /* Migliora lo spazio tra le due righe di testo */
+}
+
+.btn-card:hover {
+    transform: scale(1.05) !important;
+    background-color: #3b6b4c !important;
+    color: #fffaf0 !important;
+}
+
+/* =========================================
+   FINESTRE MODALI (OVERLAY E CONTENUTO)
+   ========================================= */
+.modale-overlay {
+    display: flex !important; 
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    z-index: 1000 !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.modale-contenuto {
+    background-color: #fffaf0 !important;
+    color: #3d3c3c !important;
+    padding: 30px !important;
+    border-radius: 20px !important;
+    border: 2px solid #3d3c3c !important;
+    width: 90% !important;
+    max-width: 450px !important;
+    position: relative !important;
+    text-align: left !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+
+.btn-chiudi-dash {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    background: none !important;
+    border: none !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    color: #3d3c3c !important;
+    font-weight: bold !important;
+    
+    /* Salvavita */
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 5px !important;
+}
+
+.btn-chiudi-dash:hover {
+    color: #d32f2f !important;
+}
+
+/* =========================================
+   LISTE DEGLI ALIMENTI E INPUT SPESA
+   ========================================= */
+.lista-elementi {
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 15px 0 0 0 !important;
+}
+
+.lista-elementi li {
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #ccc !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-size: 16px !important;
+}
+
+.aggiungi-item-spesa {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+    align-items: stretch !important; /* Fa in modo che input e bottone abbiano la stessa altezza */
+}
+
+.aggiungi-item-spesa input {
+    flex-grow: 1 !important;
+    border: 2px solid #ccc !important;
+    border-radius: 8px !important;
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    background-color: #ffffff !important;
+    outline: none !important;
+}
+
+.aggiungi-item-spesa input:focus {
+    border-color: #3b6b4c !important;
+}
+
+.btn-scan {
+    background-color: #3b6b4c !important;
+    color: #fffaf0 !important;
+    border: 2px solid #3d3c3c !important;
+    border-radius: 8px !important;
+    padding: 0 20px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    
+    /* LE REGOLE SALVAVITA: Impediscono il taglio della scritta AGGIUNGI */
+    width: auto !important;
+    height: auto !important;
+    white-space: nowrap !important; /* Impedisce che il testo vada a capo se non c'è spazio */
+}
+
+.btn-scan:hover {
+    background-color: #fffaf0 !important;
+    color: #3b6b4c !important;
+}

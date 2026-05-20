@@ -216,8 +216,89 @@
                 gap: 40px;
             }
 
+
+            .layout-principale {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .colonna-sinistra {
+      width: 100%;
+    }
+
+    .colonna-destra {
+      width: 100%;
+    }
+
+    .quick-add-bar {
+      display: flex;
+      align-items: center;
+      background-color: #fffaf0;
+      border: 2px solid #3d3c3c;
+      border-radius: 50px;
+      padding: 5px 15px;
+      width: 100%;
+      max-width: 550px;
+      gap: 10px;
+    }
+
+    .btn-add {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #3d3c3c;
+      cursor: pointer;
+      padding: 0 5px;
+      font-weight: bold;
+    }
+
+    .quick-add-bar input {
+      border: none;
+      background: transparent;
+      color: #3d3c3c;
+      font-size: 16px;
+      outline: none;
+    }
+
+    #nome-alimento {
+      flex-grow: 1;
+      text-transform: uppercase;
+      width: 150px;
+    }
+
+    #data-scadenza {
+      width: 130px;
+      font-family: inherit;
+    }
+
+    .btn-scan {
+      background-color: transparent;
+      border: 2px solid #3d3c3c;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #3d3c3c;
+      cursor: pointer;
+      letter-spacing: 2px;
+    }
+
+
+
+
+
+
+
+
+
+
+
             /* Barra stile Ricerca / Aggiungi */
-            #Aggiungi-Alimento {
+          /*#Aggiungi-Alimento {
                 background-color: #ffffff;
                 border-radius: 50px;
                 padding: 20px 40px;
@@ -231,7 +312,7 @@
                 font-weight: 500;
                 color: #6a8c75;
                 text-transform: uppercase;
-            } 
+            } */
 
             /* Tasti Quadrati Centrali */
             #Tasti {
@@ -463,9 +544,47 @@
         </header>-->
 
         <main>
-            <section id="Aggiungi-Alimento">
+
+             <div class="layout-principale">
+    
+    <div class="colonna-sinistra">
+      <form class="quick-add-bar" action="#" method="POST">
+        
+        <button type="submit" class="btn-add" aria-label="Aggiungi alimento">+</button>
+        
+        <label for="nome-alimento" class="sr-only">Nome alimento</label>
+        <input 
+          type="text" 
+          id="nome-alimento" 
+          name="nome-alimento" 
+          placeholder="AGGIUNGI ALIMENTO" 
+          required 
+        >
+
+        <label for="data-scadenza" class="sr-only">Data di scadenza</label>
+        <input 
+          type="date" 
+          id="data-scadenza" 
+          name="data-scadenza" 
+        >
+
+        <button type="button" class="btn-scan" aria-label="Scansiona codice a barre">|||</button>
+      </form>
+    </div>
+
+    <div class="colonna-destra">
+    </div>
+
+  </div>
+
+
+
+
+
+
+       <!--ection id="Aggiungi-Alimento">
                 <h2>Aggiungi alimento</h2>
-            </section>
+            </section>  -->
 
             <section id="Tasti">
                 <button type="button" class="card">

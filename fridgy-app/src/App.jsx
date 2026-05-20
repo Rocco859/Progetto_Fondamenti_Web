@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';
 import MenuPulsanti from './components/MenuPulsanti'; // <-- Import aggiornato
+import ChatbotWidget from './components/ChatbotWidget';
 import './App.css';
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
                 onClose={() => setActivePopup(null)}
                 setIsLoggedIn={setIsLoggedIn}
             />
+            <ChatbotWidget />
+
         </div>
     );
 }

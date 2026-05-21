@@ -1,0 +1,237 @@
+/* ==========================================================
+   ChatbotWidget.css  –  Stili del widget Chatbot
+   Fridgy Web App
+   ========================================================== */
+
+
+/* ── Animazioni ── */
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40%           { transform: translateY(-6px); }
+}
+
+@keyframes slideFadeIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+
+/* ── Contenitore principale (fisso in basso a sinistra) ── */
+.chatbot-widget {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* ── Finestra della chat ── */
+.chat-window {
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 15px;
+    height: 500px;
+    box-shadow: 0 20px 60px rgba(59, 107, 76, 0.18);
+    animation: slideFadeIn 0.25s ease forwards;
+}
+
+
+/* ── Header della chat ── */
+.chat-header {
+    background-color: #3b6b4c;
+    color: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.chat-header-chiudi {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.chat-header-chiudi:hover {
+    opacity: 1;
+}
+
+
+/* ── Body: area dei messaggi ── */
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #fafcfb;
+}
+
+
+/* ── Footer: input e bottone invio ── */
+.chat-footer {
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 2px solid #3b6b4c;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+}
+
+.chat-input:disabled {
+    background-color: #f5f5f5;
+}
+
+.chat-bottone-invio {
+    background-color: #3b6b4c;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.chat-bottone-invio:disabled {
+    background-color: #a0bfa9;
+    cursor: not-allowed;
+}
+
+
+/* ── Singolo messaggio ── */
+.messaggio-riga {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.messaggio-riga.utente {
+    justify-content: flex-end;
+}
+
+.messaggio-riga.ai {
+    justify-content: flex-start;
+}
+
+.messaggio-nuvoletta {
+    max-width: 75%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.messaggio-nuvoletta.utente {
+    border-radius: 18px 18px 4px 18px;
+    background-color: #3b6b4c;
+    color: #ffffff;
+}
+
+.messaggio-nuvoletta.ai {
+    border-radius: 18px 18px 18px 4px;
+    background-color: #f0f4f1;
+    color: #234b31;
+}
+
+
+/* ── Indicatore di caricamento (pallini) ── */
+.caricamento-riga {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.caricamento-nuvoletta {
+    padding: 12px 16px;
+    border-radius: 18px 18px 18px 4px;
+    background-color: #f0f4f1;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.caricamento-pallino {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #3b6b4c;
+    display: inline-block;
+    animation: bounce 1.2s infinite;
+}
+
+
+/* ── Bottone apri/chiudi in basso ── */
+.chatbot-btn {
+    background-color: #3b6b4c; 
+    color: #ffffff;
+    border: none;
+    padding: 0 22px 0 0;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgba(59, 107, 76, 0.3); 
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    white-space: nowrap;
+}
+
+.chatbot-btn.aperta {
+    background-color: #234b31;
+}
+
+.chatbot-btn:hover {
+    transform: scale(1.05);
+}
+
+.chatbot-btn-icona {
+    width: 60px;
+    height: 60px;
+    min-width: 30px;
+    min-height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background-color: #6aad80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-size: 35px;          
+    overflow: hidden;
+}

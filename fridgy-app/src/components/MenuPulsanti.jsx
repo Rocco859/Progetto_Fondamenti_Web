@@ -25,7 +25,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
     // 2. Creiamo il "Buttafuori" per il Frigo
     const handleClickFrigo = () => {
         if (isLoggedIn) {
-            setIsFrigoOpen(true); // Se è loggato, apre il suo frigo
+            setIsFrigoAOpen(true); // Se è loggato, apre il suo frigo
         } else {
             onOpenPopup('login'); // Se è ospite, apre il popup di accesso
         }

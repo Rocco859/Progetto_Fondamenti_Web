@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';
 import MenuPulsanti from './components/MenuPulsanti'; // <-- Import aggiornato
 import ChatbotWidget from './components/ChatbotWidget';
+import AddAlimento from './components/AddAlimento';
 import './App.css';
 
 function App() {
@@ -20,13 +21,20 @@ function App() {
                 setIsLoggedIn={setIsLoggedIn} 
                 onOpenPopup={setActivePopup} 
             />
+            <div className='add-container'>
+                <main className="main-content">
+                <AddAlimento 
+                    isLoggedIn={isLoggedIn} 
+                    onOpenPopup={setActivePopup} 
+                />
+                </main>
+            </div>
 
-            
             {/* CORPO PRINCIPALE DELLA PAGINA */}
-            <main className="main-content">
-                <div style={{ textAlign: 'center', marginTop: '100px', color: '#3d3c3c' }}>
-                    <h2 style={{ fontSize: '32px', marginBottom: '10px' }}>Benvenuto su Fridgy 🍎</h2>
-                    <p style={{ fontSize: '18px', fontWeight: 'bold' }}>
+            <main className="welcome-container">
+                <div  className="welcome-message">
+                    <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                    <p>
                         Stato attuale del sito: {isLoggedIn ? "🟢 Sei dentro! (Utente Loggato)" : "🔴 Sei fuori (Ospite)"}
                     </p>
                     

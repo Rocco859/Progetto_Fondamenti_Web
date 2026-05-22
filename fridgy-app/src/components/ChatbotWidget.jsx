@@ -81,7 +81,7 @@ function ChatbotWidget() {
     setInputTesto("");     //svuota la casella di testo
     setCaricamento(true);  //mostra i pallini di caricamento
 
-    try {
+   /* try {
       // Chiamata all'API Anthropic
       const risposta = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -140,7 +140,7 @@ Rispondi sempre in italiano, in modo amichevole e conciso (massimo 3-4 frasi).`,
       ]);
     } finally {
       setCaricamento(false); //nasconde i pallini sia in caso di successo che di errore
-    }
+    } */
   };
 
 

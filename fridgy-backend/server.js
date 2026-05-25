@@ -6,6 +6,7 @@ const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
+const alimentiController = require('./controllers/ControllerAlimenti');
 
 const app = express();
 
@@ -28,6 +29,9 @@ app.get('/', (req, res) => {
 });
 app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);
+
+
+app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
 
 // 5. ACCENSIONE (L'ascolto sulla porta)
 const PORT = 5000;

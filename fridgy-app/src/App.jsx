@@ -4,6 +4,7 @@ import AuthPopups from './components/AuthPopups';
 import MenuPulsanti from './components/MenuPulsanti'; 
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
+import AlimentiInScadenza from './components/AlimentiInScadenza';
 import './App.css';
 
 function App() {
@@ -33,43 +34,51 @@ function App() {
                 onLogout={handleLogout} // <-- Nuova prop utile per il tasto Esci
             />
             
-            {/* MOSTRIAMO LA BARRA DI AGGIUNTA E IL MENU SOLO SE L'UTENTE È LOGGATO */}
-            {isLoggedIn ? (
-                <>
-                    <div className='add-container'>
-                        <main className="main-content">
-                            <AddAlimento 
-                                isLoggedIn={isLoggedIn} 
-                                onOpenPopup={setActivePopup} 
-                            />
-                        </main>
-                    </div>
+            {/* LAYOUT AGGIUNTO DAL COLLEGA */}
+            <div className="layout-schermo-intero">
+                <div className="sezione-centrale">
+                    {/* MOSTRIAMO LA BARRA DI AGGIUNTA E IL MENU SOLO SE L'UTENTE È LOGGATO */}
+                    {isLoggedIn ? (
+                        <>
+                            <div className='add-container'>
+                                <main className="main-content">
+                                    <AddAlimento 
+                                        isLoggedIn={isLoggedIn} 
+                                        onOpenPopup={setActivePopup} 
+                                    />
+                                </main>
+                            </div>
 
-                    <main className="welcome-container">
-                        <div className="welcome-message">
-                            <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
-                            <p>Stato attuale del sito: 🟢 Sei dentro! (Utente Loggato)</p>
-                            <MenuPulsanti 
-                                isLoggedIn={isLoggedIn} 
-                                onOpenPopup={setActivePopup} 
-                            />
-                        </div>
-                    </main>
-                </>
-            ) : (
-                /* SCHERMATA SE SEI FUORI (OSPITE) */
-                <main className="welcome-container">
-                    <div className="welcome-message">
-                        <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
-                        <p>Stato attuale del sito: 🔴 Sei fuori (Ospite)</p>
-                        <p className="login-notice">Effettua l'accesso o registrati per iniziare a gestire il tuo frigo!</p>
-                        <div className="landing-buttons">
-                            <button className="btn-logreg" onClick={() => setActivePopup('login')}>Accedi</button>
-                            <button className="btn-logreg" onClick={() => setActivePopup('register')}>Registrati</button>
-                        </div>
-                    </div>
-                </main>
-            )}
+                            <main className="welcome-container">
+                                <div className="welcome-message">
+                                    <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                                    <p>Stato attuale del sito: 🟢 Sei dentro! (Utente Loggato)</p>
+                                    <MenuPulsanti 
+                                        isLoggedIn={isLoggedIn} 
+                                        onOpenPopup={setActivePopup} 
+                                    />
+                                </div>
+                            </main>
+                        </>
+                    ) : (
+                        /* SCHERMATA SE SEI FUORI (OSPITE) */
+                        <main className="welcome-container">
+                            <div className="welcome-message">
+                                <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                                <p>Stato attuale del sito: 🔴 Sei fuori (Ospite)</p>
+                                <p className="login-notice">Effettua l'accesso o registrati per iniziare a gestire il tuo frigo!</p>
+                                <div className="landing-buttons">
+                                    <button className="btn-logreg" onClick={() => setActivePopup('login')}>Accedi</button>
+                                    <button className="btn-logreg" onClick={() => setActivePopup('register')}>Registrati</button>
+                                </div>
+                            </div>
+                        </main>
+                    )}
+                </div>
+
+                {/* MOSTRA GLI ALIMENTI IN SCADENZA */}
+                <AlimentiInScadenza />
+            </div>
 
             {/* MOSTRA I POPUP */}
             <AuthPopups 

@@ -1,0 +1,86 @@
+#alimenti-scadenza-widget {
+    grid-area: sidebar;
+    background-color: #ffffff;
+    border-radious: 30px;
+    padding: 40px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.titolo-scadenza {
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #234b31;
+}
+
+.lista-scadenza-conteiner {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.item-scadenza {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #fcfcfc;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.item-centro {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.nome-alimento {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+    display: block;
+}
+
+.giorni-rimasti{
+    color: #888;
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+}
+
+.pericolo-giallo {
+    color: #ffcc00;
+    font-size: 18px;
+}
+
+.pericolo-rosso {
+    color: #ff0000;
+    font-size: 18px;
+}
+
+.casella-rimozione{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #234b31;
+}
+
+.nessun-alimento {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+    

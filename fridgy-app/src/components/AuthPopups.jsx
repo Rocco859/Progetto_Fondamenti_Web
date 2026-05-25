@@ -37,6 +37,30 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
             const data = await response.json();
             if (data.success) {
                 alert(data.message);
+                localStorage.setItem('tokenFridgy', data.token);
+                setIsLoggedIn(true);
+                onClose();
+            } else {
+                alert("Errore: " + data.message);
+            }
+        } catch (error) {
+            alert("Backend spento! Accendilo sulla porta 5000");
+        }
+    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                localStorage.setItem('tokenFridgy', data.token);
                 setIsLoggedIn(true);
                 onClose();
             } else {
@@ -54,9 +78,9 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
             <div className={`login-popup ${type === 'login' ? 'visible' : ''}`}>
                 <button className="btn-chiudi" onClick={onClose}>X</button>
                 <h2>Accedi al tuo account</h2>
-                <form onSubmit={(e) => { e.preventDefault(); setIsLoggedIn(true); onClose(); }}>
-                    <input type="text" className="input-logreg" placeholder="Username" required />
-                    <input type="password" className="input-logreg" placeholder="Password" required />
+                <form onSubmit={handleLogin}>
+                    <input type="email" className="input-logreg" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="password" className="input-logreg" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     <button type="submit" className="btn-logreg">Accedi</button>
                 </form>
             </div>

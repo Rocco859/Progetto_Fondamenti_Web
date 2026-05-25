@@ -1,61 +1,84 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';
-import MenuPulsanti from './components/MenuPulsanti'; // <-- Import aggiornato
+import MenuPulsanti from './components/MenuPulsanti'; 
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
 import './App.css';
 
 function App() {
-    // 1. STATO LOGIN: false = ospite, true = utente loggato
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // 1. STATO LOGIN AGGIORNATO: Controlla se c'è un token salvato nel browser al caricamento
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const tokenSalvato = localStorage.getItem('tokenFridgy');
+        return tokenSalvato ? true : false; 
+    });
     
     // 2. STATO POPUP: null = chiuso, 'login' = mostra login, 'register' = mostra registrazione
     const [activePopup, setActivePopup] = useState(null); 
 
+    // 3. FUNZIONE DI LOGOUT: Cancella il token e resetta lo stato
+    const handleLogout = () => {
+        localStorage.removeItem('tokenFridgy');
+        setIsLoggedIn(false);
+        alert("Disconnessione effettuata! 👋");
+    };
+
     return (
         <div className="app-container">
-            {/* PASSAGGIO PROPS ALLA NAVBAR */}
+            {/* PASSAGGIO PROPS ALLA NAVBAR (Aggiunta la funzione handleLogout) */}
             <Navbar 
                 isLoggedIn={isLoggedIn} 
                 setIsLoggedIn={setIsLoggedIn} 
                 onOpenPopup={setActivePopup} 
+                onLogout={handleLogout} // <-- Nuova prop utile per il tasto Esci
             />
-            <div className='add-container'>
-                <main className="main-content">
-                <AddAlimento 
-                    isLoggedIn={isLoggedIn} 
-                    onOpenPopup={setActivePopup} 
-                />
+            
+            {/* MOSTRIAMO LA BARRA DI AGGIUNTA E IL MENU SOLO SE L'UTENTE È LOGGATO */}
+            {isLoggedIn ? (
+                <>
+                    <div className='add-container'>
+                        <main className="main-content">
+                            <AddAlimento 
+                                isLoggedIn={isLoggedIn} 
+                                onOpenPopup={setActivePopup} 
+                            />
+                        </main>
+                    </div>
+
+                    <main className="welcome-container">
+                        <div className="welcome-message">
+                            <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                            <p>Stato attuale del sito: 🟢 Sei dentro! (Utente Loggato)</p>
+                            <MenuPulsanti 
+                                isLoggedIn={isLoggedIn} 
+                                onOpenPopup={setActivePopup} 
+                            />
+                        </div>
+                    </main>
+                </>
+            ) : (
+                /* SCHERMATA SE SEI FUORI (OSPITE) */
+                <main className="welcome-container">
+                    <div className="welcome-message">
+                        <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                        <p>Stato attuale del sito: 🔴 Sei fuori (Ospite)</p>
+                        <p className="login-notice">Effettua l'accesso o registrati per iniziare a gestire il tuo frigo!</p>
+                        <div className="landing-buttons">
+                            <button className="btn-logreg" onClick={() => setActivePopup('login')}>Accedi</button>
+                            <button className="btn-logreg" onClick={() => setActivePopup('register')}>Registrati</button>
+                        </div>
+                    </div>
                 </main>
-            </div>
+            )}
 
-            {/* CORPO PRINCIPALE DELLA PAGINA */}
-            <main className="welcome-container">
-                <div  className="welcome-message">
-                    <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
-                    <p>
-                        Stato attuale del sito: {isLoggedIn ? "🟢 Sei dentro! (Utente Loggato)" : "🔴 Sei fuori (Ospite)"}
-                    </p>
-                    
-                    {/* I BOTTONI ORA SONO SEMPRE VISIBILI A TUTTI */}
-                    {/* Passiamo al componente le informazioni che gli servono per fare il "buttafuori" */}
-                    <MenuPulsanti 
-                        isLoggedIn={isLoggedIn} 
-                        onOpenPopup={setActivePopup} 
-                    />
-
-                </div>
-            </main>
-
-            {/* MOSTRA I POPUP (L'animazione è gestita dal CSS tramite il type) */}
+            {/* MOSTRA I POPUP */}
             <AuthPopups 
                 type={activePopup} 
                 onClose={() => setActivePopup(null)}
                 setIsLoggedIn={setIsLoggedIn}
             />
+            
             <ChatbotWidget />
-
         </div>
     );
 }

@@ -7,6 +7,7 @@ body {
     padding: 0;
     background-color: #8fbc8f;
     font-family: sans-serif;
+    overflow-x: hidden;
 }
 
 header {
@@ -28,6 +29,24 @@ button {
     height: 30px;
     margin: 3px;
 }
+
+.layout-schermo-intero {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 80px); 
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.sezione-centrale {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+}
+
+
 .welcome-title
 {
      fontSize: 32px;

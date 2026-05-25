@@ -11,12 +11,12 @@ exports.getAlimentoScadenza = (req, res, next) => {
             const diffTempo = dataScadenza.getTime() - oggi.getTime();
             const giorniMancanti = Math.ceil(diffTempo / 86400000);  /*La differenza delle daate javascript la fa in millisecondi, ho trovato il numero di giorni dividendo il valore della differenza per il numero di millisecondi presenti in un giorno */
             return {
-                _id: doc._id.,
+                _id: doc._id,
                 nome: doc.nome,
                 giorniMancanti: giorniMancanti
             };
         })
-            .filter(alimento => alimento.giorniMancanti >= 0 && alimento.giorniMancanti < 7); /*filtra solo quelli che hanno meno di 7 giorni alla scadenza*/
+            .filter(alimento => alimento.giorniMancanti >= 0 && alimento.giorniMancanti < 7) /*filtra solo quelli che hanno meno di 7 giorni alla scadenza*/
             .sort((a,b) => a.giorniMancanti - b.giorniMancanti); /*ordina in base ai giorni mancanti, dal più vicino alla scadenza al più lontano*/
 
             res.json(listaFiltrata);

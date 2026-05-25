@@ -4,6 +4,8 @@ import AuthPopups from './components/AuthPopups';
 import MenuPulsanti from './components/MenuPulsanti'; // <-- Import aggiornato
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
+import AlimentiInScadenza from './components/AlimentiInScadenza';
+
 import './App.css';
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                 setIsLoggedIn={setIsLoggedIn} 
                 onOpenPopup={setActivePopup} 
             />
+            <div className="layout-schermo-intero">
+                <div className="sezione-centrale">
             <div className='add-container'>
                 <main className="main-content">
                 <AddAlimento 
@@ -47,6 +51,9 @@ function App() {
 
                 </div>
             </main>
+                </div>
+                <AlimentiInScadenza />
+            </div>
 
             {/* MOSTRA I POPUP (L'animazione è gestita dal CSS tramite il type) */}
             <AuthPopups 
@@ -54,10 +61,11 @@ function App() {
                 onClose={() => setActivePopup(null)}
                 setIsLoggedIn={setIsLoggedIn}
             />
+            
             <ChatbotWidget />
 
         </div>
-    );
+    ); 
 }
 
 export default App;

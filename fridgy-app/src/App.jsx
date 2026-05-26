@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';
 import MenuPulsanti from './components/MenuPulsanti'; 
@@ -14,6 +14,24 @@ function App() {
         return tokenSalvato ? true : false; 
     });
     
+    // 1.5. STATO NOME UTENTE: Recuperato decodificando il Token JWT
+    const [nomeUtente, setNomeUtente] = useState("");
+
+    // Decodifica il token ogni volta che isLoggedIn cambia (in caso di login o logout)
+    useEffect(() => {
+        const tokenSalvato = localStorage.getItem('tokenFridgy');
+        if (isLoggedIn && tokenSalvato) {
+            try {
+                const payloadDecoded = JSON.parse(atob(tokenSalvato.split('.')[1])); // atob decodifica il payload in base64
+                setNomeUtente(payloadDecoded.nome || "Utente");
+            } catch (error) {
+                console.error("Errore nella decodifica del token:", error);
+            }
+        } else {
+            setNomeUtente("");
+        }
+    }, [isLoggedIn]);
+
     // 2. STATO POPUP: null = chiuso, 'login' = mostra login, 'register' = mostra registrazione
     const [activePopup, setActivePopup] = useState(null); 
 
@@ -30,6 +48,7 @@ function App() {
             <Navbar 
                 isLoggedIn={isLoggedIn} 
                 setIsLoggedIn={setIsLoggedIn} 
+                nomeUtente={nomeUtente}
                 onOpenPopup={setActivePopup} 
                 onLogout={handleLogout} // <-- Nuova prop utile per il tasto Esci
             />
@@ -51,7 +70,7 @@ function App() {
 
                             <main className="welcome-container">
                                 <div className="welcome-message">
-                                    <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
+                                    <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy 🍎</h2>
                                     <p>Stato attuale del sito: 🟢 Sei dentro! (Utente Loggato)</p>
                                     <MenuPulsanti 
                                         isLoggedIn={isLoggedIn} 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Navbar.css';
 
-function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup }) {
+function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     return (
@@ -38,7 +38,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup }) {
                         <div className='foto-circolare'>
                             <img src="https://picsum.photos/id/237/40/40" alt="Profilo Utente" />
                         </div>
-                        <span className="nomeutente">Nome Utente</span>
+                        <span className="nomeutente">{nomeUtente}</span>
                         <button className="btn-hamburger">☰</button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup }) {
                     <hr /> 
                     <a href="#" className="testo-rosso" onClick={(e) => { 
                         e.preventDefault(); 
-                        setIsLoggedIn(false); 
+                        onLogout(); 
                         setIsMenuOpen(false); 
                     }}>
                         Esci

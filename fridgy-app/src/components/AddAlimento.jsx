@@ -12,9 +12,14 @@ const handleAggiungiAlimento = async (e) => {
     // 1. Blocchiamo subito il refresh del browser
     e.preventDefault();
     try {
+        // 2. Recuperiamo il token dell'utente dal localStorage
+        const token = localStorage.getItem('tokenFridgy');
         const response = await fetch('http://localhost:5000/api/frigo/aggiungi', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
             body: JSON.stringify({
                  nomeAlimento: nomeAlimento,
                  quantitaAlimento: quantitaAlimento,

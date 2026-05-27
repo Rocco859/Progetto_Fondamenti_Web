@@ -32,6 +32,10 @@ function App() {
 
     const [activePopup, setActivePopup] = useState(null); 
 
+    // 3. STATO AGGIORNAMENTO: Si attiva quando aggiungi un nuovo alimento e avvisa gli altri componenti
+    const [refreshTrigger, setRefreshTrigger] = useState(false);
+
+    // 3. FUNZIONE DI LOGOUT: Cancella il token e resetta lo stato
     const handleLogout = () => {
         localStorage.removeItem('tokenFridgy');
         setIsLoggedIn(false);
@@ -63,6 +67,7 @@ function App() {
                                     <AddAlimento 
                                         isLoggedIn={isLoggedIn} 
                                         onOpenPopup={setActivePopup} 
+                                        onAddSuccess={() => setRefreshTrigger(prev => !prev)}
                                     />
                                 </main>
                             </div>
@@ -74,6 +79,7 @@ function App() {
                                     <MenuPulsanti 
                                         isLoggedIn={isLoggedIn} 
                                         onOpenPopup={setActivePopup} 
+                                        refreshTrigger={refreshTrigger}
                                     />
                                 </div>
                             </main>
@@ -93,7 +99,8 @@ function App() {
                     )}
                 </div>
 
-                <AlimentiInScadenza />
+                {/* MOSTRA GLI ALIMENTI IN SCADENZA */}
+                <AlimentiInScadenza isLoggedIn={isLoggedIn} refreshTrigger={refreshTrigger} />
             </div>
 
             <AuthPopups 

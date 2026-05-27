@@ -6,6 +6,7 @@ const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
+const chatbotRoutes = require('./routes/chatbotRoutes');
 const alimentiController = require('./controllers/ControllerAlimenti');
 
 const app = express();
@@ -32,7 +33,7 @@ app.post('/api/login', authController.login);
 
 
 app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
-
+app.use('/api/chatbot', chatbotRoutes);
 // 5. ACCENSIONE (L'ascolto sulla porta)
 const PORT = 5000;
 app.listen(PORT, () => {

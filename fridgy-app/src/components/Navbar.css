@@ -79,24 +79,11 @@
     font-size: 16px;
     font-weight: bold;
     text-decoration: none;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
-.foto-circolare {
-    width: 35px; 
-    height: 35px;
-    border-radius: 50%; 
-    overflow: hidden; 
-    border: 2px solid #3d3c3c; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.foto-circolare img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 .btn-hamburger {
     background: none !important;

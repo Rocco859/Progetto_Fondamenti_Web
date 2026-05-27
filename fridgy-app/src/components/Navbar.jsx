@@ -35,10 +35,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }
             {isLoggedIn && (
                 <div className='section-dx'>
                     <div className='accesso-eff' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        <div className='foto-circolare'>
-                            <img src="https://picsum.photos/id/237/40/40" alt="Profilo Utente" />
-                        </div>
-                        <span className="nomeutente">{nomeUtente}</span>
+                        
+                        <span className="nomeutente"> Benvenuto, {nomeUtente}</span>
                         <button className="btn-hamburger">☰</button>
                     </div>
                 </div>
@@ -50,9 +48,9 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }
             */}
             {isLoggedIn && isMenuOpen && (
                 <div className="menu-tendina aperta">
-                    <a href="#">Il mio Frigo</a>
-                    <a href="#">Lista della Spesa</a>
-                    <a href="#">Ricette</a>
+                    <a href="#" onClick={(e) => { e.preventDefault(); handleClickFrigo(); }}>Il mio Frigo</a>
+                    <a href="#" onClick={(e) => { e.preventDefault(); handleClickSpesa();}}>Lista della Spesa</a>
+                    <a href="#" onClick={(e) => { e.preventDefault(); }}>Ricette</a>
                     <hr /> 
                     <a href="#" className="testo-rosso" onClick={(e) => { 
                         e.preventDefault(); 

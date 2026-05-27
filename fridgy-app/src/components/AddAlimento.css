@@ -41,16 +41,16 @@
       background-color: #fffaf0;
       border: 2px solid #3d3c3c;
       border-radius: 50px;
-      padding: 5px 15px;
+      padding: 12px 25px;
       width: 100%;
-      max-width: 550px;
-      gap: 10px;
+      max-width: 750px;
+      gap: 15px;
     }
 
     .btn-add {
       background: none;
       border: none;
-      font-size: 24px;
+      font-size: 28px;
       color: #3d3c3c;
       cursor: pointer;
       padding: 0 5px;
@@ -61,32 +61,32 @@
       border: none;
       background: transparent;
       color: #3d3c3c;
-      font-size: 16px;
+      font-size: 18px;
       outline: none;
       width: 100%;
     }
 
-    #nome-alimento {
+    #nomeAlimento {
       flex-grow: 1;
       text-transform: uppercase;
-      width: 200px;
+      width: 250px;
     }
-    #quantita-alimento {
+    #quantitaAlimento {
       flex-grow: 1;
-      width: 100px;
+      width: 120px;
     }
 
     #data-scadenza {
-      width: 130px;
+      width: 150px;
       font-family: inherit;
     }
 
-    .btn-scan {
+    .btn-barcode {
       background-color: transparent;
       border: 2px solid #3d3c3c;
       border-radius: 8px;
-      padding: 5px 10px;
-      font-size: 14px;
+      padding: 8px 12px;
+      font-size: 16px;
       font-weight: bold;
       color: #3d3c3c;
       cursor: pointer;

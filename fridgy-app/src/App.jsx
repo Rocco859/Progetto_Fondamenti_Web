@@ -5,24 +5,22 @@ import MenuPulsanti from './components/MenuPulsanti';
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
 import AlimentiInScadenza from './components/AlimentiInScadenza';
+import BannerNotifiche from './components/BannerNotifiche'; // <-- 1. IMPORTIAMO IL BANNER
 import './App.css';
 
 function App() {
-    // 1. STATO LOGIN AGGIORNATO: Controlla se c'è un token salvato nel browser al caricamento
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         const tokenSalvato = localStorage.getItem('tokenFridgy');
         return tokenSalvato ? true : false; 
     });
     
-    // 1.5. STATO NOME UTENTE: Recuperato decodificando il Token JWT
     const [nomeUtente, setNomeUtente] = useState("");
 
-    // Decodifica il token ogni volta che isLoggedIn cambia (in caso di login o logout)
     useEffect(() => {
         const tokenSalvato = localStorage.getItem('tokenFridgy');
         if (isLoggedIn && tokenSalvato) {
             try {
-                const payloadDecoded = JSON.parse(atob(tokenSalvato.split('.')[1])); // atob decodifica il payload in base64
+                const payloadDecoded = JSON.parse(atob(tokenSalvato.split('.')[1]));
                 setNomeUtente(payloadDecoded.nome || "Utente");
             } catch (error) {
                 console.error("Errore nella decodifica del token:", error);
@@ -32,7 +30,6 @@ function App() {
         }
     }, [isLoggedIn]);
 
-    // 2. STATO POPUP: null = chiuso, 'login' = mostra login, 'register' = mostra registrazione
     const [activePopup, setActivePopup] = useState(null); 
 
     // 3. STATO AGGIORNAMENTO: Si attiva quando aggiungi un nuovo alimento e avvisa gli altri componenti
@@ -47,19 +44,22 @@ function App() {
 
     return (
         <div className="app-container">
-            {/* PASSAGGIO PROPS ALLA NAVBAR (Aggiunta la funzione handleLogout) */}
             <Navbar 
                 isLoggedIn={isLoggedIn} 
                 setIsLoggedIn={setIsLoggedIn} 
                 nomeUtente={nomeUtente}
                 onOpenPopup={setActivePopup} 
-                onLogout={handleLogout} // <-- Nuova prop utile per il tasto Esci
+                onLogout={handleLogout} 
             />
             
-            {/* LAYOUT AGGIUNTO DAL COLLEGA */}
+            {/* 2. INSERIAMO IL BANNER QUI, PASSANDOGLI I DATI */}
+            <BannerNotifiche 
+                isLoggedIn={isLoggedIn} 
+                nomeUtente={nomeUtente} 
+            />
+
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">
-                    {/* MOSTRIAMO LA BARRA DI AGGIUNTA E IL MENU SOLO SE L'UTENTE È LOGGATO */}
                     {isLoggedIn ? (
                         <>
                             <div className='add-container'>
@@ -85,7 +85,6 @@ function App() {
                             </main>
                         </>
                     ) : (
-                        /* SCHERMATA SE SEI FUORI (OSPITE) */
                         <main className="welcome-container">
                             <div className="welcome-message">
                                 <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
@@ -104,7 +103,6 @@ function App() {
                 <AlimentiInScadenza isLoggedIn={isLoggedIn} refreshTrigger={refreshTrigger} />
             </div>
 
-            {/* MOSTRA I POPUP */}
             <AuthPopups 
                 type={activePopup} 
                 onClose={() => setActivePopup(null)}

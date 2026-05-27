@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MenuPulsanti.css';
 
 // 1. Aggiungiamo isLoggedIn e onOpenPopup tra le parentesi graffe
-function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
+function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     const [isFrigoOpen, setIsFrigoOpen] = useState(false);
     const [isSpesaOpen, setIsSpesaOpen] = useState(false);
 
@@ -15,6 +15,13 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
     
     const [nuovoAlimento, setNuovoAlimento] = useState('');
 
+    // --- NUOVI STATI PER IL FRIGO ---
+    const [alimentiFrigo, setAlimentiFrigo] = useState([]);
+    const [loadingFrigo, setLoadingFrigo] = useState(false);
+
+    // --- STATO PER LA RICERCA NEL FRIGO ---
+    const [ricercaFrigo, setRicercaFrigo] = useState('');
+
     const handleAggiungiSpesa = () => {
         if (nuovoAlimento.trim() !== '') {
             setListaSpesa([...listaSpesa, nuovoAlimento.trim()]);
@@ -25,7 +32,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
     // 2. Creiamo il "Buttafuori" per il Frigo
     const handleClickFrigo = () => {
         if (isLoggedIn) {
-            setIsFrigoAOpen(true); // Se è loggato, apre il suo frigo
+            setIsFrigoOpen(true); // Se è loggato, apre il suo frigo
         } else {
             onOpenPopup('login'); // Se è ospite, apre il popup di accesso
         }
@@ -39,6 +46,67 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
             onOpenPopup('login');
         }
     };
+
+    // Funzione per eliminare un alimento dal database
+    const handleRimuoviAlimento = async (id) => {
+        if (!id) return;
+        try {
+            const token = localStorage.getItem('tokenFridgy');
+            const response = await fetch(`http://localhost:5000/api/frigo/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (response.ok) {
+                // Se il backend conferma l'eliminazione, rimuoviamolo anche dall'array visibile senza ricaricare la pagina
+                setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
+            } else {
+                console.error("Errore durante l'eliminazione");
+            }
+        } catch (error) {
+            console.error("Errore di rete:", error);
+        }
+    };
+
+    // Effettua la chiamata al backend per ottenere il frigo quando si apre il popup
+    useEffect(() => {
+        if (isFrigoOpen) {
+            setRicercaFrigo(''); // Resetta la barra di ricerca all'apertura
+            const fetchFrigo = async () => {
+                setLoadingFrigo(true);
+                try {
+                    const token = localStorage.getItem('tokenFridgy');
+                    const response = await fetch('http://localhost:5000/api/frigo', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Se il backend restituisce i dati, li salviamo (adattalo se la struttura JSON è diversa)
+                        setAlimentiFrigo(data.alimenti || data || []);
+                    } else {
+                        console.error("Errore nel caricamento del frigo:", data.message);
+                    }
+                } catch (error) {
+                    console.error("Errore di rete:", error);
+                } finally {
+                    setLoadingFrigo(false);
+                }
+            };
+            fetchFrigo();
+        }
+    }, [isFrigoOpen, refreshTrigger]); // Si attiva ogni volta che apri il frigo o quando aggiungi un nuovo alimento
+
+    // Filtra gli alimenti in base al testo inserito nella barra di ricerca
+    const alimentiFiltrati = alimentiFrigo.filter(alimento => 
+        (alimento.nomeAlimento || alimento.nome || '').toLowerCase().includes(ricercaFrigo.toLowerCase())
+    );
+
     return (
         <div className="pulsanti-container">
             
@@ -59,10 +127,38 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup }) {
                         
                         <h2>CONTENUTO FRIGO</h2>
                         
-                        <ul className="lista-elementi">
-                            <li>🍅 Pomodori (Scad: 25/05)</li>
-                            <li>🥛 Latte Intero (Scad: 17/05)</li>
-                            <li>🥚 Uova (Scad: 30/05)</li>
+                        {/* BARRA DI RICERCA */}
+                        <input 
+                            type="text" 
+                            placeholder="Cerca alimento nel frigo..."
+                            value={ricercaFrigo}
+                            onChange={(e) => setRicercaFrigo(e.target.value)}
+                            style={{ width: '100%', padding: '10px', marginBottom: '15px', borderRadius: '10px', border: '1px solid #ccc', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
+                        />
+
+                        <ul className="lista-elementi" style={{ maxHeight: '280px', overflowY: 'auto', paddingRight: '10px' }}>
+                            {loadingFrigo ? (
+                                <li>Caricamento in corso... ⏳</li>
+                            ) : alimentiFrigo.length === 0 ? (
+                                <li>Il tuo frigo è vuoto! ❄️</li>
+                            ) : alimentiFiltrati.length === 0 ? (
+                                <li>Nessun alimento trovato. 🔍</li>
+                            ) : (
+                                alimentiFiltrati.map((alimento, index) => (
+                                    <li key={alimento._id || index}>
+                                        <input 
+                                            type="checkbox" 
+                                            onChange={() => handleRimuoviAlimento(alimento._id)}
+                                            style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
+                                        />
+                                        <span>
+                                            🥦 {alimento.nomeAlimento || alimento.nome} 
+                                            {alimento.dataScadenza || alimento.scadenzaAlimento ? ` (Scad: ${new Date(alimento.dataScadenza || alimento.scadenzaAlimento).toLocaleDateString()})` : ''} 
+                                            {alimento.quantita || alimento.quantitaAlimento ? ` - Qtà: ${alimento.quantita || alimento.quantitaAlimento}` : ''}
+                                        </span>
+                                    </li>
+                                ))
+                            )}
                         </ul>
                     </div>
                 </div>

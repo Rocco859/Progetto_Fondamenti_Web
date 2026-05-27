@@ -1,7 +1,18 @@
 const Alimento = require('../models/Alimento');
+const jwt = require('jsonwebtoken');
 
-exports.getAlimentoScadenza = (req, res, next) => {
-    Alimento.find({}).then(alimenti => {
+exports.getAlimentoScadenza = async (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ success: false, message: "Utente non autorizzato." });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id; 
+
+        Alimento.find({ utente: userId }).then(alimenti => {
         const oggi = new Date();
 
         const listaFiltrata = alimenti.map(doc => {
@@ -21,12 +32,11 @@ exports.getAlimentoScadenza = (req, res, next) => {
 
             res.json(listaFiltrata);
         })
-
         .catch(error => {
             res.status(500).json({ error: true, message: error.message });
         });
+    } catch (error) {
+        console.error("Errore nel recupero alimenti in scadenza:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
 };
-
-
-
-

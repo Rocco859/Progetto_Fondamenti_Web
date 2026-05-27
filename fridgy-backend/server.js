@@ -32,6 +32,8 @@ app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);
 app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
 app.post('/api/frigo/aggiungi', controllerGestioneAlimento.registraAlimento)
+app.get('/api/frigo', controllerGestioneAlimento.getAlimentiUtente);
+app.delete('/api/frigo/:id', controllerGestioneAlimento.rimuoviAlimento);
 
 // 5. ACCENSIONE (L'ascolto sulla porta)
 const PORT = 5000;

@@ -25,4 +25,48 @@ exports.registraAlimento = async (req, res) => {
         console.error("Errore nella registrazione dell'alimento:", error);
         res.status(500).json({ success: false, message: error.message });
     }
-}
+};
+
+exports.getAlimentiUtente = async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ success: false, message: "Utente non autorizzato." });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id; 
+
+        // Cerca nel DB tutti gli alimenti che appartengono a questo utente
+        const alimenti = await Alimento.find({ utente: userId });
+        
+        res.status(200).json({ success: true, alimenti });
+    } catch (error) {
+        console.error("Errore nel recupero degli alimenti:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+exports.rimuoviAlimento = async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ success: false, message: "Utente non autorizzato." });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+
+        const idAlimento = req.params.id;
+
+        // Elimina l'alimento assicurandoti che appartenga effettivamente a chi lo sta eliminando
+        await Alimento.findOneAndDelete({ _id: idAlimento, utente: userId });
+        
+        res.status(200).json({ success: true, message: "Alimento rimosso con successo" });
+    } catch (error) {
+        console.error("Errore nell'eliminazione dell'alimento:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

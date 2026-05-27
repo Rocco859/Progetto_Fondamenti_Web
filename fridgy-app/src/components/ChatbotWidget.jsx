@@ -81,66 +81,53 @@ function ChatbotWidget() {
     setInputTesto("");     //svuota la casella di testo
     setCaricamento(true);  //mostra i pallini di caricamento
 
-   /* try {
-      // Chiamata all'API Anthropic
-      const risposta = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // ⚠️ NOTA: in produzione la chiave API non deve mai stare nel frontend!
-          // Usare un backend proxy (es. Node.js / PHP) che fa da intermediario.
-          "x-api-key": "LA_TUA_API_KEY_QUI",
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 500,
-          system: `Sei l'assistente virtuale di Fridgy, una web app per gestire la spesa e ridurre lo spreco alimentare.
-Aiuta l'utente a:
-- Tenere traccia degli alimenti nel frigo e in dispensa
-- Ricordare le scadenze degli alimenti
-- Suggerire ricette con gli ingredienti disponibili
-- Ridurre gli sprechi alimentari
-- Pianificare la lista della spesa
-Rispondi sempre in italiano, in modo amichevole e conciso (massimo 3-4 frasi).`,
-          messages: [
-            ...messaggi
-              .filter((m) => m.mittente !== "sistema")
-              .map((m) => ({
-                role: m.mittente === "utente" ? "user" : "assistant",
-                content: m.testo,
-              })),
-            { role: "user", content: testo },
-          ],
-        }),
-      });
+   /* API gemini */
+   try {
+    //messaggi da mandare al backend
+    const cronologiaPerBackend = messaggi
+    .filter(m => m.id !==0)
+    .map(m => ({ mittente: m.mittente, testo: m.testo}));
+   
 
-      if (!risposta.ok) {
-        throw new Error(`Errore API: ${risposta.status}`);
-      }
+   //Chiamata al backend
+   const risposta = await fetch("http://localhost:5000/api/chatbot/messaggio", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      testo: testo,
+       cronologia: cronologiaPerBackend }),                            
+  });
 
-      const dati = await risposta.json();
-      const testoAi =
-        dati.content?.[0]?.text ||
-        "Mi dispiace, non ho ricevuto una risposta valida. Riprova!";
+  //controlla se la risposta http sia andata a buonfine
+  if (!risposta.ok){
+    throw new Error('Errore HTTP: ${risposta.status}');
+  }
 
-      setMessaggi((prev) => [
-        ...prev,
-        { id: Date.now(), testo: testoAi, mittente: "ai" },
-      ]);
-    } catch (errore) {
-      console.error("Errore nella chiamata all'AI:", errore);
-      setMessaggi((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          testo: "⚠️ Ops! Si è verificato un errore. Controlla la tua connessione e riprova.",
-          mittente: "ai",
-        },
-      ]);
-    } finally {
-      setCaricamento(false); //nasconde i pallini sia in caso di successo che di errore
-    } */
+  const dati = await risposta.json();
+
+  //Agginta risposta dell'ai
+  if (dati.success){
+    setMessaggi((perv) => [...perv,
+      {id: Date.now(), testo: dati.risposta, mittente: "ai"}
+    ]);
+  }else {
+    throw new Error(dati.message || "Errore sconosciuto dal server");
+
+  }
+}catch (errore) {
+  console.error("Errore nella chiamata al backend:", errore);
+  setMessaggi((prev) => [...prev,
+    {
+      id: Date.now(),
+      testo:"Non riesco a connettermi al server",
+      mittente: "ai"
+    }
+  ])
+}finally{
+  setCaricamento(false);
+}
+
+
   };
 
 

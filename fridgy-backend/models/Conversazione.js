@@ -1,0 +1,32 @@
+const mongoose = requuire('mongoose');
+
+const ConversazioneSchema = new mongoose.schema(
+    {
+        mittente: {
+            type: String,
+            enum: ['utente', 'ai'],
+
+            required: true
+        },
+
+        testo: {
+            type: Stering,
+            required: true,
+
+        },
+        
+        utente:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null  /*se l'utente non è loggato*/
+
+
+        }
+    },
+    {
+        timestamps: true,
+    }
+
+);
+
+module.exports = mongose.modell('Conversazione',ConversazioneSchema);

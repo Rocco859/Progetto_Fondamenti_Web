@@ -6,6 +6,7 @@ const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
+const chatbotRoutes = require('./routes/chatbotRoutes');
 const alimentiController = require('./controllers/ControllerAlimenti');
 const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);
 app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
+app.use('/api/chatbot', chatbotRoutes);
 app.post('/api/frigo/aggiungi', controllerGestioneAlimento.registraAlimento)
 app.get('/api/frigo', controllerGestioneAlimento.getAlimentiUtente);
 app.delete('/api/frigo/:id', controllerGestioneAlimento.rimuoviAlimento);

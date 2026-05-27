@@ -1,28 +1,32 @@
 #alimenti-scadenza-widget {
     grid-area: sidebar;
     background-color: #ffffff;
-    border-radious: 30px;
-    padding: 40px 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    display: flex;
+    border-radius: 30px;
+    padding: 20px 60px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display:flex;
     flex-direction: column;
-    height: 100%;
+    overflow: hidden;
+    
+height: auto;
+    min-height: 400px;
+    width: 25%;
+    margin-right: 25px;
     box-sizing: border-box;
+    height: 90%;
 }
 
 .titolo-scadenza {
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #234b31;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .lista-scadenza-conteiner {
     flex-grow: 1;
     overflow-y: auto;
     padding-right: 8px;
+    overflow-x: hidden;
 }
 
 .item-scadenza {
@@ -33,8 +37,8 @@
     background: #fcfcfc;
     border: 1px solid #f0f0f0;
     border-radius: 15px;
-    padding: 12px 15px;
-    margin-bottom: 12px;
+    padding: 20px 50px;
+    margin-bottom: 16px;
     box-sizing: border-box;
 }
 
@@ -48,13 +52,13 @@
 .nome-alimento {
     font-weight: 600;
     color: #333;
-    font-size: 15px;
+    font-size: 17px;
     display: block;
 }
 
 .giorni-rimasti{
     color: #888;
-    font-size: 12px;
+    font-size: 14px;
     display: block;
     margin-top: 2px;
 }
@@ -70,8 +74,8 @@
 }
 
 .casella-rimozione{
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
     accent-color: #234b31;
 }
@@ -81,6 +85,7 @@
     font-size: 14px;
     text-align: center;
     margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-    

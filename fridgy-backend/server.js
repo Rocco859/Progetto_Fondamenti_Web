@@ -8,6 +8,7 @@ const cors = require('cors');
 const mongoose = require('mongoose'); 
 const chatbotRoutes = require('./routes/chatbotRoutes');
 const alimentiController = require('./controllers/ControllerAlimenti');
+const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
 
 const app = express();
 
@@ -30,10 +31,12 @@ app.get('/', (req, res) => {
 });
 app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);
-
-
 app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
 app.use('/api/chatbot', chatbotRoutes);
+app.post('/api/frigo/aggiungi', controllerGestioneAlimento.registraAlimento)
+app.get('/api/frigo', controllerGestioneAlimento.getAlimentiUtente);
+app.delete('/api/frigo/:id', controllerGestioneAlimento.rimuoviAlimento);
+
 // 5. ACCENSIONE (L'ascolto sulla porta)
 const PORT = 5000;
 app.listen(PORT, () => {

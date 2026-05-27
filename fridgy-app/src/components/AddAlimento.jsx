@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './AddAlimento.css';
-function Add_alimento({ isLoggedIn, onOpenPopup })
+function Add_alimento({ isLoggedIn, onOpenPopup, onAddSuccess })
 {
      
         const [nomeAlimento, setNomeAlimento] = useState('');
@@ -12,9 +12,14 @@ const handleAggiungiAlimento = async (e) => {
     // 1. Blocchiamo subito il refresh del browser
     e.preventDefault();
     try {
+        // 2. Recuperiamo il token dell'utente dal localStorage
+        const token = localStorage.getItem('tokenFridgy');
         const response = await fetch('http://localhost:5000/api/frigo/aggiungi', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
             body: JSON.stringify({
                  nomeAlimento: nomeAlimento,
                  quantitaAlimento: quantitaAlimento,
@@ -24,6 +29,7 @@ const handleAggiungiAlimento = async (e) => {
         if (data.success) {
             // Aggiorni la lista a schermo senza ricaricare la pagina!
             alert("Alimento aggiunto al frigo!"); 
+            if (onAddSuccess) onAddSuccess(); // Avvisa App.jsx di ricaricare le altre liste!
         }else{alert("Errore: " + data.message);}
     } catch (error) {
         console.error("Errore nell'aggiunta:", error);
@@ -59,7 +65,7 @@ return( <div class="layout-principale">
         <input type="date" id="data-scadenza" onChange={(e) => setScadenzaAlimento(e.target.value)} name="data-scadenza" 
         />
 
-        <button type="button" class="btn-barcode" aria-label="Scansiona codice a barre">|||</button>
+        
       </form>
     </div>
     </div>

@@ -5,7 +5,7 @@ import MenuPulsanti from './components/MenuPulsanti';
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
 import AlimentiInScadenza from './components/AlimentiInScadenza';
-import BannerNotifiche from './components/BannerNotifiche'; // <-- 1. IMPORTIAMO IL BANNER
+//import BannerNotifiche from './components/BannerNotifiche'; // 
 import './App.css';
 
 function App() {
@@ -53,10 +53,10 @@ function App() {
             />
             
             {/* 2. INSERIAMO IL BANNER QUI, PASSANDOGLI I DATI */}
-            <BannerNotifiche 
+       {/*     <BannerNotifiche 
                 isLoggedIn={isLoggedIn} 
                 nomeUtente={nomeUtente} 
-            />
+            />  */}
 
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">

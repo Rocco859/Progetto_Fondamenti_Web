@@ -6,7 +6,7 @@ const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
-const chatbotRoutes = require('./routes/chatbotRoutes');
+const chatbotRoutes = require('./routes/ChatbotRoutes');
 const alimentiController = require('./controllers/ControllerAlimenti');
 const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
 
@@ -14,6 +14,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// RADAR GLOBALE   DA RIMUOVERE UNA VOLTA RISOLTO IL PROBLEMA DELLA CHAT
+app.use((req, res, next) => {
+    console.log(`📡 RADAR: Qualcuno ha bussato a -> ${req.method} ${req.url}`);
+    next();
+});
+
+
 
 // =================================================================
 // ECCO DOVE DEVI SCRIVERE LA STRINGA DEL DETECTIVE:

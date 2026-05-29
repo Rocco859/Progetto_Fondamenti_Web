@@ -6,13 +6,8 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     const [isFrigoOpen, setIsFrigoOpen] = useState(false);
     const [isSpesaOpen, setIsSpesaOpen] = useState(false);
 
-    const [listaSpesa, setListaSpesa] = useState([
-        'Pane integrale',
-        'Mele fuji (1kg)',
-        'Acqua frizzante (6 bottiglie)',
-        'Detersivo piatti'
-    ]);
-    
+    const [listaSpesa, setListaSpesa] = useState([]);
+    const [loadingSpesa, setLoadingSpesa] = useState(false);
     const [nuovoAlimento, setNuovoAlimento] = useState('');
 
     // --- NUOVI STATI PER IL FRIGO ---
@@ -22,10 +17,26 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     // --- STATO PER LA RICERCA NEL FRIGO ---
     const [ricercaFrigo, setRicercaFrigo] = useState('');
 
-    const handleAggiungiSpesa = () => {
+    const handleAggiungiSpesa = async () => {
         if (nuovoAlimento.trim() !== '') {
-            setListaSpesa([...listaSpesa, nuovoAlimento.trim()]);
-            setNuovoAlimento(''); 
+            try {
+                const token = localStorage.getItem('tokenFridgy');
+                const response = await fetch('http://localhost:5000/api/spesa/aggiungi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ nomeAlimento: nuovoAlimento.trim() })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setListaSpesa([...listaSpesa, data.elemento]);
+                    setNuovoAlimento(''); 
+                }
+            } catch (error) {
+                console.error("Errore durante l'aggiunta alla lista spesa:", error);
+            }
         }
     };
 
@@ -101,6 +112,51 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
             fetchFrigo();
         }
     }, [isFrigoOpen, refreshTrigger]); // Si attiva ogni volta che apri il frigo o quando aggiungi un nuovo alimento
+
+    // Effettua la chiamata al backend per ottenere la lista della spesa quando si apre il popup
+    useEffect(() => {
+        if (isSpesaOpen) {
+            const fetchSpesa = async () => {
+                setLoadingSpesa(true);
+                try {
+                    const token = localStorage.getItem('tokenFridgy');
+                    const response = await fetch('http://localhost:5000/api/spesa', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        setListaSpesa(data.lista || []);
+                    }
+                } catch (error) {
+                    console.error("Errore di rete:", error);
+                } finally {
+                    setLoadingSpesa(false);
+                }
+            };
+            fetchSpesa();
+        }
+    }, [isSpesaOpen]);
+
+    const handleRimuoviDaSpesa = async (id) => {
+        try {
+            const token = localStorage.getItem('tokenFridgy');
+            const response = await fetch(`http://localhost:5000/api/spesa/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                setListaSpesa(prev => prev.filter(item => item._id !== id));
+            }
+        } catch (error) {
+            console.error("Errore durante la rimozione dalla lista spesa:", error);
+        }
+    };
 
     // Filtra gli alimenti in base al testo inserito nella barra di ricerca
     const alimentiFiltrati = alimentiFrigo.filter(alimento => 
@@ -185,9 +241,22 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                         </div>
                         
                         <ul className="lista-elementi">
-                            {listaSpesa.map((item, index) => (
-                                <li key={index}>🛒 {item}</li>
-                            ))}
+                            {loadingSpesa ? (
+                                <li>Caricamento in corso... ⏳</li>
+                            ) : listaSpesa.length === 0 ? (
+                                <li>La tua lista della spesa è vuota! 🛒</li>
+                            ) : (
+                                listaSpesa.map((item) => (
+                                    <li key={item._id}>
+                                        <input 
+                                            type="checkbox" 
+                                            onChange={() => handleRimuoviDaSpesa(item._id)}
+                                            style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
+                                        />
+                                        <span>🛒 {item.nome}</span>
+                                    </li>
+                                ))
+                            )}
                         </ul>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ exports.inviaMessaggio = async (req, res) => {
         const {testo, cronologia } = req.body;
 
         if(!testo || testo.trim() === '') {
-            return res.status(400)-json({
+            return res.status(400).json({
                 success: false,
                 message: 'Il messaggio non può essere vuoto'
             });

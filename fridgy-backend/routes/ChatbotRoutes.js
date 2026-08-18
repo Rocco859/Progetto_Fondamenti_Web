@@ -12,6 +12,7 @@ router.get('/test', (req, res) => {
 // 2. LA VERA ROTTA CON L'ALLARME. DA CANCELLARE, SERIVVA SOLO PER CATTURARE LERRORE DELLA CHAT
 router.post('/messaggio', (req, res) => {
     console.log("🔔 DING DONG! È appena arrivato un messaggio da React!");
+     console.log("Body ricevuto:", req.body);
     // Passiamo la palla al controller vero e proprio
     ControllerChatbot.inviaMessaggio(req, res);
 });

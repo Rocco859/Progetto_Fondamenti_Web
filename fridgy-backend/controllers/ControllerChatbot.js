@@ -23,7 +23,7 @@ const model = genAI.getGenerativeModel({
 
 
 /*funzione per ricevere il messaggio di da react e risponde con gemini*/
-exports.inviaMessaggio = async (req, res) => {
+/* exports.inviaMessaggio = async (req, res) => {
     try{
         const {testo, cronologia } = req.body;
 
@@ -62,4 +62,41 @@ exports.inviaMessaggio = async (req, res) => {
 
         })
     }
-}
+} */  /* TEMPORANEMAENTE SOSTITUITO DA CIO CHE SEGUE PER CERCARE DI AGGIUSTARE IL CHATBOT*/
+
+
+exports.inviaMessaggio = async (req, res) => {
+    console.log("--- STEP 1: controller avviato ---");
+    console.log("GEMINI_API_KEY presente?", !!process.env.GEMINI_API_KEY);
+    
+    try {
+        const { testo, cronologia } = req.body;
+        console.log("--- STEP 2: testo ricevuto ---", testo);
+
+        if (!testo || testo.trim() === '') {
+            return res.status(400).json({ success: false, message: 'Messaggio vuoto' });
+        }
+
+        const cronologiaGemini = (cronologia || []).map(msg => ({
+            role: msg.mittente === 'utente' ? 'user' : 'model',
+            parts: [{ text: msg.testo }]
+        }));
+        console.log("--- STEP 3: cronologia convertita ---");
+
+        const chat = model.startChat({ history: cronologiaGemini });
+        console.log("--- STEP 4: chat avviata ---");
+
+        const risultato = await chat.sendMessage(testo);
+        console.log("--- STEP 5: risposta ricevuta da Gemini ---");
+
+        const rispostaAI = risultato.response.text();
+
+        res.status(200).json({ success: true, risposta: rispostaAI });
+
+    } catch (errore) {
+        console.error("--- ERRORE COMPLETO ---");
+        console.error("Messaggio:", errore.message);
+        console.error("Stack:", errore.stack);
+        res.status(500).json({ success: false, message: "Errore AI" });
+    }
+};

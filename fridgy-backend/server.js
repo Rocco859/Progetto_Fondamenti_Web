@@ -1,4 +1,3 @@
-// ASSICURATI CHE QUESTA SIA LA PRIMA RIGA IN ASSOLUTO!
 require('dotenv').config(); 
 
 const authController = require('./controllers/ControllerAuth');
@@ -11,46 +10,50 @@ const alimentiController = require('./controllers/ControllerAlimenti');
 const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
 const controllerSpesa = require('./controllers/ControllerSpesa');
 
+// AGGIUNTO: import del middleware di autenticazione JWT creato in precedenza
+const { verifyJWT } = require('./middlewares/authMiddleware');
+
 const app = express();
+const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// RADAR GLOBALE   DA RIMUOVERE UNA VOLTA RISOLTO IL PROBLEMA DELLA CHAT
-app.use((req, res, next) => {
-    console.log(`📡 RADAR: Qualcuno ha bussato a -> ${req.method} ${req.url}`);
-    next();
-});
 
-
-
-// =================================================================
-// ECCO DOVE DEVI SCRIVERE LA STRINGA DEL DETECTIVE:
-console.log("🔍 Controllo la variabile:", process.env.MONGO_URI);
-
-// E SUBITO SOTTO LASCI LA TUA CONNESSIONE:
+//connessione al db
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('🟢 Fantastico! Ci siamo connessi a MongoDB Atlas!'))
     .catch((err) => console.error('🔴 Alt! Qualcosa è andato storto con il DB:', err));
-// =================================================================
+
 
 // 4. LE ROTTE (Le strade dell'API)
 app.get('/', (req, res) => {
-    res.send("Il server risponde correttamente!");
+res.send("Il server risponde correttamente!");
 });
+
+// Route pubbliche: NON serve autenticazione (registrazione e login)
 app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);
-app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
+
+// AGGIUNTO "verifyJWT" come secondo parametro: ora la route è protetta,
+// il middleware verifica il token PRIMA di far eseguire il controller
+app.get('/api/alimenti-scadenza', verifyJWT, alimentiController.getAlimentoScadenza);
+
 app.use('/api/chatbot', chatbotRoutes);
-app.post('/api/frigo/aggiungi', controllerGestioneAlimento.registraAlimento);
-app.get('/api/frigo', controllerGestioneAlimento.getAlimentiUtente);
-app.delete('/api/frigo/:id', controllerGestioneAlimento.rimuoviAlimento);
-app.get('/api/spesa', controllerSpesa.getListaSpesa);
-app.post('/api/spesa/aggiungi', controllerSpesa.aggiungiSpesa);
-app.delete('/api/spesa/:id', controllerSpesa.rimuoviSpesa);
+
+// AGGIUNTO "verifyJWT" su tutte le route del frigo: dati specifici dell'utente,
+// senza autenticazione chiunque potrebbe leggere/modificare il frigo di altri
+app.post('/api/frigo/aggiungi', verifyJWT, controllerGestioneAlimento.registraAlimento);
+app.get('/api/frigo', verifyJWT, controllerGestioneAlimento.getAlimentiUtente);
+app.delete('/api/frigo/:id', verifyJWT, controllerGestioneAlimento.rimuoviAlimento);
+
+// AGGIUNTO "verifyJWT" sulla stessa logica per la lista della spesa
+app.get('/api/spesa', verifyJWT, controllerSpesa.getListaSpesa);
+app.post('/api/spesa/aggiungi', verifyJWT, controllerSpesa.aggiungiSpesa);
+app.delete('/api/spesa/:id', verifyJWT, controllerSpesa.rimuoviSpesa);
 
 // 5. ACCENSIONE (L'ascolto sulla porta)
-const PORT = 5000;
+
 app.listen(PORT, () => {
-    console.log(`🚀 Server acceso sulla porta ${PORT}`);
+console.log(`🚀 Server acceso sulla porta ${PORT}`);
 });

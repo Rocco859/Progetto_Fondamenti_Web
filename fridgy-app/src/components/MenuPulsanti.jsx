@@ -21,7 +21,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (nuovoAlimento.trim() !== '') {
             try {
                 const token = localStorage.getItem('tokenFridgy');
-                const response = await fetch('http://localhost:5000/api/spesa/aggiungi', {
+                const response = await fetch('http://localhost:3000/api/spesa/aggiungi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (!id) return;
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`http://localhost:5000/api/frigo/${id}`, {
+            const response = await fetch(`http://localhost:3000/api/frigo/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -89,7 +89,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 setLoadingFrigo(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch('http://localhost:5000/api/frigo', {
+                    const response = await fetch('http://localhost:3000/api/frigo', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -120,7 +120,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 setLoadingSpesa(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch('http://localhost:5000/api/spesa', {
+                    const response = await fetch('http://localhost:3000/api/spesa', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -144,7 +144,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     const handleRimuoviDaSpesa = async (id) => {
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`http://localhost:5000/api/spesa/${id}`, {
+            const response = await fetch(`http://localhost:3000/api/spesa/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

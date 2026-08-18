@@ -9,7 +9,7 @@ const AlimentiInScadenza = ({ isLoggedIn, refreshTrigger }) => {
         const token = localStorage.getItem('tokenFridgy');
         if (!token) return;
 
-        fetch('http://localhost:5000/api/alimenti-scadenza', {
+        fetch('http://localhost:3000/api/alimenti-scadenza', {
             headers: { 'Authorization': `Bearer ${token}` }
         })
         .then(response => {
@@ -32,7 +32,7 @@ const AlimentiInScadenza = ({ isLoggedIn, refreshTrigger }) => {
     const handleRimuovi = async (id) => {
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`http://localhost:5000/api/frigo/${id}`, {
+            const response = await fetch(`http://localhost:3000/api/frigo/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

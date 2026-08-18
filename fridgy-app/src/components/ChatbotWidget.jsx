@@ -86,6 +86,7 @@ function ChatbotWidget() {
     //messaggi da mandare al backend
     const cronologiaPerBackend = messaggi
     .filter(m => m.id !==0)
+    .filter(m => !m.testo.includes("Non riesco a connettermi"))
     .map(m => ({ mittente: m.mittente, testo: m.testo}));
    
 
@@ -100,7 +101,7 @@ function ChatbotWidget() {
 
   //controlla se la risposta http sia andata a buonfine
   if (!risposta.ok){
-    throw new Error('Errore HTTP: ${risposta.status}');
+    throw new Error(`Errore HTTP: ${risposta.status}`);
   }
 
   const dati = await risposta.json();

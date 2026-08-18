@@ -21,7 +21,7 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
             return;
         }
         try {
-           const response = await fetch('http://localhost:5000/api/register', {
+           const response = await fetch('http://localhost:3000/api/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             // Specifichiamo le chiavi identiche a come se le aspetta il backend destrutturato
@@ -44,14 +44,14 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
                 alert("Errore: " + data.message);
             }
         } catch (error) {
-            alert("Backend spento! Accendilo sulla porta 5000");
+            alert("Backend spento! Accendilo sulla porta 3000");
         }
     };
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
+            const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email, password: password })
@@ -67,7 +67,7 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
                 alert("Errore: " + data.message);
             }
         } catch (error) {
-            alert("Backend spento! Accendilo sulla porta 5000");
+            alert("Backend spento! Accendilo sulla porta 3000");
         }
     };
 

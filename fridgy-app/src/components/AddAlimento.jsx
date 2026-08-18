@@ -14,7 +14,7 @@ const handleAggiungiAlimento = async (e) => {
     try {
         // 2. Recuperiamo il token dell'utente dal localStorage
         const token = localStorage.getItem('tokenFridgy');
-        const response = await fetch('http://localhost:5000/api/frigo/aggiungi', {
+        const response = await fetch('http://localhost:3000/api/frigo/aggiungi', {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',

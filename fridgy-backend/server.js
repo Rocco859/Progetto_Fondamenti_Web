@@ -1,20 +1,19 @@
 require('dotenv').config(); 
 
-const authController = require('./controllers/ControllerAuth');
-const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
-const chatbotRoutes = require('./routes/ChatbotRoutes');
-const alimentiController = require('./controllers/ControllerAlimenti');
-const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
-const controllerSpesa = require('./controllers/ControllerSpesa');
-
-// AGGIUNTO: import del middleware di autenticazione JWT creato in precedenza
-const { verifyJWT } = require('./middlewares/authMiddleware');
-
 const http = require('http');
+
 const{ configuraSocket } = require('./socket');
+
+const authRoutes = require('./routes/AuthRoutes');
+const alimentiRoutes = require('./routes/AlimentiRoutes');
+const gestioneAlimentoRoutes = require('./routes/GestioneAlimentoRoutes');
+const spesaRoutes = require('./routes/SpesaRoutes');
+const chatbotRoutes = require('./routes/ChatbotRoutes');
+
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,26 +33,11 @@ app.get('/', (req, res) => {
 res.send("Il server risponde correttamente!");
 });
 
-// Route pubbliche: NON serve autenticazione (registrazione e login)
-app.post('/api/register', authController.register);
-app.post('/api/login', authController.login);
-
-// AGGIUNTO "verifyJWT" come secondo parametro: ora la route è protetta,
-// il middleware verifica il token PRIMA di far eseguire il controller
-app.get('/api/alimenti-scadenza', verifyJWT, alimentiController.getAlimentoScadenza);
-
+app.use('/api', authRoutes);
+app.use('/api', alimentiRoutes);
+app.use('/api/frigo', gestioneAlimentoRoutes);
+app.use('/api/spesa', spesaRoutes);
 app.use('/api/chatbot', chatbotRoutes);
-
-// AGGIUNTO "verifyJWT" su tutte le route del frigo: dati specifici dell'utente,
-// senza autenticazione chiunque potrebbe leggere/modificare il frigo di altri
-app.post('/api/frigo/aggiungi', verifyJWT, controllerGestioneAlimento.registraAlimento);
-app.get('/api/frigo', verifyJWT, controllerGestioneAlimento.getAlimentiUtente);
-app.delete('/api/frigo/:id', verifyJWT, controllerGestioneAlimento.rimuoviAlimento);
-
-// AGGIUNTO "verifyJWT" sulla stessa logica per la lista della spesa
-app.get('/api/spesa', verifyJWT, controllerSpesa.getListaSpesa);
-app.post('/api/spesa/aggiungi', verifyJWT, controllerSpesa.aggiungiSpesa);
-app.delete('/api/spesa/:id', verifyJWT, controllerSpesa.rimuoviSpesa);
 
 
 const server = http.createServer(app);

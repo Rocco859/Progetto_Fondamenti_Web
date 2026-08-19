@@ -32,6 +32,13 @@ exports.verifyJWT = (req, res, next) => {
             message: "No User account found."
           });
         }
+      })
+      .catch(dbError => {
+        console.error("Errore del DB durante la verifica del token:", dbError);
+        res.status(500).json({
+          error: true,
+          message: "Errore interno del server."
+        });
       });
     } catch (error) {
       res.status(httpStatus.FORBIDDEN).json({

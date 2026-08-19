@@ -1,6 +1,6 @@
 const mongoose = requuire('mongoose');
 
-const ConversazioneSchema = new mongoose.schema(
+const ConversazioneSchema = new mongoose.Schema(
     {
         mittente: {
             type: String,
@@ -10,7 +10,7 @@ const ConversazioneSchema = new mongoose.schema(
         },
 
         testo: {
-            type: Stering,
+            type: String,
             required: true,
 
         },
@@ -29,4 +29,4 @@ const ConversazioneSchema = new mongoose.schema(
 
 );
 
-module.exports = mongose.modell('Conversazione',ConversazioneSchema);
+module.exports = mongose.model('Conversazione',ConversazioneSchema);

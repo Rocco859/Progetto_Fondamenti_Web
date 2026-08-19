@@ -13,6 +13,11 @@ const controllerSpesa = require('./controllers/ControllerSpesa');
 // AGGIUNTO: import del middleware di autenticazione JWT creato in precedenza
 const { verifyJWT } = require('./middlewares/authMiddleware');
 
+const http = require('http');
+const { Server } = require('socket.io');
+const jwt = require('jsonwebtoken');
+const { initIO } = require('./socket');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -51,6 +56,15 @@ app.delete('/api/frigo/:id', verifyJWT, controllerGestioneAlimento.rimuoviAlimen
 app.get('/api/spesa', verifyJWT, controllerSpesa.getListaSpesa);
 app.post('/api/spesa/aggiungi', verifyJWT, controllerSpesa.aggiungiSpesa);
 app.delete('/api/spesa/:id', verifyJWT, controllerSpesa.rimuoviSpesa);
+
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: "*"// ATTENZIONE: da restringere all'URL del frontend prima del deploy in produzione
+    }
+})
 
 // 5. ACCENSIONE (L'ascolto sulla porta)
 

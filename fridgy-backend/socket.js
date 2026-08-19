@@ -1,5 +1,5 @@
 const { Server } = require("socket.io");
-const jwt = require("jsonwebtoken");
+const{verificaTokenEUtente} = require("./utils/verificaToken");
 
 let ioInstance = null;
 
@@ -10,7 +10,7 @@ function configuraSocket(server) {
         },
     })
 
-    io.use((socket, next) => {
+    io.use(async (socket, next) => {
         const token = socket.handshake.auth?.token;
 
         if (!token) {
@@ -18,11 +18,11 @@ function configuraSocket(server) {
         }
 
         try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            socket.userId = decoded.id;
+            const user = await verificaTokenEUtente(token);
+            socket.userId = user._id;
             next();
         }catch (error) {
-            next(new Error("Token non valido"));
+            next(new Error("Token non valido o scaduto"));
         }
     });
 
@@ -49,5 +49,6 @@ function getIO() {
     return ioInstance;
 
 }
+
 
 module.exports = { configuraSocket, getIO};

@@ -3,6 +3,8 @@ const Alimento = require('../models/Alimento');
 // Non serve più: la verifica del token è ora responsabilità del middleware
 // verifyJWT, applicato in server.js prima di questi controller.
 
+const { getIO } = require('../socket');
+
 exports.registraAlimento = async (req, res) => {
   try {
     // RIMOSSO questo blocco, ora gestito dal middleware verifyJWT:
@@ -29,6 +31,8 @@ exports.registraAlimento = async (req, res) => {
       utente: userId
     });
     await nuovoAlimento.save();
+
+    getIO().to(userId.toString()).emit('frigo-aggiornato');
 
     res.status(201).json({ success: true, message: "Alimento registrato con successo!" });
   } catch (error) {
@@ -67,6 +71,8 @@ exports.rimuoviAlimento = async (req, res) => {
     if (!risultato) {
       return res.status(404).json({ success: false, message: "Alimento non trovato o non autorizzato." });
     }
+
+    getIO().to(userId.toString()).emit('frigo-aggiornato');
 
     res.status(200).json({ success: true, message: "Alimento rimosso con successo" });
   } catch (error) {

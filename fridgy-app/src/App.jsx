@@ -7,6 +7,7 @@ import AddAlimento from './components/AddAlimento';
 import AlimentiInScadenza from './components/AlimentiInScadenza';
 //import BannerNotifiche from './components/BannerNotifiche'; // 
 import './App.css';
+import {io} from 'socket.io-client';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -34,6 +35,36 @@ function App() {
 
     // 3. STATO AGGIORNAMENTO: Si attiva quando aggiungi un nuovo alimento e avvisa gli altri componenti
     const [refreshTrigger, setRefreshTrigger] = useState(false);
+
+    useEffect(() => {
+        if (!isLoggedIn) return;
+
+        const token = localStorage.getItem('tokenFridgy');
+        if (!token) return;
+
+        const socket = io('http://localhost:3000', {
+            auth: { token }
+        });
+
+        socket.on('connect', () => {
+            console.log('🔌 Connesso al server in tempo reale');
+        });
+
+        socket.on('connect_error', (err) => {
+            console.error('Errore connessione real-time:', err.message);
+        });
+
+        socket.on('frigo-aggiornato', () => {
+            console.log('📦 Frigo aggiornato in tempo reale');
+            setRefreshTrigger(prev => !prev);
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [isLoggedIn]);
+
+    
 
     // 3. FUNZIONE DI LOGOUT: Cancella il token e resetta lo stato
     const handleLogout = () => {

@@ -59,6 +59,11 @@ function App() {
             setRefreshTrigger(prev => !prev);
         });
 
+        socket.on('spesa-aggiornata', ()=>{
+            console.log('lista della spesa aggiornata in tempo reale');
+            setRefreshTrigger(prev => !prev);
+        });
+
         return () => {
             socket.disconnect();
         };

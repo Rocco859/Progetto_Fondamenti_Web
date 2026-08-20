@@ -9,6 +9,10 @@ exports.register = async (req, res) => {
   try {
     const { nome, cognome, codiceFiscale, email, password } = req.body;
 
+    if (!password || password.length < 8) {
+      return res.status(400).json({ success: false, message: "La password deve contenere almeno 8 caratteri." });
+    }
+
     // 1. Criptiamo la password esplicitamente prima di salvare
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -36,7 +40,7 @@ exports.register = async (req, res) => {
     }
 
     console.error("Errore nella registrazione:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };
 

@@ -24,7 +24,7 @@ exports.getListaSpesa = async (req, res) => {
     res.status(200).json({ success: true, lista });
   } catch (error) {
     console.error("Errore nel recupero della lista della spesa:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi."  });
   }
 };
 
@@ -45,7 +45,7 @@ exports.aggiungiSpesa = async (req, res) => {
     res.status(201).json({ success: true, elemento: nuovoElemento });
   } catch (error) {
     console.error("Errore nell'aggiunta alla lista della spesa:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };
 
@@ -66,6 +66,6 @@ exports.rimuoviSpesa = async (req, res) => {
     res.status(200).json({ success: true, message: "Alimento rimosso dalla lista." });
   } catch (error) {
     console.error("Errore nell'eliminazione dalla lista della spesa:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };

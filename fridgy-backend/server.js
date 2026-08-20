@@ -47,5 +47,5 @@ configuraSocket(server);
 // 5. ACCENSIONE (L'ascolto sulla porta)
 
 server.listen(PORT, () => {
-console.log(`🚀 Server acceso sulla porta ${PORT}`);
+console.log(` Server acceso sulla porta ${PORT}`);
 });

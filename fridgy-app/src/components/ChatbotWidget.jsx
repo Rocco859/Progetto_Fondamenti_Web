@@ -75,10 +75,22 @@ function ChatbotWidget() {
     const testo = inputTesto.trim(); //prende il testo digitato e rimuove gli spazi iniziali e finali
     if (!testo || caricamento) return; //se il messaggio è vuoto o l'ai sta rispondendo, blocca l'esecuzione
 
+    const token = localStorage.getItem("tokenFridgy"); //recupera il token JWT dal localStorage
+
     // Aggiunge il messaggio dell'utente alla lista
     const nuovoId = Date.now(); //id unico basato sul timestamp attuale
     setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente" }]); //aggiunge il messaggio mantenendo i precedenti
     setInputTesto("");     //svuota la casella di testo
+
+    if (!token) {
+      setMessaggi((prev) => [...prev, {
+        id: Date.now(),
+        testo: "Non sei loggato. Accedi per usare il chatbot.",
+        mittente: "ai"
+      }]);
+      return; //se non c'è il token, blocca l'esecuzione
+    }
+
     setCaricamento(true);  //mostra i pallini di caricamento
 
    /* API gemini */
@@ -87,16 +99,20 @@ function ChatbotWidget() {
     const cronologiaPerBackend = messaggi
     .filter(m => m.id !==0)
     .filter(m => !m.testo.includes("Non riesco a connettermi"))
+    .filter(m => !m.testo.includes("Devi  accedere"))
     .map(m => ({ mittente: m.mittente, testo: m.testo}));
    
 
    //Chiamata al backend
    const risposta = await fetch("http://localhost:3000/api/chatbot/messaggio", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
     body: JSON.stringify({
       testo: testo,
-       cronologia: cronologiaPerBackend }),                            
+      cronologia: cronologiaPerBackend }),                            
   });
 
   //controlla se la risposta http sia andata a buonfine

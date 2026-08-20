@@ -4,11 +4,12 @@ const{verificaTokenEUtente} = require("./utils/verificaToken");
 let ioInstance = null;
 
 function configuraSocket(server) {
+    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
     const io = new Server(server, {
         cors: {
-            origin: "*",
+            origin: FRONTEND_URL,
         },
-    })
+    });
 
     io.use(async (socket, next) => {
         const token = socket.handshake.auth?.token;

@@ -46,6 +46,6 @@ exports.getAlimentoScadenza = async (req, res, next) => {
     // della query Alimento.find (prima gestiti separatamente col .catch),
     // dato che con await un errore nella Promise viene comunque catturato qui
     console.error("Errore nel recupero alimenti in scadenza:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };

@@ -37,7 +37,7 @@ exports.registraAlimento = async (req, res) => {
     res.status(201).json({ success: true, message: "Alimento registrato con successo!" });
   } catch (error) {
     console.error("Errore nella registrazione dell'alimento:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };
 
@@ -51,7 +51,7 @@ exports.getAlimentiUtente = async (req, res) => {
     res.status(200).json({ success: true, alimenti });
   } catch (error) {
     console.error("Errore nel recupero degli alimenti:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };
 
@@ -77,6 +77,6 @@ exports.rimuoviAlimento = async (req, res) => {
     res.status(200).json({ success: true, message: "Alimento rimosso con successo" });
   } catch (error) {
     console.error("Errore nell'eliminazione dell'alimento:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };

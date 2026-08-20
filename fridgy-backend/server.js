@@ -18,7 +18,8 @@ const chatbotRoutes = require('./routes/ChatbotRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+app.use(cors({origin: FRONTEND_URL}));
 app.use(express.json());
 
 

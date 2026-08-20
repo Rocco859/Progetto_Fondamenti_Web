@@ -139,7 +139,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
             };
             fetchSpesa();
         }
-    }, [isSpesaOpen]);
+    }, [isSpesaOpen, refreshTrigger]);
 
     const handleRimuoviDaSpesa = async (id) => {
         try {

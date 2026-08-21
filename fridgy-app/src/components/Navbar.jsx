@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './Navbar.css';
+import { useAppContext } from '../context/AppContext';
 
-function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }) {
+function Navbar() {
+    const { isLoggedIn, nomeUtente, setActivePopup, handleLogout } = useAppContext();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     return (
-       <nav className="navbar-container">
+        <nav className="navbar-container">
             {/* PARTE SINISTRA: LOGO */}
             <div className="section-sx">
                 <section className="logo">
@@ -18,12 +20,12 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }
                 <div className="sectionnolog-dx">
                     <ul className="btn-accreg-nav">
                         <li>
-                            <a href="#" className="link-nav" onClick={(e) => { e.preventDefault(); onOpenPopup('login'); }}>
+                            <a href="#" className="link-nav" onClick={(e) => { e.preventDefault(); setActivePopup('login'); }}>
                                 Accedi
                             </a>
                         </li>
                         <li>
-                            <a href="#" className="link-nav" onClick={(e) => { e.preventDefault(); onOpenPopup('register'); }}>
+                            <a href="#" className="link-nav" onClick={(e) => { e.preventDefault(); setActivePopup('register'); }}>
                                 Registrati
                             </a>
                         </li>
@@ -35,33 +37,28 @@ function Navbar({ isLoggedIn, setIsLoggedIn, onOpenPopup, nomeUtente, onLogout }
             {isLoggedIn && (
                 <div className='section-dx'>
                     <div className='accesso-eff' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        
                         <span className="nomeutente"> Benvenuto, {nomeUtente}</span>
                         <button className="btn-hamburger">☰</button>
                     </div>
                 </div>
             )}
 
-            {/* MENU A TENDINA 
-                Rimosso il tag <aside>! Ora il div è libero di galleggiare 
+            {/* MENU A TENDINA
+                Rimosso il tag <aside>! Ora il div è libero di galleggiare
                 con il suo "position: absolute" senza rompere il Flexbox.
             */}
             {isLoggedIn && isMenuOpen && (
                 <div className="menu-tendina aperta">
-                    <a href="#" onClick={(e) => { e.preventDefault(); handleClickFrigo(); }}>Il mio Frigo</a>
-                    <a href="#" onClick={(e) => { e.preventDefault(); handleClickSpesa();}}>Lista della Spesa</a>
-                    <a href="#" onClick={(e) => { e.preventDefault(); }}>Ricette</a>
-                    <hr /> 
-                    <a href="#" className="testo-rosso" onClick={(e) => { 
-                        e.preventDefault(); 
-                        onLogout(); 
-                        setIsMenuOpen(false); 
+                    <a href="#" className="testo-rosso" onClick={(e) => {
+                        e.preventDefault();
+                        handleLogout();
+                        setIsMenuOpen(false);
                     }}>
                         Esci
                     </a>
                 </div>
             )}
-       </nav>
+        </nav>
     );
 }
 

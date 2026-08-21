@@ -1,11 +1,14 @@
-
 import React, { useState } from 'react';
 import './AuthPopups.css';
+import BASE_URL from '../config';
+import { useAppContext } from '../context/AppContext';
 
-function AuthPopups({ type, onClose, setIsLoggedIn }) {
-   
+function AuthPopups() {
+    const { activePopup, setActivePopup, setIsLoggedIn } = useAppContext();
+    const type = activePopup;                        // alias leggibile
+    const onClose = () => setActivePopup(null);      // chiude il popup
     const isVisible = type !== null;
-    
+
     const [nome, setNome] = useState('');
     const [cognome, setCognome] = useState('');
     const [codiceFiscale, setCodiceFiscale] = useState('');
@@ -21,18 +24,18 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
             return;
         }
         try {
-           const response = await fetch('http://localhost:3000/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            // Specifichiamo le chiavi identiche a come se le aspetta il backend destrutturato
-            body: JSON.stringify({ 
-                nome: nome, 
-                cognome: cognome, 
-                codiceFiscale: codiceFiscale, 
-                email: email, 
-                password: password 
-            })
-        });
+            const response = await fetch(`${BASE_URL}/api/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                // Specifichiamo le chiavi identiche a come se le aspetta il backend destrutturato
+                body: JSON.stringify({
+                    nome: nome,
+                    cognome: cognome,
+                    codiceFiscale: codiceFiscale,
+                    email: email,
+                    password: password
+                })
+            });
 
             const data = await response.json();
             if (data.success) {
@@ -51,7 +54,7 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3000/api/login', {
+            const response = await fetch(`${BASE_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email, password: password })
@@ -72,8 +75,8 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
     };
 
     return (
-        <div className={`overlay ${isVisible ? 'visible' : ''}`}> 
-            
+        <div className={`overlay ${isVisible ? 'visible' : ''}`}>
+
             {/* POPUP DI LOGIN - Lo mostriamo solo se il tipo è login */}
             <div className={`login-popup ${type === 'login' ? 'visible' : ''}`}>
                 <button className="btn-chiudi" onClick={onClose}>X</button>
@@ -90,18 +93,18 @@ function AuthPopups({ type, onClose, setIsLoggedIn }) {
                 <button className="btn-chiudi" onClick={onClose}>X</button>
                 <h2>Registrati</h2>
                 <form onSubmit={handleRegister}>
-                    <input type="text" id="Nome" className="input-logreg" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required /> 
+                    <input type="text" id="Nome" className="input-logreg" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
                     <input type="text" id="Cognome" className="input-logreg" placeholder="Cognome" value={cognome} onChange={(e) => setCognome(e.target.value)} required />
-                    <input type="text" id="codiceFiscale" className="input-logreg" placeholder="Codice Fiscale" minLength="16"  value={codiceFiscale} onChange={(e) => setCodiceFiscale(e.target.value)} maxLength="16" required />
+                    <input type="text" id="codiceFiscale" className="input-logreg" placeholder="Codice Fiscale" minLength="16" value={codiceFiscale} onChange={(e) => setCodiceFiscale(e.target.value)} maxLength="16" required />
                     <input type="email" id="email" className="input-logreg" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                    <input type="password" id="Password" className="input-logreg" placeholder="Password" minLength="8"value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" id="Password" className="input-logreg" placeholder="Password" minLength="8" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     <input type="password" id="ConfermaPassword" className="input-logreg" placeholder="Conferma Password" minLength="8" value={confermaPassword} onChange={(e) => setConfermaPassword(e.target.value)} required />
                     <button type="submit" className="btn-logreg" id="submit">Registrati</button>
                 </form>
             </div>
 
         </div>
-    ); 
+    );
 }
 
 export default AuthPopups;

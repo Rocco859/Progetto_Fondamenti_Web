@@ -4,6 +4,7 @@
    ========================================================== */
 
 import { useState, useRef, useEffect } from "react";
+import BASE_URL from '../config';
 import "./ChatbotWidget.css"; // ✅ Import del file CSS separato
 
 
@@ -50,6 +51,7 @@ function ChatbotWidget() {
       id: 0,
       testo: "Ciao! 👋 Sono l'assistente di Fridgy. Posso aiutarti a gestire la tua spesa, controllare le scadenze o suggerirti ricette con quello che hai in frigo. Come posso aiutarti?",
       mittente: "ai",
+      tipo: 'benvenuto',   // messaggio iniziale: escluso dalla cronologia inviata al backend
     },
   ]);
   const [inputTesto, setInputTesto] = useState("");      //stato del testo scritto dall'utente che parte vuoto
@@ -79,71 +81,70 @@ function ChatbotWidget() {
 
     // Aggiunge il messaggio dell'utente alla lista
     const nuovoId = Date.now(); //id unico basato sul timestamp attuale
-    setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente" }]); //aggiunge il messaggio mantenendo i precedenti
-    setInputTesto("");     //svuota la casella di testo
+    setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente", tipo: 'normale' }]); //aggiunge il messaggio mantenendo i precedenti
+    setInputTesto(""); //svuota la casella di testo
 
+    // ── Verifica autenticazione prima di chiamare il backend ───────────────
     if (!token) {
       setMessaggi((prev) => [...prev, {
         id: Date.now(),
         testo: "Non sei loggato. Accedi per usare il chatbot.",
-        mittente: "ai"
+        mittente: "ai",
+        tipo: 'errore',   // messaggio di errore: escluso dalla cronologia inviata al backend
       }]);
       return; //se non c'è il token, blocca l'esecuzione
     }
 
     setCaricamento(true);  //mostra i pallini di caricamento
 
-   /* API gemini */
-   try {
-    //messaggi da mandare al backend
-    const cronologiaPerBackend = messaggi
-    .filter(m => m.id !==0)
-    .filter(m => !m.testo.includes("Non riesco a connettermi"))
-    .filter(m => !m.testo.includes("Devi  accedere"))
-    .map(m => ({ mittente: m.mittente, testo: m.testo}));
-   
+    /* API gemini */
+    try {
+      //messaggi da mandare al backend: solo i messaggi normali (esclude benvenuto ed errori)
+      const cronologiaPerBackend = messaggi
+        .filter(m => m.tipo === 'normale')   // filtro robusto: esclude 'benvenuto' ed 'errore'
+        .map(m => ({ mittente: m.mittente, testo: m.testo }));
 
-   //Chiamata al backend
-   const risposta = await fetch("http://localhost:3000/api/chatbot/messaggio", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      testo: testo,
-      cronologia: cronologiaPerBackend }),                            
-  });
+      //Chiamata al backend
+      const risposta = await fetch(`${BASE_URL}/api/chatbot/messaggio`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`   // invia il token per autenticazione
+        },
+        body: JSON.stringify({
+          testo: testo,
+          cronologia: cronologiaPerBackend
+        }),
+      });
 
-  //controlla se la risposta http sia andata a buonfine
-  if (!risposta.ok){
-    throw new Error(`Errore HTTP: ${risposta.status}`);
-  }
+      //controlla se la risposta http sia andata a buonfine
+      if (!risposta.ok) {
+        throw new Error(`Errore HTTP: ${risposta.status}`);
+      }
 
-  const dati = await risposta.json();
+      const dati = await risposta.json();
 
-  //Agginta risposta dell'ai
-  if (dati.success){
-    setMessaggi((perv) => [...perv,
-      {id: Date.now(), testo: dati.risposta, mittente: "ai"}
-    ]);
-  }else {
-    throw new Error(dati.message || "Errore sconosciuto dal server");
-
-  }
-}catch (errore) {
-  console.error("Errore nella chiamata al backend:", errore);
-  setMessaggi((prev) => [...prev,
-    {
-      id: Date.now(),
-      testo:"Non riesco a connettermi al server",
-      mittente: "ai"
+      //Aggiunta risposta dell'ai
+      if (dati.success) {
+        setMessaggi((prev) => [...prev,
+          { id: Date.now(), testo: dati.risposta, mittente: "ai", tipo: 'normale' }
+        ]);
+      } else {
+        throw new Error(dati.message || "Errore sconosciuto dal server");
+      }
+    } catch (errore) {
+      console.error("Errore nella chiamata al backend:", errore);
+      setMessaggi((prev) => [...prev,
+        {
+          id: Date.now(),
+          testo: "Non riesco a connettermi al server",
+          mittente: "ai",
+          tipo: 'errore',   // messaggio di errore: escluso dalla cronologia inviata al backend
+        }
+      ]);
+    } finally {
+      setCaricamento(false);
     }
-  ])
-}finally{
-  setCaricamento(false);
-}
-
 
   };
 

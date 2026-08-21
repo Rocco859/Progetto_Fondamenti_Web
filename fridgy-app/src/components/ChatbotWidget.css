@@ -239,3 +239,89 @@
     font-size: 35px;          
     overflow: hidden;
 }
+
+
+/* ==========================================================
+   RESPONSIVE — media query per schermi piccoli
+   ========================================================== */
+
+@media screen and (max-width: 767px) {
+
+    /* Aggiungendo "right" oltre a "left", il contenitore non è
+       più ancorato solo al bordo sinistro ma si estende fino a
+       quello destro: così la larghezza si adatta da sola allo
+       schermo, qualunque sia. Margini ridotti da 40px a 15px. */
+    .chatbot-widget {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .chat-window {
+        /* Da 400px fissi a larghezza piena del contenitore */
+        width: 100%;
+
+        /* L'altezza usa "vh" (viewport height = altezza dello
+           schermo) invece di 500px fissi. Il calc() sottrae lo
+           spazio occupato dal bottone sottostante e dai margini.
+           I due limiti evitano gli estremi: mai più alta del
+           necessario, mai così bassa da essere inutilizzabile. */
+        height: calc(100vh - 200px);
+        max-height: 450px;
+        min-height: 300px;
+
+        margin-bottom: 15px;
+    }
+
+    /* Su schermo stretto, limitare le nuvolette al 75% della
+       larghezza produce righe cortissime e testo spezzettato:
+       85% sfrutta meglio lo spazio disponibile */
+    .messaggio-nuvoletta {
+        max-width: 85%;
+        font-size: 13px;
+    }
+
+    /* Bottone e icona rimpiccioliti: 60px di icona su mobile
+       rubano spazio verticale prezioso */
+    .chatbot-btn {
+        padding: 0 16px 0 0;
+        font-size: 14px;
+    }
+
+    .chatbot-btn-icona {
+        width: 45px;
+        height: 45px;
+        font-size: 26px;
+    }
+
+    /* Footer più compatto per lasciare più spazio ai messaggi */
+    .chat-footer {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .chat-input {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .chat-bottone-invio {
+        padding: 10px 14px;
+    }
+}
+
+/* DA 768px A 1023px (tablet):
+   La finestra si restringe leggermente rispetto al desktop,
+   per non occupare una fetta eccessiva dello schermo */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+    .chat-window {
+        width: 340px;
+        height: 450px;
+    }
+
+    .chatbot-widget {
+        bottom: 25px;
+        left: 25px;
+    }
+}

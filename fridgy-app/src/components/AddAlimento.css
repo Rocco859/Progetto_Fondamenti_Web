@@ -92,3 +92,57 @@
       cursor: pointer;
       letter-spacing: 2px;
     }
+
+/* ==========================================================
+   RESPONSIVE — media query per schermi piccoli
+   ========================================================== */
+
+/* Questa media query si attiva SOLO quando la larghezza dello
+   schermo è al massimo 767px (smartphone in verticale).
+   Sopra i 767px, tutto ciò che sta qui dentro viene ignorato
+   e resta valido il layout originale scritto più in alto. */
+@media screen and (max-width: 767px) {
+
+    .quick-add-bar {
+        /* Da "row" (default del flex) a "column": gli elementi
+           si dispongono uno SOTTO l'altro invece che in fila */
+        flex-direction: column;
+
+        /* "stretch" fa sì che ogni figlio occupi tutta la
+           larghezza del contenitore, invece di restringersi
+           al proprio contenuto */
+        align-items: stretch;
+
+        /* 50px di raggio erano pensati per una barra
+           orizzontale (effetto pillola). Su un blocco
+           verticale risulterebbe deformato: 25px è più
+           equilibrato */
+        border-radius: 25px;
+
+        /* Padding uniforme e ridotto: su schermo stretto
+           ogni pixel orizzontale conta */
+        padding: 20px;
+
+        /* Un po' meno spazio tra i campi impilati */
+        gap: 12px;
+    }
+
+    /* Le larghezze fisse (250px, 120px, 150px) servivano per
+       distribuire lo spazio in orizzontale. Impilati, ogni
+       campo deve semplicemente occupare tutta la riga. */
+    #nomeAlimento,
+    #quantitaAlimento,
+    #data-scadenza {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Il pulsante "+" diventa una riga a sé stante, con una
+       linea di separazione sotto, così resta ben distinguibile
+       dai campi di input invece di sembrarne parte */
+    .btn-add {
+        width: 100%;
+        padding: 8px 0;
+        border-bottom: 2px solid #3d3c3c;
+    }
+}

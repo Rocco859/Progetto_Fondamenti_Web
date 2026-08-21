@@ -153,3 +153,88 @@
     background-color: #fffaf0 !important;
     color: #3b6b4c !important;
 }
+
+/* ==========================================================
+   RESPONSIVE — media query per schermi piccoli
+   ========================================================== */
+
+/* NOTA TECNICA: in questo file tutte le regole usano !important.
+   Di conseguenza siamo costretti a usarlo anche qui dentro,
+   perché una regola senza !important non potrebbe mai
+   sovrascriverne una che ce l'ha, indipendentemente dal fatto
+   che sia scritta dopo o dentro una media query. */
+
+@media screen and (max-width: 767px) {
+
+    /* I due bottoni principali passano da affiancati a impilati.
+       Affiancati richiederebbero oltre 500px di larghezza
+       (180px minimi + 80px di padding ciascuno + 30px di gap),
+       impossibili su uno schermo da 375px. */
+    .bottoni-container {
+        flex-direction: column !important;
+        gap: 15px !important;
+        align-items: center !important;
+    }
+
+    .btn-card {
+        /* Occupano tutta la larghezza disponibile, ma con un
+           tetto massimo così non diventano sproporzionati
+           sui tablet piccoli */
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 20px !important;
+        font-size: 18px !important;
+    }
+
+    /* Il popup sfrutta quasi tutta la larghezza e, soprattutto,
+       limita la propria altezza all'85% della viewport.
+       Senza max-height, un popup con molti alimenti si
+       allungherebbe oltre lo schermo rendendo irraggiungibile
+       il pulsante di chiusura in alto. */
+    .modale-contenuto {
+        width: 95% !important;
+        padding: 20px !important;
+        max-height: 85vh !important;
+        overflow-y: auto !important;
+    }
+
+    /* Nella lista spesa, il campo di testo e il pulsante
+       "AGGIUNGI" affiancati lascerebbero all'input pochi
+       caratteri visibili: meglio impilarli */
+    .aggiungi-item-spesa {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .btn-scan {
+        width: 100% !important;
+        padding: 12px 20px !important;
+    }
+
+    /* Testo e spaziature leggermente ridotti per far entrare
+       più elementi nella lista senza scorrere troppo */
+    .lista-elementi li {
+        font-size: 14px !important;
+        padding: 10px 0 !important;
+    }
+
+    .pulsanti-container {
+        margin-top: 25px !important;
+    }
+}
+
+/* DA 768px A 1023px (tablet):
+   I bottoni restano affiancati, ma più compatti per non
+   occupare tutta la larghezza dello schermo */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+    .bottoni-container {
+        gap: 20px !important;
+    }
+
+    .btn-card {
+        padding: 20px 30px !important;
+        min-width: 150px !important;
+        font-size: 18px !important;
+    }
+}

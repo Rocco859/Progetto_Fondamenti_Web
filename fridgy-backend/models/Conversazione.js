@@ -29,4 +29,4 @@ const ConversazioneSchema = new mongoose.Schema(
 
 );
 
-module.exports = mongose.model('Conversazione',ConversazioneSchema);
+module.exports = mongoose.model('Conversazione',ConversazioneSchema);

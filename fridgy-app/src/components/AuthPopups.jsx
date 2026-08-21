@@ -47,7 +47,8 @@ function AuthPopups() {
                 alert("Errore: " + data.message);
             }
         } catch (error) {
-            alert("Backend spento! Accendilo sulla porta 3000");
+            console.error("Errore di connessione al server:", error);
+            alert("Impossibile contattare il server. Riprova più tardi.");
         }
     };
 
@@ -70,7 +71,8 @@ function AuthPopups() {
                 alert("Errore: " + data.message);
             }
         } catch (error) {
-            alert("Backend spento! Accendilo sulla porta 3000");
+             console.error("Errore di connessione al server:", error);
+            alert("Impossibile contattare il server. Riprova più tardi.");
         }
     };
 

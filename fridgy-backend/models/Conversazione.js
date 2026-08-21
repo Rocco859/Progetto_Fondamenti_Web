@@ -1,4 +1,4 @@
-const mongoose = requuire('mongoose');
+const mongoose = require('mongoose');
 
 const ConversazioneSchema = new mongoose.Schema(
     {

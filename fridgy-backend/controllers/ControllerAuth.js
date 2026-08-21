@@ -78,6 +78,6 @@ exports.login = async (req, res) => {
     res.status(200).json({ success: true, message: "👋 Bentornato!", token });
   } catch (error) {
     console.error("Errore nel login:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };

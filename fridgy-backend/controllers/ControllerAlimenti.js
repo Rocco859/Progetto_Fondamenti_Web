@@ -40,7 +40,7 @@ exports.getAlimentoScadenza = async (req, res, next) => {
       .filter(alimento => alimento.giorniMancanti >= 0 && alimento.giorniMancanti < 7) /*filtra solo quelli che hanno meno di 7 giorni alla scadenza*/
       .sort((a, b) => a.giorniMancanti - b.giorniMancanti); /*ordina in base ai giorni mancanti, dal più vicino alla scadenza al più lontano*/
 
-    res.json(listaFiltrata);
+    res.status(200).json({ success: true, alimenti: listaFiltrata });
   } catch (error) {
     // MODIFICATO: ora questo unico catch gestisce anche eventuali errori
     // della query Alimento.find (prima gestiti separatamente col .catch),

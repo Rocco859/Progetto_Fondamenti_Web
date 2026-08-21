@@ -20,7 +20,7 @@ const AlimentiInScadenza = () => {
                 if (!response.ok) throw new Error("Errore nella risposta del server");
                 return response.json();
             })
-            .then(data => setAlimenti(data))
+            .then(data => setAlimenti(data.alimenti || []))
             .catch(error => console.error("Errore nel caricamento dei dati dal server:", error));
     };
 

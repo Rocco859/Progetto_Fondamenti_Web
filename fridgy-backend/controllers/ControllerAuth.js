@@ -1,13 +1,20 @@
 const User = require('../models/User');
-
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { campiMancanti } = require('../utils/validazione');
 
 // 1. CONTROLLER DELLA REGISTRAZIONE
 exports.register = async (req, res) => {
   try {
     const { nome, cognome, codiceFiscale, email, password } = req.body;
+
+    const mancanti = campiMancanti(req.body, ['nome', 'cognome', 'codiceFiscale', 'email', 'password']);
+    if (mancanti.length > 0){
+      return res.status(400).json({
+        success: false,
+        message: `Campi obbligatori mancanti: ${mancanti.join(', ')}`
+      })
+    }
 
     if (!password || password.length < 8) {
       return res.status(400).json({ success: false, message: "La password deve contenere almeno 8 caratteri." });

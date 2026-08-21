@@ -1,9 +1,6 @@
 const Alimento = require('../models/Alimento');
-// RIMOSSO: "const jwt = require('jsonwebtoken');"
-// Non serve più: la verifica del token è ora responsabilità del middleware
-// verifyJWT, applicato in server.js prima di questi controller.
-
 const { getIO } = require('../socket');
+const {campiMancanti} = require('../utils/validazione');
 
 exports.registraAlimento = async (req, res) => {
   try {
@@ -22,6 +19,14 @@ exports.registraAlimento = async (req, res) => {
 
     // 2. Prendi i dati dall'input frontend
     const { nomeAlimento, scadenzaAlimento, quantitaAlimento } = req.body;
+
+    const mancanti = campiMancanti(req.body, ['nomeAlimento', 'scadenzaAlimento', 'quantitaAlimento']);
+    if (mancanti.length > 0){
+      return res.status(400).json({
+        success: false,
+        message: `Campi obbligatori mancanti: ${mancanti.join(', ')}`
+      })
+    }
 
     // 3. Crea il nuovo alimento passando anche l'ID utente
     const nuovoAlimento = new Alimento({

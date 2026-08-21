@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './MenuPulsanti.css';
+import BASE_URL from '../config';
+import { useAppContext } from '../context/AppContext';
 
-// 1. Aggiungiamo isLoggedIn e onOpenPopup tra le parentesi graffe
-function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
+
+// Legge isLoggedIn, setActivePopup, refreshTrigger direttamente dal context
+function MenuPulsanti() {
+    const { isLoggedIn, setActivePopup, refreshTrigger } = useAppContext();
     const [isFrigoOpen, setIsFrigoOpen] = useState(false);
     const [isSpesaOpen, setIsSpesaOpen] = useState(false);
 
@@ -21,7 +25,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (nuovoAlimento.trim() !== '') {
             try {
                 const token = localStorage.getItem('tokenFridgy');
-                const response = await fetch('http://localhost:3000/api/spesa/aggiungi', {
+                const response = await fetch(`${BASE_URL}/api/spesa/aggiungi`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -32,7 +36,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 const data = await response.json();
                 if (response.ok) {
                     setListaSpesa([...listaSpesa, data.elemento]);
-                    setNuovoAlimento(''); 
+                    setNuovoAlimento('');
                 }
             } catch (error) {
                 console.error("Errore durante l'aggiunta alla lista spesa:", error);
@@ -45,7 +49,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (isLoggedIn) {
             setIsFrigoOpen(true); // Se è loggato, apre il suo frigo
         } else {
-            onOpenPopup('login'); // Se è ospite, apre il popup di accesso
+            setActivePopup('login'); // Se è ospite, apre il popup di accesso
         }
     };
 
@@ -54,7 +58,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (isLoggedIn) {
             setIsSpesaOpen(true);
         } else {
-            onOpenPopup('login');
+            setActivePopup('login');
         }
     };
 
@@ -63,13 +67,13 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
         if (!id) return;
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`http://localhost:3000/api/frigo/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/frigo/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            
+
             if (response.ok) {
                 // Se il backend conferma l'eliminazione, rimuoviamolo anche dall'array visibile senza ricaricare la pagina
                 setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
@@ -89,14 +93,14 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 setLoadingFrigo(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch('http://localhost:3000/api/frigo', {
+                    const response = await fetch(`${BASE_URL}/api/frigo`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
                     const data = await response.json();
-                    
+
                     if (response.ok) {
                         // Se il backend restituisce i dati, li salviamo (adattalo se la struttura JSON è diversa)
                         setAlimentiFrigo(data.alimenti || data || []);
@@ -120,14 +124,14 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 setLoadingSpesa(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch('http://localhost:3000/api/spesa', {
+                    const response = await fetch(`${BASE_URL}/api/spesa`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
                     });
                     const data = await response.json();
-                    
+
                     if (response.ok) {
                         setListaSpesa(data.lista || []);
                     }
@@ -144,7 +148,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     const handleRimuoviDaSpesa = async (id) => {
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`http://localhost:3000/api/spesa/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/spesa/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -159,13 +163,13 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
     };
 
     // Filtra gli alimenti in base al testo inserito nella barra di ricerca
-    const alimentiFiltrati = alimentiFrigo.filter(alimento => 
+    const alimentiFiltrati = alimentiFrigo.filter(alimento =>
         (alimento.nomeAlimento || alimento.nome || '').toLowerCase().includes(ricercaFrigo.toLowerCase())
     );
 
     return (
         <div className="pulsanti-container">
-            
+
             <div className="bottoni-container">
                 {/* ORA USANO LE FUNZIONI COL BUTTAFUORI */}
                 <button className="btn-card" onClick={handleClickFrigo}>
@@ -180,12 +184,12 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 <div className="modale-overlay attivo" onClick={() => setIsFrigoOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsFrigoOpen(false)}>✕</button>
-                        
+
                         <h2>CONTENUTO FRIGO</h2>
-                        
+
                         {/* BARRA DI RICERCA */}
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             placeholder="Cerca alimento nel frigo..."
                             value={ricercaFrigo}
                             onChange={(e) => setRicercaFrigo(e.target.value)}
@@ -202,14 +206,14 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                             ) : (
                                 alimentiFiltrati.map((alimento, index) => (
                                     <li key={alimento._id || index}>
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             onChange={() => handleRimuoviAlimento(alimento._id)}
                                             style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
                                         />
                                         <span>
-                                            🥦 {alimento.nomeAlimento || alimento.nome} 
-                                            {alimento.dataScadenza || alimento.scadenzaAlimento ? ` (Scad: ${new Date(alimento.dataScadenza || alimento.scadenzaAlimento).toLocaleDateString()})` : ''} 
+                                            🥦 {alimento.nomeAlimento || alimento.nome}
+                                            {alimento.dataScadenza || alimento.scadenzaAlimento ? ` (Scad: ${new Date(alimento.dataScadenza || alimento.scadenzaAlimento).toLocaleDateString()})` : ''}
                                             {alimento.quantita || alimento.quantitaAlimento ? ` - Qtà: ${alimento.quantita || alimento.quantitaAlimento}` : ''}
                                         </span>
                                     </li>
@@ -225,12 +229,12 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                 <div className="modale-overlay attivo" onClick={() => setIsSpesaOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsSpesaOpen(false)}>✕</button>
-                        
+
                         <h2>LISTA DELLA SPESA</h2>
-                        
+
                         <div className="aggiungi-item-spesa">
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 placeholder="Nome alimento"
                                 value={nuovoAlimento}
                                 onChange={(e) => setNuovoAlimento(e.target.value)}
@@ -239,7 +243,7 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                                 AGGIUNGI
                             </button>
                         </div>
-                        
+
                         <ul className="lista-elementi">
                             {loadingSpesa ? (
                                 <li>Caricamento in corso... ⏳</li>
@@ -248,8 +252,8 @@ function MenuPulsanti({ isLoggedIn, onOpenPopup, refreshTrigger }) {
                             ) : (
                                 listaSpesa.map((item) => (
                                     <li key={item._id}>
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             onChange={() => handleRimuoviDaSpesa(item._id)}
                                             style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
                                         />

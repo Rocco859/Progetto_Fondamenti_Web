@@ -27,13 +27,13 @@ function BannerNotifiche({ isLoggedIn, nomeUtente }) {
         <div className="banner-notifiche">
             <div className="banner-contenuto">
                 <h3>🔔 Ciao {nomeUtente}, hai alimenti in scadenza!</h3>
-                
+
                 {notifiche.urgenti.length > 0 && (
                     <p className="testo-urgente">
                         🔴 <strong>Urgente (meno di 3 gg):</strong> {notifiche.urgenti.map(a => a.nome).join(', ')}
                     </p>
                 )}
-                
+
                 {notifiche.imminenti.length > 0 && (
                     <p className="testo-imminente">
                         🟡 <strong>Attenzione (meno di 7 gg):</strong> {notifiche.imminenti.map(a => a.nome).join(', ')}

@@ -74,3 +74,51 @@ button {
     margin-top: 20px;
     width: 100%;
 }
+/* --- TABLET: fino a 1024px --- */
+@media (max-width: 1024px) {
+    .welcome-title {
+        font-size: 28px; /* era 32px, leggera riduzione */
+    }
+}
+
+/* --- MOBILE: fino a 768px --- */
+@media (max-width: 768px) {
+    /* FLIP PRINCIPALE: da riga (sezione-centrale | widget-scadenze affiancati)
+       a colonna (sezione-centrale sopra, widget-scadenze sotto) */
+    .layout-schermo-intero {
+        flex-direction: column;  /* era "row" */
+        height: auto;            /* era calc(100vh - 80px): in colonna il
+                                     contenuto deve poter crescere ed essere
+                                     scrollato dalla pagina intera, non
+                                     costretto nell'altezza della viewport */
+        overflow: visible;       /* era "hidden": altrimenti il contenuto in
+                                     più (impilato) verrebbe tagliato */
+    }
+
+    .sezione-centrale {
+        height: auto;   /* era 90%, valore riferito all'altezza della riga
+                            flex desktop: senza più quel contesto va lasciato
+                            libero di adattarsi al contenuto */
+        padding: 15px;  /* era 20px: guadagniamo un po' di spazio orizzontale */
+    }
+
+    .welcome-title {
+        font-size: 24px;  /* ulteriore riduzione rispetto al tablet */
+        text-align: center;
+    }
+
+    .welcome-message p {
+        font-size: 16px; /* era 18px */
+    }
+
+    /* Rete di sicurezza per il touch target: qualunque bottone che non ha
+       già un suo stile specifico (molti in Fridgy usano !important per
+       sovrascrivere questo reset globale) rispetta comunque un minimo di
+       44x44px, la soglia consigliata da Apple HIG / WCAG per il dito */
+    button {
+        min-height: 44px; /* min-height "vince" anche sull'height:30px fisso
+                              del reset globale qui sopra: il browser calcola
+                              l'altezza finale come massimo tra i due valori */
+        min-width: 44px;
+    }
+}

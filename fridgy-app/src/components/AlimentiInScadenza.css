@@ -89,3 +89,23 @@ height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+@media (max-width: 768px) {
+    #alimenti-scadenza-widget {
+        width: 100%;        /* era 25%: ora è impilato sotto, non più
+                                affiancato, quindi occupa tutta la larghezza */
+        margin-right: 0;    /* non serve più lo spazio per stare a fianco
+                                della sezione centrale */
+        padding: 20px;      /* era 20px 60px: 60px di padding laterale su
+                                ~375px di schermo lascerebbe pochissimo
+                                spazio utile al contenuto */
+        height: auto;       /* era 90% (percentuale dell'altezza della riga
+                                flex sul desktop, che ora non esiste più) */
+        min-height: 300px;  /* leggermente ridotto rispetto ai 400px desktop,
+                                ma garantisce comunque la lista visibile */
+    }
+
+    .item-scadenza {
+        padding: 15px 20px; /* era 20px 50px: riduciamo soprattutto il
+                                padding orizzontale, prezioso su schermo stretto */
+    }
+}

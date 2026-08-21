@@ -134,3 +134,39 @@
 .testo-rosso {
     color: #d32f2f !important; 
 }
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 10px 16px;  /* era 10px 40px: 40px per lato è troppo su
+                                 schermo stretto, ruberebbe spazio a logo,
+                                 link e nome utente */
+        border-radius: 30px; /* era 50px: con meno padding un raggio troppo
+                                 grande farebbe sembrare la "pillola" schiacciata */
+    }
+
+    .logo h1 {
+        font-size: 22px; /* era 28px */
+    }
+
+    .btn-accreg-nav {
+        gap: 15px; /* era 30px: così "Accedi" e "Registrati" stanno comodi
+                       affiancati anche su schermi piccoli */
+    }
+
+    .link-nav {
+        font-size: 14px !important; /* era 16px; !important necessario perché
+                                        la regola originale lo usa già —
+                                        senza, a parità di specificità,
+                                        vincerebbe quella scritta per prima */
+    }
+
+    /* Il ☰ (btn-hamburger) è già "width/height: auto !important" nel CSS
+       originale, quindi si adatta da solo: non serve toccarlo qui.
+       L'unico rischio reale su mobile è il nome utente troppo lungo che
+       spinge il pulsante fuori dallo schermo: lo limitiamo con l'ellissi */
+    .nomeutente {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

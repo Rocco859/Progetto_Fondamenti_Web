@@ -1,59 +1,61 @@
-// ASSICURATI CHE QUESTA SIA LA PRIMA RIGA IN ASSOLUTO!
 require('dotenv').config(); 
 
-const authController = require('./controllers/ControllerAuth');
-const User = require('./models/User');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
+const http = require('http');
+
+// Import della configurazione Socket.io — è questa riga che, insieme
+// alla chiamata configuraSocket(server) più sotto, fa partire il real-time
+const { configuraSocket } = require('./socket');
+
+// Import dei moduli di rotte: server.js non conosce più i singoli
+// controller, ogni gruppo di endpoint vive nel proprio file
+const authRoutes = require('./routes/AuthRoutes');
+const alimentiRoutes = require('./routes/AlimentiRoutes');
+const gestioneAlimentoRoutes = require('./routes/GestioneAlimentoRoutes');
+const spesaRoutes = require('./routes/SpesaRoutes');
 const chatbotRoutes = require('./routes/ChatbotRoutes');
-const alimentiController = require('./controllers/ControllerAlimenti');
-const controllerGestioneAlimento = require('./controllers/ControllerGestioneAlimento');
-const controllerSpesa = require('./controllers/ControllerSpesa');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
-app.use(cors({origin: FRONTEND_URL}));
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 
-// RADAR GLOBALE   DA RIMUOVERE UNA VOLTA RISOLTO IL PROBLEMA DELLA CHAT
-app.use((req, res, next) => {
-    console.log(`📡 RADAR: Qualcuno ha bussato a -> ${req.method} ${req.url}`);
-    next();
-});
 
-
-
-// =================================================================
-// ECCO DOVE DEVI SCRIVERE LA STRINGA DEL DETECTIVE:
-console.log("🔍 Controllo la variabile:", process.env.MONGO_URI);
-
-// E SUBITO SOTTO LASCI LA TUA CONNESSIONE:
+//connessione al db
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('🟢 Fantastico! Ci siamo connessi a MongoDB Atlas!'))
     .catch((err) => console.error('🔴 Alt! Qualcosa è andato storto con il DB:', err));
-// =================================================================
+
 
 // 4. LE ROTTE (Le strade dell'API)
 app.get('/', (req, res) => {
     res.send("Il server risponde correttamente!");
 });
-app.post('/api/register', authController.register);
-app.post('/api/login', authController.login);
-app.get('/api/alimenti-scadenza', alimentiController.getAlimentoScadenza);
-// app.use('/api/chatbot', chatbotRoutes);
+
+// Ogni app.use monta un intero gruppo di rotte sotto il prefisso indicato.
+// Il middleware verifyJWT è applicato dentro i singoli file di rotte.
+app.use('/api', authRoutes);
+app.use('/api', alimentiRoutes);
+app.use('/api/frigo', gestioneAlimentoRoutes);
+app.use('/api/spesa', spesaRoutes);
 app.use('/api/chatbot', chatbotRoutes);
-app.post('/api/frigo/aggiungi', controllerGestioneAlimento.registraAlimento)
-app.get('/api/frigo', controllerGestioneAlimento.getAlimentiUtente);
-app.delete('/api/frigo/:id', controllerGestioneAlimento.rimuoviAlimento);
-app.get('/api/spesa', controllerSpesa.getListaSpesa);
-app.post('/api/spesa/aggiungi', controllerSpesa.aggiungiSpesa);
-app.delete('/api/spesa/:id', controllerSpesa.rimuoviSpesa);
+
+
+// Creiamo il server HTTP esplicito, necessario perché Socket.io
+// possa agganciarsi alla stessa porta di Express
+const server = http.createServer(app);
+
+// Attiva Socket.io: senza questa riga il real-time non parte,
+// anche se socket.js è scritto correttamente
+configuraSocket(server);
 
 // 5. ACCENSIONE (L'ascolto sulla porta)
-const PORT = 3000;
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+// Attenzione: server.listen, NON app.listen — altrimenti Socket.io
+// resterebbe agganciato a un server che non ascolta nessuna richiesta
+server.listen(PORT, () => {
     console.log(`🚀 Server acceso sulla porta ${PORT}`);
 });

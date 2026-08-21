@@ -1,9 +1,7 @@
 const Spesa = require('../models/Spesa');
 
 const {getIO} = require('../socket');
-// RIMOSSO: "const jwt = require('jsonwebtoken');"
-// Non serve più: la verifica del token è ora responsabilità del middleware
-// verifyJWT, applicato in server.js prima di questi controller.
+const {campiMancanti} = require('../utils/validazione');
 
 exports.getListaSpesa = async (req, res) => {
   try {
@@ -30,18 +28,18 @@ exports.getListaSpesa = async (req, res) => {
 
 exports.aggiungiSpesa = async (req, res) => {
   try {
-    // MODIFICATO: userId da req.userId
     const userId = req.userId;
-
     const { nomeAlimento } = req.body;
-    if (!nomeAlimento) {
-      return res.status(400).json({ success: false, message: "Il nome dell'alimento è obbligatorio." });
+    const mancanti = campiMancanti(req.body, ['nomeAlimento']);
+    if (mancanti.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Campi obbligatori mancanti: ${mancanti.join(', ')}`
+      });
     }
-
     const nuovoElemento = new Spesa({ nome: nomeAlimento, utente: userId });
     await nuovoElemento.save();
-
-    getIO().to(userId.toString()).emit('spesa-aggiornata'),
+    getIO().to(userId.toString()).emit('spesa-aggiornata');
     res.status(201).json({ success: true, elemento: nuovoElemento });
   } catch (error) {
     console.error("Errore nell'aggiunta alla lista della spesa:", error);

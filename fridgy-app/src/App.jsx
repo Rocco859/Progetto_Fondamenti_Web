@@ -38,11 +38,7 @@ function AppShell() {
                                 <div className="welcome-message">
                                     <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy 🍎</h2>
                                     
-                                    <MenuPulsanti 
-                                        isLoggedIn={isLoggedIn} 
-                                        onOpenPopup={setActivePopup} 
-                                        refreshTrigger={refreshTrigger}
-                                    />
+                                    <MenuPulsanti/>
                                 </div>
                             </main>
                         </>

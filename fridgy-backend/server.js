@@ -13,7 +13,8 @@ const controllerSpesa = require('./controllers/ControllerSpesa');
 
 const app = express();
 
-app.use(cors());
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+app.use(cors({origin: FRONTEND_URL}));
 app.use(express.json());
 
 // RADAR GLOBALE   DA RIMUOVERE UNA VOLTA RISOLTO IL PROBLEMA DELLA CHAT

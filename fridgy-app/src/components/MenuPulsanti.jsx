@@ -143,7 +143,7 @@ function MenuPulsanti() {
             };
             fetchSpesa();
         }
-    }, [isSpesaOpen]);
+    }, [isSpesaOpen, refreshTrigger]);
 
     const handleRimuoviDaSpesa = async (id) => {
         try {

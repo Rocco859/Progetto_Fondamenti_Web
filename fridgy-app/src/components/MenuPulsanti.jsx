@@ -181,11 +181,11 @@ function MenuPulsanti() {
             </div>
             {/* MODALE FRIGO */}
             {isFrigoOpen && (
-                <div className="modale-overlay attivo" onClick={() => setIsFrigoOpen(false)}>
+                 <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-frigo" onClick={() => setIsFrigoOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsFrigoOpen(false)}>✕</button>
 
-                        <h2>CONTENUTO FRIGO</h2>
+                        <h2 id="titolo-frigo">CONTENUTO FRIGO</h2>
 
                         {/* BARRA DI RICERCA */}
                         <input
@@ -193,10 +193,10 @@ function MenuPulsanti() {
                             placeholder="Cerca alimento nel frigo..."
                             value={ricercaFrigo}
                             onChange={(e) => setRicercaFrigo(e.target.value)}
-                            style={{ width: '100%', padding: '10px', marginBottom: '15px', borderRadius: '10px', border: '1px solid #ccc', boxSizing: 'border-box', outline: 'none', fontFamily: 'inherit' }}
+                            className = "input-ricerca"
                         />
 
-                        <ul className="lista-elementi" style={{ maxHeight: '280px', overflowY: 'auto', paddingRight: '10px' }}>
+                        <ul className="lista-elementi lista-scrollabile">
                             {loadingFrigo ? (
                                 <li>Caricamento in corso... ⏳</li>
                             ) : alimentiFrigo.length === 0 ? (
@@ -209,7 +209,7 @@ function MenuPulsanti() {
                                         <input
                                             type="checkbox"
                                             onChange={() => handleRimuoviAlimento(alimento._id)}
-                                            style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
+                                            className="checkbox-rimozione"
                                         />
                                         <span>
                                             🥦 {alimento.nomeAlimento || alimento.nome}
@@ -226,11 +226,11 @@ function MenuPulsanti() {
 
             {/* MODALE SPESA */}
             {isSpesaOpen && (
-                <div className="modale-overlay attivo" onClick={() => setIsSpesaOpen(false)}>
+                    <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-spesa" onClick={() => setIsSpesaOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsSpesaOpen(false)}>✕</button>
 
-                        <h2>LISTA DELLA SPESA</h2>
+                        <h2 id="titolo-spesa">LISTA DELLA SPESA</h2>
 
                         <div className="aggiungi-item-spesa">
                             <input
@@ -255,7 +255,7 @@ function MenuPulsanti() {
                                         <input
                                             type="checkbox"
                                             onChange={() => handleRimuoviDaSpesa(item._id)}
-                                            style={{ marginRight: '10px', cursor: 'pointer', accentColor: '#234b31', width: '18px', height: '18px' }}
+                                            className = "checkbox-rimozione"
                                         />
                                         <span>🛒 {item.nome}</span>
                                     </li>

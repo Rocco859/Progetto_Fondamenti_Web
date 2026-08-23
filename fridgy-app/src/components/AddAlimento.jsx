@@ -56,9 +56,9 @@ function AddAlimento() {
     return (<div className="layout-principale">
 
         <div className="colonna-sinistra">
-            <form className="quick-add-bar" action="#" method="POST">
+            <form className="quick-add-bar" onSubmit={handleClickAddAlimento}>
 
-                <button type="submit" className="btn-add" aria-label="Aggiungi alimento" onClick={handleClickAddAlimento}>+</button>
+                <button type="submit" className="btn-add" aria-label="Aggiungi alimento">+</button>
 
                 <label htmlFor="nomeAlimento" className="sr-only">Nome alimento</label>
                 <input

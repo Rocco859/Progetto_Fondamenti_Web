@@ -29,7 +29,7 @@ function IndicatoreCaricamento() {
       <div className="caricamento-nuvoletta">
         {[0, 1, 2].map((i) => (
           <span
-            key={i} //in React ogni elemento dell'array deve essere univoco quindi gli assegniamo il suo indice i come chiave
+            key={i} // Qui l'indice come key è accettabile perché la lista è statica e non cambia mai: sono sempre gli stessi 3 pallini, non vengono riordinati né rimossi. In generale React sconsiglia l'indice come key perché non è stabile se la lista cambia nel tempo (aggiunte, rimozioni, riordini): in quei casi serve un identificatore legato al dato, come l'_id di MongoDB usato altrove in questo progetto.
             className="caricamento-pallino"
             style={{ animationDelay: `${i * 0.2}s` }} //questo stile rimane inline perché è dinamico: cambia per ogni pallino in base all'indice i
           />

@@ -154,6 +154,33 @@
     color: #3b6b4c !important;
 }
 
+/*barra di ricerca e liste*/
+
+.input-ricerca {
+    width: 100% !important;
+    padding: 10px !important;
+    margin-bottom: 15px !important;
+    border-radius: 10px !important;
+    border: 1px solid #ccc !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+    font-family: inherit !important;
+}
+
+.lista-scrollabile {
+    max-height: 280px !important;
+    overflow-y: auto !important;
+    padding-right: 10px !important;
+}
+
+.checkbox-rimozione {
+    margin-right: 10px !important;
+    cursor: pointer !important;
+    accent-color: #234b31 !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
 /* ==========================================================
    RESPONSIVE — media query per schermi piccoli
    ========================================================== */

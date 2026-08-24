@@ -8,11 +8,15 @@
     justify-content: space-between;
     padding: 10px 40px; 
     margin: 15px auto;  
-    width: 95%;        
+    width: 95%;
+    max-width: 1600px;  /* AGGIUNTA: stesso tetto di .layout-schermo-intero
+                            in App.css. Sotto i ~1680px di finestra vince
+                            "width: 95%" (che è il valore minore) e non
+                            cambia nulla; oltre, entrambi si fermano a
+                            1600px e restano allineati sullo stesso asse */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     position: relative;
 }
-
 .section-sx {
     display: flex;
     align-items: center;
@@ -64,6 +68,11 @@
 .section-dx {
     display: flex;
     align-items: center;
+    /* AGGIUNTA: senza questa riga un elemento flex non si restringe mai
+       sotto la larghezza naturale del proprio contenuto (ha un
+       "min-width: auto" implicito) — la catena di restringimento verso
+       .nomeutente qui sotto si bloccherebbe subito */
+    min-width: 0;
 }
 
 .accesso-eff {
@@ -72,6 +81,8 @@
     align-items: center;
     gap: 12px;
     cursor: pointer;
+    /* AGGIUNTA: stesso motivo di .section-dx, un livello più dentro */
+    min-width: 0;
 }
 
 .nomeutente {
@@ -81,6 +92,18 @@
     text-decoration: none;
     margin-right: 10px;
     margin-top: 5px;
+
+    /* AGGIUNTE — sostituiscono il vecchio max-width:100px fisso, che
+       troncava il testo SEMPRE, a prescindere da quanto spazio ci fosse
+       davvero */
+    min-width: 0;             /* permette allo span di restringersi oltre
+                                  la larghezza naturale del testo */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* niente max-width numerico: il browser calcola da solo quanto
+       spazio resta (larghezza navbar meno logo, meno bottone ☰, meno
+       gap) e tronca SOLO se quello spazio è davvero insufficiente */
 }
 
 
@@ -134,6 +157,11 @@
 .testo-rosso {
     color: #d32f2f !important; 
 }
+
+/* --- TABLET/MOBILE: fino a 768px ---
+   .section-dx / .accesso-eff / .nomeutente NON compaiono qui perché la
+   protezione (min-width:0 + ellissi) è nella regola base qui sopra e
+   vale già a QUALSIASI larghezza schermo, non solo sotto 768px */
 @media (max-width: 768px) {
     .navbar-container {
         padding: 10px 16px;  /* era 10px 40px: 40px per lato è troppo su
@@ -157,16 +185,5 @@
                                         la regola originale lo usa già —
                                         senza, a parità di specificità,
                                         vincerebbe quella scritta per prima */
-    }
-
-    /* Il ☰ (btn-hamburger) è già "width/height: auto !important" nel CSS
-       originale, quindi si adatta da solo: non serve toccarlo qui.
-       L'unico rischio reale su mobile è il nome utente troppo lungo che
-       spinge il pulsante fuori dallo schermo: lo limitiamo con l'ellissi */
-    .nomeutente {
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }

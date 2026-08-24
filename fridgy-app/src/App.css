@@ -60,6 +60,19 @@ button {
     align-items: center;
     justify-content: center;
     height: 100%;
+
+    /* AGGIUNTE: */
+    max-width: 750px;   /* stesso valore del max-width di .quick-add-bar in
+                            AddAlimento.css: così la barra di aggiunta e il
+                            blocco benvenuto/bottoni condividono esattamente
+                            la stessa larghezza massima */
+    margin: 0 auto;      /* centra il blocco nello spazio della colonna: i
+                            margini automatici distribuiscono lo spazio
+                            residuo equamente a sinistra e a destra */
+    width: 100%;         /* sotto i 750px occupa tutta la larghezza
+                            disponibile — necessario perché senza, un flex
+                            item in colonna potrebbe restringersi al
+                            contenuto invece di riempire lo spazio */
 }
 
 .welcome-message p {
@@ -85,15 +98,19 @@ button {
 @media (max-width: 768px) {
     /* FLIP PRINCIPALE: da riga (sezione-centrale | widget-scadenze affiancati)
        a colonna (sezione-centrale sopra, widget-scadenze sotto) */
-    .layout-schermo-intero {
-        flex-direction: column;  /* era "row" */
-        height: auto;            /* era calc(100vh - 80px): in colonna il
-                                     contenuto deve poter crescere ed essere
-                                     scrollato dalla pagina intera, non
-                                     costretto nell'altezza della viewport */
-        overflow: visible;       /* era "hidden": altrimenti il contenuto in
-                                     più (impilato) verrebbe tagliato */
-    }
+  .layout-schermo-intero {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 80px); 
+    width: 95%;         /* MODIFICATO: era 100%. Ora è identico al width
+                            di .navbar-container in Navbar.css, quindi i
+                            due elementi occupano esattamente la stessa
+                            fascia orizzontale a QUALSIASI larghezza */
+    overflow: hidden;
+    max-width: 1600px;  /* stesso tetto della navbar */
+    margin: 0 auto;     /* centra il blocco, come fa la navbar con
+                            "margin: 15px auto" */
+}
 
     .sezione-centrale {
         height: auto;   /* era 90%, valore riferito all'altezza della riga

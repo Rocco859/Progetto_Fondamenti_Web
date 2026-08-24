@@ -31,21 +31,22 @@ function AppShell() {
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">
                     {isLoggedIn ? (
-                        <>
+                         <main className="welcome-container">
                             <div className='add-container'>
-                                <main className="main-content">
+                                
                                     <AddAlimento />
-                                </main>
+                               
                             </div>
+                             
 
-                            <main className="welcome-container">
+                            
                                 <div className="welcome-message">
                                     <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy 🍎</h2>
                                     
                                     <MenuPulsanti/>
                                 </div>
                             </main>
-                        </>
+                        
                     ) : (
                         <main className="welcome-container">
                             <div className="welcome-message">

@@ -115,3 +115,67 @@
 .btn-chiudi:hover {
     color: #d32f2f !important;
 }
+
+/* ==========================================================
+   RESPONSIVE — media query per schermi piccoli
+   ========================================================== */
+
+/* NOTA: come negli altri file di questo progetto, siamo costretti
+   a usare !important anche qui, perché le regole sopra lo usano e
+   una dichiarazione senza !important non potrebbe sovrascriverle,
+   indipendentemente dall'ordine in cui è scritta. */
+
+@media screen and (max-width: 767px) {
+
+    .login-popup, .logreg-popup {
+        /* Da 400px fissi a larghezza proporzionale: con 30px di
+           padding per lato, 400px richiedevano 460px totali —
+           più di quanto offra uno schermo da 375px. */
+        width: 90% !important;
+        max-width: 360px !important;
+        padding: 25px 20px !important;
+
+        /* Il popup di registrazione ha 5 campi: su schermi bassi
+           (o in orizzontale) supererebbe l'altezza della viewport,
+           rendendo irraggiungibili il pulsante di invio e la X.
+           Con max-height + overflow compare invece una barra di
+           scorrimento interna. */
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+
+    /* Titolo leggermente più contenuto per lasciare spazio ai campi */
+    .login-popup h2, .logreg-popup h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* Campi e pulsante un po' più compatti in verticale:
+       con 5 input, ogni pixel risparmiato conta */
+    .input-logreg {
+        padding: 10px !important;
+        margin: 6px 0 !important;
+    }
+
+    .btn-logreg {
+        height: 42px !important;
+        margin-top: 12px !important;
+    }
+
+    /* La X si avvicina all'angolo, dato che il padding del
+       popup si è ridotto */
+    .btn-chiudi {
+        top: 10px !important;
+        right: 12px !important;
+    }
+}
+
+/* DA 768px A 1023px (tablet):
+   Il popup resta a larghezza fissa ma leggermente ridotta */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+
+    .login-popup, .logreg-popup {
+        width: 380px !important;
+        padding: 25px !important;
+    }
+}

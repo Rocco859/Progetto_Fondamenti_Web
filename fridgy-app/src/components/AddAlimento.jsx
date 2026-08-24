@@ -4,8 +4,7 @@ import './AddAlimento.css';
 import { useAppContext } from '../context/AppContext';
 
 function AddAlimento() {
-    const { isLoggedIn, setActivePopup, setRefreshTrigger } = useAppContext();
-
+    const { isLoggedIn, setActivePopup, setRefreshTrigger, aggiungiMessaggio } = useAppContext();
     const [nomeAlimento, setNomeAlimento] = useState('');
     const [quantitaAlimento, setQuantitaAlimento] = useState('');
     const [scadenzaAlimento, setScadenzaAlimento] = useState('');
@@ -32,12 +31,14 @@ function AddAlimento() {
             const data = await response.json();
             if (data.success) {
                 // Aggiorni la lista a schermo senza ricaricare la pagina!
-                alert("Alimento aggiunto al frigo!");
+                aggiungiMessaggio("Alimento aggiunto al frigo!");
                 setNomeAlimento('');
                 setQuantitaAlimento('');
                 setScadenzaAlimento('');
                 setRefreshTrigger(prev => !prev); // Avvisa MenuPulsanti e AlimentiInScadenza di ricaricare
-            } else { alert("Errore: " + data.message); }
+            } else { 
+                aggiungiMessaggio("Errore: " + data.message);
+            }
         } catch (error) {
             console.error("Errore nell'aggiunta:", error);
         }

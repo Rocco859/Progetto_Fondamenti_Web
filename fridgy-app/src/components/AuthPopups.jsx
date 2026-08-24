@@ -4,7 +4,7 @@ import BASE_URL from '../config';
 import { useAppContext } from '../context/AppContext';
 
 function AuthPopups() {
-    const { activePopup, setActivePopup, setIsLoggedIn } = useAppContext();
+        const { activePopup, setActivePopup, setIsLoggedIn, aggiungiMessaggio } = useAppContext();
     const type = activePopup;                        // alias leggibile
     const onClose = () => setActivePopup(null);      // chiude il popup
     const isVisible = type !== null;
@@ -20,7 +20,7 @@ function AuthPopups() {
         e.preventDefault();
 
         if (password !== confermaPassword) {
-            alert("Le password non corrispondono!");
+            aggiungiMessaggio("Le password non corrispondono!");
             return;
         }
         try {
@@ -39,16 +39,16 @@ function AuthPopups() {
 
             const data = await response.json();
             if (data.success) {
-                alert(data.message);
+                aggiungiMessaggio(data.message);
                 localStorage.setItem('tokenFridgy', data.token);
                 setIsLoggedIn(true);
                 onClose();
             } else {
-                alert("Errore: " + data.message);
+                aggiungiMessaggio("Errore: " + data.message);
             }
         } catch (error) {
             console.error("Errore di connessione al server:", error);
-            alert("Impossibile contattare il server. Riprova più tardi.");
+            aggiungiMessaggio("Impossibile contattare il server. Riprova più tardi.");
         }
     };
 
@@ -63,16 +63,16 @@ function AuthPopups() {
 
             const data = await response.json();
             if (data.success) {
-                alert(data.message);
+                aggiungiMessaggio(data.message);
                 localStorage.setItem('tokenFridgy', data.token);
                 setIsLoggedIn(true);
                 onClose();
             } else {
-                alert("Errore: " + data.message);
+                aggiungiMessaggio("Errore: " + data.message);
             }
         } catch (error) {
              console.error("Errore di connessione al server:", error);
-            alert("Impossibile contattare il server. Riprova più tardi.");
+            aggiungiMessaggio("Impossibile contattare il server. Riprova più tardi.");
         }
     };
 

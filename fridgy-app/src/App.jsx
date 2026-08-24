@@ -24,10 +24,6 @@ function AppShell() {
             <Navbar />
             <MessaggiNonLetti />
 
-            
-
-            {/* <BannerNotifiche /> */}
-
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">
                     {isLoggedIn ? (
@@ -50,8 +46,8 @@ function AppShell() {
                     ) : (
                         <main className="welcome-container">
                             <div className="welcome-message">
-                                <h2 className="welcome-title">Benvenuto su Fridgy 🍎</h2>
-                                <p>Stato attuale del sito: 🔴 Sei fuori (Ospite)</p>
+                                <h2 className="welcome-title">Benvenuto su Fridgy</h2>
+                                <p>Stato attuale del sito: Sei fuori (Ospite)</p>
                                 <p className="login-notice">Effettua l'accesso o registrati per iniziare a gestire il tuo frigo!</p>
                                 <div className="landing-buttons">
                                     <button className="btn-logreg" onClick={() => setActivePopup('login')}>Accedi</button>

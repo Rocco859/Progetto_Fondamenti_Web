@@ -23,12 +23,7 @@ ul {
     margin: 0;             
 }
 
-/* Reset di base per tutti i bottoni del sito */
-button {
-    width: 40px; 
-    height: 30px;
-    margin: 3px;
-}
+
 
 /* LAYOUT PRINCIPALE — deve avere la STESSA formula di .navbar-container
    in Navbar.css (width 95% + max-width 1600px + margin auto): è così che

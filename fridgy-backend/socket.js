@@ -28,11 +28,11 @@ function configuraSocket(server) {
     });
 
     io.on("connection", (socket) => {
-        console.log('Utente connesso via socketr.io: ${socket.userId}');
+        console.log(`Utente connesso via socketr.io: ${socket.userId}`);
         
         socket.join(socket.userId.toString());
         socket.on("disconnect", () => {
-            console.log('Utente disconnesso: ${socket.userId}');
+            console.log(`Utente disconnesso: ${socket.userId}`);
         });
     });
 

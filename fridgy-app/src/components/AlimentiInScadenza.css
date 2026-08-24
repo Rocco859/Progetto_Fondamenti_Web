@@ -1,19 +1,21 @@
 #alimenti-scadenza-widget {
-    grid-area: sidebar;
     background-color: #ffffff;
     border-radius: 30px;
     padding: 20px 60px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    display:flex;
+    display: flex;
     flex-direction: column;
     overflow: hidden;
-    
-height: auto;
     min-height: 400px;
     width: 25%;
-    margin-right: 25px;
+    margin-right: 0;    /* era 25px: quel margine spostava il bordo destro
+                            del widget 25px più a sinistra rispetto al bordo
+                            del layout, e quindi rispetto alla navbar */
     box-sizing: border-box;
     height: 90%;
+    /* NOTA: rimossi "grid-area: sidebar" (nessun antenato usa display:grid,
+       quindi non aveva effetto) e un "height: auto" duplicato che veniva
+       comunque sovrascritto da "height: 90%" più in basso */
 }
 
 .titolo-scadenza {
@@ -79,26 +81,21 @@ height: auto;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* --- MOBILE: fino a 768px --- */
 @media (max-width: 768px) {
-   #alimenti-scadenza-widget {
-    background-color: #ffffff;
-    border-radius: 30px;
-    padding: 20px 60px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 400px;
-    width: 25%;
-    box-sizing: border-box;
-    height: 90%;
-    margin-right: 0;   /* MODIFICATO: era 25px. Quel margine spostava il
-                           bordo destro del widget 25px più a sinistra
-                           rispetto al bordo del layout, e quindi anche
-                           rispetto alla navbar */
-}
+    /* Qui SOLO le proprietà che cambiano: il widget passa da colonna
+       laterale stretta a blocco impilato a larghezza piena */
+    #alimenti-scadenza-widget {
+        width: 100%;        /* era 25%: ora è sotto, non più affiancato */
+        padding: 20px;      /* era 20px 60px: 60px per lato su uno schermo
+                                da 375px lascerebbe pochissimo spazio utile */
+        height: auto;       /* era 90%, percentuale legata alla riga flex
+                                desktop che ora non esiste più */
+        min-height: 300px;  /* ridotto rispetto ai 400px desktop */
+    }
+
     .item-scadenza {
-        padding: 15px 20px; /* era 20px 50px: riduciamo soprattutto il
-                                padding orizzontale, prezioso su schermo stretto */
+        padding: 15px 20px; /* era 20px 50px */
     }
 }

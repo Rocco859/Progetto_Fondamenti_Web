@@ -52,9 +52,6 @@
     cursor: pointer !important; 
     transition: color 0.2s ease;
     display: inline-block;
-    /* Forza il browser ad ignorare i vecchi blocchi da 40px */
-    width: auto !important;
-    height: auto !important;
     margin: 0 !important;
 }
 
@@ -112,8 +109,6 @@
     font-size: 22px;
     color: #3d3c3c;
     cursor: pointer;
-    width: auto !important;
-    height: auto !important;
     margin: 0 !important;
 }
 

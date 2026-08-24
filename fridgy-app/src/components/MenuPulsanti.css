@@ -27,9 +27,6 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     transition: all 0.2s ease !important;
     
-    /* LE REGOLE SALVAVITA: Cancellano le dimensioni fisse globali */
-    width: auto !important;
-    height: auto !important;
     min-width: 180px !important; 
     display: inline-block !important;
     line-height: 1.4 !important; /* Migliora lo spazio tra le due righe di testo */
@@ -80,10 +77,6 @@
     cursor: pointer !important;
     color: #3d3c3c !important;
     font-weight: bold !important;
-    
-    /* Salvavita */
-    width: auto !important;
-    height: auto !important;
     margin: 0 !important;
     padding: 5px !important;
 }
@@ -142,10 +135,6 @@
     font-weight: bold !important;
     cursor: pointer !important;
     transition: all 0.2s !important;
-    
-    /* LE REGOLE SALVAVITA: Impediscono il taglio della scritta AGGIUNGI */
-    width: auto !important;
-    height: auto !important;
     white-space: nowrap !important; /* Impedisce che il testo vada a capo se non c'è spazio */
 }
 

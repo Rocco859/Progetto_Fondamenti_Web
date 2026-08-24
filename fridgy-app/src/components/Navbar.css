@@ -7,15 +7,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 40px; 
-    margin: 15px auto;  
-    width: 95%;
-    max-width: 1600px;  /* AGGIUNTA: stesso tetto di .layout-schermo-intero
-                            in App.css. Sotto i ~1680px di finestra vince
-                            "width: 95%" (che è il valore minore) e non
-                            cambia nulla; oltre, entrambi si fermano a
-                            1600px e restano allineati sullo stesso asse */
+    width: calc(100% - 40px);  /* identico al layout: è ciò che garantisce
+                                   che i bordi destro e sinistro dei due
+                                   elementi coincidano */
+    margin: 15px auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     position: relative;
+    /* RIMOSSO "max-width: 1600px", stesso motivo del layout in App.css */
 }
 .section-sx {
     display: flex;

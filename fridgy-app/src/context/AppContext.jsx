@@ -13,6 +13,7 @@ export function AppProvider({ children }) {
     const [nomeUtente, setNomeUtente] = useState("");
     const [activePopup, setActivePopup] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(false);
+    const [messaggiNonLetti, setMessaggiNonLetti] = useState([]);
 
     // Decodifica nome utente dal token JWT
     useEffect(() => {
@@ -63,11 +64,22 @@ export function AppProvider({ children }) {
         };
     }, [isLoggedIn]);
 
+    /* Aggiunge un nuovo messaggio all'array*/
+    const aggiungiMessaggio = (testo) => {
+        const nuovoMessaggio = { id: Date.now(), testo: testo };
+        setMessaggiNonLetti(precedenti => [...precedenti, nuovoMessaggio]);
+    };
+
+    /* Rimuove un messaggio dall'array quando l'utente lo "legge"*/
+    const rimuoviMessaggio = (id) => {
+        setMessaggiNonLetti(precedenti => precedenti.filter(m => m.id !== id));
+    };
+    
     // Funzione di logout globale
     const handleLogout = () => {
         localStorage.removeItem('tokenFridgy');
         setIsLoggedIn(false);
-        alert("Disconnessione effettuata! 👋");
+        aggiungiMessaggio("Disconnessione effettuata! 👋");
     };
 
     const value = {
@@ -79,7 +91,10 @@ export function AppProvider({ children }) {
         setActivePopup,
         refreshTrigger,
         setRefreshTrigger,
-        handleLogout
+        handleLogout,
+        messaggiNonLetti,
+        aggiungiMessaggio,
+        rimuoviMessaggio
     };
 
     return (

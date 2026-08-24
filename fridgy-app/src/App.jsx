@@ -9,6 +9,7 @@ import AlimentiInScadenza from './components/AlimentiInScadenza';
 //import BannerNotifiche from './components/BannerNotifiche';
 import './App.css';
 import { useAppContext } from './context/AppContext';
+import MessaggiNonLetti from './components/MessaggiNonLetti';
 
 // ─────────────────────────────────────────────
 // AppShell: contiene il layout e legge dal context
@@ -21,6 +22,9 @@ function AppShell() {
     return (
         <div className="app-container">
             <Navbar />
+            <MessaggiNonLetti />
+
+            
 
             {/* <BannerNotifiche /> */}
 

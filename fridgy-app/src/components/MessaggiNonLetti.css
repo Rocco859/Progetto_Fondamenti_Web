@@ -1,0 +1,61 @@
+
+.messaggi-contenitore {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.messaggio-non-letto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid #3d3c3c;
+    background-color: #fffaf0;
+    color: #3d3c3c;
+    font-family: sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-leggi-messaggio {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3d3c3c;
+    cursor: pointer;
+    padding: 4px 8px;
+    width: auto;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.btn-leggi-messaggio:hover {
+    color: #e53935;
+}
+
+/* RESPONSIVE*/
+@media screen and (max-width: 767px) {
+    .messaggi-contenitore {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        max-width: none;
+    }
+
+    .messaggio-non-letto {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+}

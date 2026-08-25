@@ -10,7 +10,7 @@ services:
     
     #per la persistenza dei dati anche quando i container vengono eliminati
     volumes:
-      - mongo-data:data/db
+      - mongo-data:/data/db
 
     restart: unless-stopped
 

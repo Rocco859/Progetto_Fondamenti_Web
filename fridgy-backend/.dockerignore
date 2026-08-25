@@ -1,0 +1,5 @@
+node_modules #viene creato quando docker esegue npm install
+
+.env
+
+.git

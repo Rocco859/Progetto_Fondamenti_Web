@@ -25,7 +25,7 @@ function MenuPulsanti() {
         if (nuovoAlimento.trim() !== '') {
             try {
                 const token = localStorage.getItem('tokenFridgy');
-                const response = await fetch(`${BASE_URL}/api/spesa/aggiungi`, {
+                const response = await fetch(`${BASE_URL}/api/v1/spesa/aggiungi`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function MenuPulsanti() {
         if (!id) return;
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`${BASE_URL}/api/frigo/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/v1/frigo/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -93,7 +93,7 @@ function MenuPulsanti() {
                 setLoadingFrigo(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch(`${BASE_URL}/api/frigo`, {
+                    const response = await fetch(`${BASE_URL}/api/v1/frigo`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -124,7 +124,7 @@ function MenuPulsanti() {
                 setLoadingSpesa(true);
                 try {
                     const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch(`${BASE_URL}/api/spesa`, {
+                    const response = await fetch(`${BASE_URL}/api/v1/spesa`, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -148,7 +148,7 @@ function MenuPulsanti() {
     const handleRimuoviDaSpesa = async (id) => {
         try {
             const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`${BASE_URL}/api/spesa/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/v1/spesa/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

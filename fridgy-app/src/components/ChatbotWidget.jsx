@@ -105,7 +105,7 @@ function ChatbotWidget() {
         .map(m => ({ mittente: m.mittente, testo: m.testo }));
 
       //Chiamata al backend
-      const risposta = await fetch(`${BASE_URL}/api/chatbot/messaggio`, {
+      const risposta = await fetch(`${BASE_URL}/api/v1/chatbot/messaggio`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

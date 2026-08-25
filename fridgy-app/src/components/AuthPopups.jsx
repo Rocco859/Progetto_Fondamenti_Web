@@ -24,7 +24,7 @@ function AuthPopups() {
             return;
         }
         try {
-            const response = await fetch(`${BASE_URL}/api/register`, {
+            const response = await fetch(`${BASE_URL}/api/v1/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 // Specifichiamo le chiavi identiche a come se le aspetta il backend destrutturato
@@ -55,7 +55,7 @@ function AuthPopups() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${BASE_URL}/api/login`, {
+            const response = await fetch(`${BASE_URL}/api/v1/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email, password: password })

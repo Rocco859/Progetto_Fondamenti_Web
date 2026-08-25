@@ -11,11 +11,14 @@ const { configuraSocket } = require('./socket');
 
 // Import dei moduli di rotte: server.js non conosce più i singoli
 // controller, ogni gruppo di endpoint vive nel proprio file
+const healthRoutes = require('./routes/HealthRoutes');
 const authRoutes = require('./routes/AuthRoutes');
 const alimentiRoutes = require('./routes/AlimentiRoutes');
 const gestioneAlimentoRoutes = require('./routes/GestioneAlimentoRoutes');
 const spesaRoutes = require('./routes/SpesaRoutes');
 const chatbotRoutes = require('./routes/ChatbotRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,18 +34,18 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((err) => console.error('🔴 Alt! Qualcosa è andato storto con il DB:', err));
 
 
-// 4. LE ROTTE (Le strade dell'API)
-app.get('/', (req, res) => {
-    res.send("Il server risponde correttamente!");
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+app.use('/health', healthRoutes);
 
 // Ogni app.use monta un intero gruppo di rotte sotto il prefisso indicato.
 // Il middleware verifyJWT è applicato dentro i singoli file di rotte.
-app.use('/api', authRoutes);
-app.use('/api', alimentiRoutes);
-app.use('/api/frigo', gestioneAlimentoRoutes);
-app.use('/api/spesa', spesaRoutes);
-app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/v1', authRoutes);
+app.use('/api/v1', alimentiRoutes);
+app.use('/api/v1/frigo', gestioneAlimentoRoutes);
+app.use('/api/v1/spesa', spesaRoutes);
+app.use('/api/v1/chatbot', chatbotRoutes);
 
 
 // Creiamo il server HTTP esplicito, necessario perché Socket.io

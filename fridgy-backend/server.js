@@ -1,28 +1,30 @@
-require('dotenv').config(); 
+require('dotenv').config();  //carica le variabili d'ambiente dal .env e le rende disponibili con process.env
 
+
+//Import 
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
 const http = require('http');
-
-// Import della configurazione Socket.io — è questa riga che, insieme
-// alla chiamata configuraSocket(server) più sotto, fa partire il real-time
 const { configuraSocket } = require('./socket');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
-// Import dei moduli di rotte: server.js non conosce più i singoli
-// controller, ogni gruppo di endpoint vive nel proprio file
+//routes
 const healthRoutes = require('./routes/HealthRoutes');
 const authRoutes = require('./routes/AuthRoutes');
 const alimentiRoutes = require('./routes/AlimentiRoutes');
 const gestioneAlimentoRoutes = require('./routes/GestioneAlimentoRoutes');
 const spesaRoutes = require('./routes/SpesaRoutes');
 const chatbotRoutes = require('./routes/ChatbotRoutes');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger');
 
+
+//avvio dell'applicazione express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+//Frontend
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
@@ -30,17 +32,21 @@ app.use(express.json());
 
 //connessione al db
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('🟢 Fantastico! Ci siamo connessi a MongoDB Atlas!'))
-    .catch((err) => console.error('🔴 Alt! Qualcosa è andato storto con il DB:', err));
+    .then(() => console.log('Connessi a MongoDB'))
+    .catch((err) => console.error('Qualcosa è andato storto con il DB:', err));
 
 
+
+//aggancia lo swagger all'indirizzo /api-docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
+//rotta per il check del server
 app.use('/health', healthRoutes);
 
-// Ogni app.use monta un intero gruppo di rotte sotto il prefisso indicato.
-// Il middleware verifyJWT è applicato dentro i singoli file di rotte.
+
+
+//aggancia la rotta al percorso
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', alimentiRoutes);
 app.use('/api/v1/frigo', gestioneAlimentoRoutes);
@@ -48,17 +54,13 @@ app.use('/api/v1/spesa', spesaRoutes);
 app.use('/api/v1/chatbot', chatbotRoutes);
 
 
-// Creiamo il server HTTP esplicito, necessario perché Socket.io
-// possa agganciarsi alla stessa porta di Express
+//crea un server http usando l'app express
 const server = http.createServer(app);
 
-// Attiva Socket.io: senza questa riga il real-time non parte,
-// anche se socket.js è scritto correttamente
+// Attiva Socket.io e lo aggancia al server
 configuraSocket(server);
 
-// 5. ACCENSIONE (L'ascolto sulla porta)
-// Attenzione: server.listen, NON app.listen — altrimenti Socket.io
-// resterebbe agganciato a un server che non ascolta nessuna richiesta
+//avvio effettivo del server
 server.listen(PORT, () => {
-    console.log(`🚀 Server acceso sulla porta ${PORT}`);
+    console.log(`Server acceso sulla porta ${PORT}`);
 });

@@ -1,3 +1,5 @@
+//File per l'analisi statica, legge il codice ma non lo esegue e segnala potenziali errori
+
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -7,7 +9,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['**/*.{js,jsx}'],   //file a cui si possono applicare le regole
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,

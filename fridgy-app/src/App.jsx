@@ -1,3 +1,4 @@
+//import
 import React from 'react';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
@@ -6,27 +7,29 @@ import MenuPulsanti from './components/MenuPulsanti';
 import ChatbotWidget from './components/ChatbotWidget';
 import AddAlimento from './components/AddAlimento';
 import AlimentiInScadenza from './components/AlimentiInScadenza';
-//import BannerNotifiche from './components/BannerNotifiche';
 import './App.css';
 import { useAppContext } from './context/AppContext';
 import MessaggiNonLetti from './components/MessaggiNonLetti';
 
-// ─────────────────────────────────────────────
-// AppShell: contiene il layout e legge dal context
-// Separato da App per poter usare useAppContext()
-// (il Provider deve avvolgere chi usa il context)
-// ─────────────────────────────────────────────
+
+//Componente che contiene tutta la struttura visiva dell'app
 function AppShell() {
     const { isLoggedIn, nomeUtente, setActivePopup } = useAppContext();
 
     return (
+
         <div className="app-container">
+
+
             <Navbar />
             <MessaggiNonLetti />
 
+
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">
+                    {/*rendering condizionale  */}
                     {isLoggedIn ? (
+                         //ramo utente loggato
                          <main className="welcome-container">
                             <div className='add-container'>
                                 
@@ -37,13 +40,15 @@ function AppShell() {
 
                             
                                 <div className="welcome-message">
-                                    <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy 🍎</h2>
+                                    <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy</h2>
                                     
                                     <MenuPulsanti/>
                                 </div>
                             </main>
                         
                     ) : (
+
+                        //ramo utente non loggato
                         <main className="welcome-container">
                             <div className="welcome-message">
                                 <h2 className="welcome-title">Benvenuto su Fridgy</h2>
@@ -58,7 +63,6 @@ function AppShell() {
                     )}
                 </div>
 
-                {/* MOSTRA GLI ALIMENTI IN SCADENZA */}
                 <AlimentiInScadenza />
             </div>
 
@@ -69,11 +73,7 @@ function AppShell() {
     );
 }
 
-// ─────────────────────────────────────────────
-// App: il punto di ingresso.
-// Avvolge tutto con AppProvider così tutti i figli
-// possono leggere il context con useAppContext()
-// ─────────────────────────────────────────────
+
 function App() {
     return (
         <AppProvider>

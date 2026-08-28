@@ -1,38 +1,31 @@
-/* ==========================================================
-   ChatbotWidget.jsx  –  Componente React per il widget Chatbot
-   Fridgy Web App
-   ========================================================== */
-
 import { useState, useRef, useEffect } from "react";
 import BASE_URL from '../config';
-import "./ChatbotWidget.css"; // ✅ Import del file CSS separato
+import "./ChatbotWidget.css";
 
-
-// Composizione struttura chat
+/*vomponente da lasciare fuori a chatbotWidget per non ricaricarlo a ogni render*/
 function MessaggioChat({ testo, mittente }) {
   const isUtente = mittente === "utente"; //controlla che il mittente del messaggio corrisponda con l'utente attualmente loggato
   return (
-    // "utente" o "ai" vengono aggiunti come classi CSS aggiuntive, così il CSS sa come colorare e posizionare la nuvoletta
     <div className={`messaggio-riga ${isUtente ? "utente" : "ai"}`}>
       <div className={`messaggio-nuvoletta ${isUtente ? "utente" : "ai"}`}>
-        {testo} {/* stampa a schermo il testo del messaggio all'interno della nuvoletta */}
+        {testo} {/*stampa il testo del messaggio all'interno della nuvoletta */}
       </div>
     </div>
   );
 }
 
 
-// Indicatore di caricamento del messaggio
+//puntini di caricamento
 function IndicatoreCaricamento() {
   return (
     <div className="caricamento-riga">
       <div className="caricamento-nuvoletta">
         {[0, 1, 2].map((i) => (
           <span
-            key={i} // Qui l'indice come key è accettabile perché la lista è statica e non cambia mai: sono sempre gli stessi 3 pallini, non vengono riordinati né rimossi. In generale React sconsiglia l'indice come key perché non è stabile se la lista cambia nel tempo (aggiunte, rimozioni, riordini): in quei casi serve un identificatore legato al dato, come l'_id di MongoDB usato altrove in questo progetto.
+            key={i} //l'indice come key è accettabile perché la lista è statica e non cambia mai, sono sempre gli stessi 3 pallini, non vengono riordinati né rimossi
             className="caricamento-pallino"
             style={{ animationDelay: `${i * 0.2}s` }} //questo stile rimane inline perché è dinamico: cambia per ogni pallino in base all'indice i
-          />
+          />  /*animazione dei pallini che saltano con un ritardo di 0.2 sec l'uno dall altro*/
         ))}
       </div>
     </div>
@@ -42,14 +35,12 @@ function IndicatoreCaricamento() {
 
 // Funzione principale
 function ChatbotWidget() {
-
-  //definizione dei dati di stato del componente che si aggiorneranno in base alle azioni dell'utente
   const [aperta, setAperta] = useState(false); //stato della chat che parte da chiusa (false)
   //Array di tutti i messaggi della chat che parte con un messaggio di benvenuto dell'ai
   const [messaggi, setMessaggi] = useState([
     {
       id: 0,
-      testo: "Ciao! 👋 Sono l'assistente di Fridgy. Posso aiutarti a gestire la tua spesa, controllare le scadenze o suggerirti ricette con quello che hai in frigo. Come posso aiutarti?",
+      testo: "Ciao! Sono l'assistente di Fridgy. Posso aiutarti consigliandoti delle ricette con cio che hai in frigo",
       mittente: "ai",
       tipo: 'benvenuto',   // messaggio iniziale: escluso dalla cronologia inviata al backend
     },

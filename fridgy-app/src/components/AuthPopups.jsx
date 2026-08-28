@@ -4,11 +4,13 @@ import BASE_URL from '../config';
 import { useAppContext } from '../context/AppContext';
 
 function AuthPopups() {
-        const { activePopup, setActivePopup, setIsLoggedIn, aggiungiMessaggio } = useAppContext();
+    //estrazione dal context
+    const { activePopup, setActivePopup, setIsLoggedIn, aggiungiMessaggio } = useAppContext();
     const type = activePopup;                        // alias leggibile
     const onClose = () => setActivePopup(null);      // chiude il popup
-    const isVisible = type !== null;
-
+    const isVisible = type !== null;  // se type è diverso da null allora il booleano isVisible è true
+    
+    //variabili di stato locali
     const [nome, setNome] = useState('');
     const [cognome, setCognome] = useState('');
     const [codiceFiscale, setCodiceFiscale] = useState('');
@@ -17,17 +19,19 @@ function AuthPopups() {
     const [confermaPassword, setConfermaPassword] = useState('')
 
     const handleRegister = async (e) => {
-        e.preventDefault();
+        e.preventDefault();  //blocca il reload della pagina
 
         if (password !== confermaPassword) {
             aggiungiMessaggio("Le password non corrispondono!");
             return;
         }
+
         try {
+
+            //chiamata http all endpoint della registrazione
             const response = await fetch(`${BASE_URL}/api/v1/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                // Specifichiamo le chiavi identiche a come se le aspetta il backend destrutturato
                 body: JSON.stringify({
                     nome: nome,
                     cognome: cognome,
@@ -38,8 +42,8 @@ function AuthPopups() {
             });
 
             const data = await response.json();
-            if (data.success) {
-                aggiungiMessaggio(data.message);
+            if (data.success) {                                     //se la registrazione ha successo mostra il messaggio di conferma
+                aggiungiMessaggio(data.message);                    //salva il token, aggiorna lo stato globale e chiude il popup
                 localStorage.setItem('tokenFridgy', data.token);
                 setIsLoggedIn(true);
                 onClose();
@@ -52,6 +56,8 @@ function AuthPopups() {
         }
     };
 
+
+    //più o meno come register
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -77,9 +83,9 @@ function AuthPopups() {
     };
 
     return (
-        <div className={`overlay ${isVisible ? 'visible' : ''}`}>
+        <div className={`overlay ${isVisible ? 'visible' : ''}`}> {/*conteiner più esterno che oscura tutta la pagina in base al valore di isVisible */}
 
-            {/* POPUP DI LOGIN - Lo mostriamo solo se il tipo è login */}
+            {/*popup login*/}
             <div className={`login-popup ${type === 'login' ? 'visible' : ''}`}>
                 <button className="btn-chiudi" onClick={onClose}>X</button>
                 <h2>Accedi al tuo account</h2>
@@ -90,7 +96,7 @@ function AuthPopups() {
                 </form>
             </div>
 
-            {/* POPUP DI REGISTRAZIONE - Lo mostriamo solo se il tipo è register */}
+            {/*popup registrazione*/}
             <div className={`logreg-popup ${type === 'register' ? 'visible' : ''}`}>
                 <button className="btn-chiudi" onClick={onClose}>X</button>
                 <h2>Registrati</h2>

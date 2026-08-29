@@ -2,19 +2,21 @@
 .messaggi-contenitore {
     position: fixed;
     top: 20px;
-    left: 50%;
+    left: 50%;  /*per centrare elementi i larghezza variabile*/
     transform: translateX(-50%);
     z-index: 100000;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;  /*impila verticalmente più notifiche*/
     gap: 10px;
     max-width: 350px;
 }
 
+
+/*pillola del messaggio*/
 .messaggio-non-letto {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between;  /*tra il testo e la X*/
     gap: 12px;
     padding: 14px 18px;
     border-radius: 12px;
@@ -27,6 +29,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+
+/*X per chiudere il messaggio*/
 .btn-leggi-messaggio {
     background: none;
     border: none;
@@ -44,7 +48,7 @@
     color: #e53935;
 }
 
-/* RESPONSIVE*/
+/*responsive*/
 @media screen and (max-width: 767px) {
     .messaggi-contenitore {
         top: 10px;

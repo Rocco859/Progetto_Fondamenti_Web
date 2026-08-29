@@ -3,7 +3,7 @@ import './MessaggiNonLetti.css';
 import { useAppContext } from '../context/AppContext';
 
 function MessaggiNonLetti() {
-    const { messaggiNonLetti, rimuoviMessaggio} = useAppContext();
+    const { messaggiNonLetti, rimuoviMessaggio} = useAppContext(); //Estrazione dal context
     if (messaggiNonLetti.length === 0) {
         return null; // Non mostrare nulla se non ci sono messaggi non letti
     }

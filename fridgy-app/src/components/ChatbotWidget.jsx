@@ -24,8 +24,7 @@ function IndicatoreCaricamento() {
           <span
             key={i} //l'indice come key è accettabile perché la lista è statica e non cambia mai, sono sempre gli stessi 3 pallini, non vengono riordinati né rimossi
             className="caricamento-pallino"
-            style={{ animationDelay: `${i * 0.2}s` }} //questo stile rimane inline perché è dinamico: cambia per ogni pallino in base all'indice i
-          />  /*animazione dei pallini che saltano con un ritardo di 0.2 sec l'uno dall altro*/
+          ></span>
         ))}
       </div>
     </div>
@@ -40,13 +39,13 @@ function ChatbotWidget() {
   const [messaggi, setMessaggi] = useState([
     {
       id: 0,
-      testo: "Ciao! Sono l'assistente di Fridgy. Posso aiutarti consigliandoti delle ricette con cio che hai in frigo",
+      testo: "Ciao! Sono l'assistente di Fridgy. Posso aiutarti consigliandoti delle ricette con ciò che hai in frigo",
       mittente: "ai",
       tipo: 'benvenuto',   // messaggio iniziale: escluso dalla cronologia inviata al backend
     },
   ]);
   const [inputTesto, setInputTesto] = useState("");      //stato del testo scritto dall'utente che parte vuoto
-  const [caricamento, setCaricamento] = useState(false); //stato del caricamento: se true (l'ai sta pensando) appariranno i pallini
+  const [caricamento, setCaricamento] = useState(false); //stato del caricamento true (l'ai sta pensando) appariranno i pallini
 
   const chatBodyRef = useRef(null); //per lo scorrimento della chat
 
@@ -64,18 +63,17 @@ function ChatbotWidget() {
 
 
   //Funzione per l'invio del messaggio
-  const inviaMessaggio = async () => { //async perché la chiamata API richiede tempo
+  const inviaMessaggio = async () => { 
     const testo = inputTesto.trim(); //prende il testo digitato e rimuove gli spazi iniziali e finali
     if (!testo || caricamento) return; //se il messaggio è vuoto o l'ai sta rispondendo, blocca l'esecuzione
 
     const token = localStorage.getItem("tokenFridgy"); //recupera il token JWT dal localStorage
 
-    // Aggiunge il messaggio dell'utente alla lista
     const nuovoId = Date.now(); //id unico basato sul timestamp attuale
     setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente", tipo: 'normale' }]); //aggiunge il messaggio mantenendo i precedenti
     setInputTesto(""); //svuota la casella di testo
 
-    // ── Verifica autenticazione prima di chiamare il backend ───────────────
+    //verifica del token
     if (!token) {
       setMessaggi((prev) => [...prev, {
         id: Date.now(),
@@ -90,10 +88,10 @@ function ChatbotWidget() {
 
     /* API gemini */
     try {
-      //messaggi da mandare al backend: solo i messaggi normali (esclude benvenuto ed errori)
       const cronologiaPerBackend = messaggi
-        .filter(m => m.tipo === 'normale')   // filtro robusto: esclude 'benvenuto' ed 'errore'
+        .filter(m => m.tipo === 'normale')   //filtro che prende solo i messaggi di chat escludendo benvenuto ed errori vari
         .map(m => ({ mittente: m.mittente, testo: m.testo }));
+        //prende il valore di messaggi senza l'ultimo messaggio, l ultimo messaggio inviato verrà inviato nel body nel campo testo
 
       //Chiamata al backend
       const risposta = await fetch(`${BASE_URL}/api/v1/chatbot/messaggio`, {
@@ -103,8 +101,8 @@ function ChatbotWidget() {
           "Authorization": `Bearer ${token}`   // invia il token per autenticazione
         },
         body: JSON.stringify({
-          testo: testo,
-          cronologia: cronologiaPerBackend
+          testo: testo,          //ultimo messaggio inviato
+          cronologia: cronologiaPerBackend  //cronologia prima dell'ultimo messaggio
         }),
       });
 
@@ -130,7 +128,7 @@ function ChatbotWidget() {
           id: Date.now(),
           testo: "Non riesco a connettermi al server",
           mittente: "ai",
-          tipo: 'errore',   // messaggio di errore: escluso dalla cronologia inviata al backend
+          tipo: 'errore',   //escluso dalla cronologia del backend
         }
       ]);
     } finally {
@@ -141,9 +139,9 @@ function ChatbotWidget() {
 
 
   // Funzionamento tasto invio su tastiera
-  const gestisciTasto = (e) => { //funzione che accetta un evento (e) come parametro
+  const gestisciTasto = (e) => { 
     if (e.key === "Enter" && !e.shiftKey) {  //verifica se il tasto premuto è Invio e che Shift non sia premuto
-      e.preventDefault(); //sostituisce il comportamento di default del browser (andare a capo)
+      e.preventDefault(); //sostituisce il comportamento di default del browser
       inviaMessaggio();   //richiama la funzione di invio
     }
   };
@@ -154,30 +152,31 @@ function ChatbotWidget() {
       {/* Contenitore principale fisso in basso a sinistra */}
       <div className="chatbot-widget">
 
-        {/* Finestra chat — visibile solo se aperta è true */}
+        {/*finestra aperta*/}
         {aperta && (
           <div className="chat-window">
 
-            {/* Header */}
+            {/*header*/}
             <div className="chat-header">
               <div className="chat-header-info">
                 <h3>Assistente Fridgy</h3>
               </div>
-              {/* Pulsante X per chiudere */}
+              {/*X*/}
               <button className="chat-header-chiudi" onClick={toggleChat}>
                 ✕
               </button>
             </div>
 
-            {/* Body messaggi */}
+            {/* Body*/}
             <div ref={chatBodyRef} className="chat-body">
+              {/*renderizza ogni messaggioChat */}
               {messaggi.map((msg) => ( //stampa a schermo tutti i messaggi della conversazione
                 <MessaggioChat key={msg.id} testo={msg.testo} mittente={msg.mittente} />
               ))}
-              {caricamento && <IndicatoreCaricamento />} {/* i pallini appaiono solo mentre l'ai sta pensando */}
+              {caricamento && <IndicatoreCaricamento />} {/* i pallini appaiono solo mentre l'ai pensa */}
             </div>
 
-            {/* Footer input */}
+            {/*footer*/}
             <div className="chat-footer">
               <input
                 type="text"
@@ -201,14 +200,14 @@ function ChatbotWidget() {
           </div>
         )}
 
-        {/* Bottone apri/chiudi — la classe "aperta" cambia il colore di sfondo via CSS */}
+        {/* Bottone apri/chiudi*/}
         <button
           type="button"
           className={`chatbot-btn ${aperta ? "aperta" : ""}`}
           onClick={toggleChat}
         >
           <div className="chatbot-btn-icona">
-            {aperta ? "✕" : "🤖"} {/* icona X se aperta, robottino se chiusa */}
+            {aperta ? "✕" : "🤖"} {/* icona X se aperta, icona se chiusa */}
           </div>
           <span>{aperta ? "CHIUDI CHAT" : "CHAT CON AI"}</span> {/* testo del bottone */}
         </button>

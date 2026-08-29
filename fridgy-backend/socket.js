@@ -1,3 +1,5 @@
+//componente per il real time
+
 const { Server } = require("socket.io");
 const{verificaTokenEUtente} = require("./utils/verificaToken");
 
@@ -11,7 +13,7 @@ function configuraSocket(server) {
         },
     });
 
-    io.use(async (socket, next) => {
+    io.use(async (socket, next) => {              //eseguito a ogni tentativo di connessione
         const token = socket.handshake.auth?.token;
 
         if (!token) {
@@ -27,10 +29,10 @@ function configuraSocket(server) {
         }
     });
 
-    io.on("connection", (socket) => {
+    io.on("connection", (socket) => {              //si attiva solo se si passa la verifica sopra
         console.log(`Utente connesso via socketr.io: ${socket.userId}`);
         
-        socket.join(socket.userId.toString());
+        socket.join(socket.userId.toString());  
         socket.on("disconnect", () => {
             console.log(`Utente disconnesso: ${socket.userId}`);
         });
@@ -43,7 +45,7 @@ function configuraSocket(server) {
 }
 
 
-function getIO() {
+function getIO() {     //per far accedere gli altri file del backend all istanza del socket
     if (!ioInstance) {
         throw new Error("Socket.io non è stato inizializzato. Chiama prima 'configuraSocket(server)'");
     }

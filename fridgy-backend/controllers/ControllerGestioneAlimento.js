@@ -4,22 +4,13 @@ const {campiMancanti} = require('../utils/validazione');
 
 exports.registraAlimento = async (req, res) => {
   try {
-    // RIMOSSO questo blocco, ora gestito dal middleware verifyJWT:
-    //
-    // const authHeader = req.headers.authorization;
-    // if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    //   return res.status(401).json({ success: false, message: "Utente non autorizzato. Fai il login." });
-    // }
-    // const token = authHeader.split(' ')[1];
-    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // const userId = decoded.id;
-
-    // MODIFICATO: userId ora arriva da req.userId, impostato dal middleware
     const userId = req.userId;
 
-    // 2. Prendi i dati dall'input frontend
+    //recupero dei dati dal frontend
     const { nomeAlimento, scadenzaAlimento, quantitaAlimento } = req.body;
 
+
+    //verifica che siano stati compilati tutti i campi
     const mancanti = campiMancanti(req.body, ['nomeAlimento', 'scadenzaAlimento', 'quantitaAlimento']);
     if (mancanti.length > 0){
       return res.status(400).json({
@@ -28,7 +19,7 @@ exports.registraAlimento = async (req, res) => {
       })
     }
 
-    // 3. Crea il nuovo alimento passando anche l'ID utente
+    //creazione alimento
     const nuovoAlimento = new Alimento({
       nome: nomeAlimento,
       dataScadenza: scadenzaAlimento,
@@ -37,8 +28,12 @@ exports.registraAlimento = async (req, res) => {
     });
     await nuovoAlimento.save();
 
+
+    //aggiornamento del frigo real time
     getIO().to(userId.toString()).emit('frigo-aggiornato');
 
+
+    //risposta finale
     res.status(201).json({ success: true, message: "Alimento registrato con successo!" });
   } catch (error) {
     console.error("Errore nella registrazione dell'alimento:", error);
@@ -48,10 +43,9 @@ exports.registraAlimento = async (req, res) => {
 
 exports.getAlimentiUtente = async (req, res) => {
   try {
-    // MODIFICATO: come sopra, userId da req.userId invece che dal token decodificato qui
     const userId = req.userId;
 
-    // Cerca nel DB tutti gli alimenti che appartengono a questo utente
+    //ricerca nel db di tutti gli alimenti che appartengono a questo utente
     const alimenti = await Alimento.find({ utente: userId });
     res.status(200).json({ success: true, alimenti });
   } catch (error) {
@@ -62,17 +56,12 @@ exports.getAlimentiUtente = async (req, res) => {
 
 exports.rimuoviAlimento = async (req, res) => {
   try {
-    // MODIFICATO: userId da req.userId
     const userId = req.userId;
-    const idAlimento = req.params.id;
+    const idAlimento = req.params.id;  //legge l'id dell almento da eliminare dai parametri dell'URL
 
-    // Elimina l'alimento assicurandoti che appartenga effettivamente a chi lo sta eliminando
+    // Elimina alimento
     const risultato = await Alimento.findOneAndDelete({ _id: idAlimento, utente: userId });
 
-    // AGGIUNTA: se risultato è null, vuol dire che l'alimento non esisteva
-    // oppure apparteneva a un altro utente (findOneAndDelete non lo tocca in quel caso).
-    // Senza questo controllo, il client riceverebbe sempre "successo" anche quando
-    // in realtà non è stato eliminato nulla, il che è fuorviante.
     if (!risultato) {
       return res.status(404).json({ success: false, message: "Alimento non trovato o non autorizzato." });
     }

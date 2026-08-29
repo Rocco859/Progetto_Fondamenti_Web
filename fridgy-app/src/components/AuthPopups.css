@@ -1,65 +1,59 @@
-/* --- L'OVERLAY (SFONDO OSCURATO) --- */
-.overlay {
-    background-color: rgba(0, 0, 0, 0.6) !important;
-    width: 100% !important;
+.overlay {  /*sfondo scurito se c'è il popup*/
+    background-color: rgba(0, 0, 0, 0.6) !important;   /*sfondo nero al con opacità al 60%*/
+    width: 100% !important;   
     height: 100% !important;
-    position: fixed !important;
+    position: fixed !important;  /*ancorato alla viewport*/
     top: 0 !important;
     left: 0 !important;
-    display: flex !important;
+    display: flex !important;     /*popup al suo intenro perfettamente allineato al centro*/
     justify-content: center !important;    
     align-items: center !important;
-    opacity: 0;            
-    pointer-events: none;  
-    transition: opacity 0.4s ease-in-out;
-    z-index: 99999 !important;
+    opacity: 0;            /*lo rende invisibile (diventa visibile solo in base al booleano isvisible*/
+    pointer-events: none;    /*permette agli elementi al di sotto di esso di essere cliccato*/
+    transition: opacity 0.4s ease-in-out; /*animazione con disoolvenza dell'overlay*/
+    z-index: 99999 !important; /*alto per farlo stare su qualsiasi altro elemento*/
 }
 
-.overlay.visible {
-    opacity: 1 !important;           
+.overlay.visible {  /*overlay con valore visible dato dal jsx*/
+    opacity: 1 !important;     /*diventa visibile*/      
     pointer-events: auto !important; 
 }
 
-/* --- LE SCATOLE DEI POPUP (Centrate con Flexbox) --- */
+/*contenitori dei popup*/
 .login-popup, .logreg-popup {
     background-color: #fffaf0 !important;
     border-radius: 20px !important;
     border: 2px solid #3d3c3c !important;
-    display: flex !important;
+    display: flex !important;          /*tittolo e form uno sopra laltro e centrati orizzontalmente*/
     flex-direction: column !important;
     align-items: center !important;
     padding: 30px !important;
     width: 400px !important; 
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-    
-    /* Le togliamo dal flusso, ci pensa l'overlay a centrarle */
-    position: absolute !important; 
-    
-    /* Animazione pulita */
-    opacity: 0;
+    position: absolute !important;  /*per rimuoverlo dal flusso*/
+    opacity: 0;           /*come overlay sopra*/
     pointer-events: none;
-    transform: translateY(20px) scale(0.9) !important; 
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/*contenitori con visible settato dal jsx*/
 .login-popup.visible, .logreg-popup.visible {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0) scale(1) !important;
 }
 
-/* --- TESTI E FORM --- */
+/*testi e form*/
 .login-popup h2, .logreg-popup h2 {
     color: #3d3c3c;
     margin-bottom: 20px;
     font-family: sans-serif;
 }
 
+/*form*/
 .login-popup form, .logreg-popup form {
-    width: 100%;
+    width: 100%;    /*il form occupa tutta la larghezza del popup*/
 }
 
-/* --- INPUT DEI FORM --- */
+/*input di tutti i form*/
 .input-logreg {
     width: 100% !important;
     padding: 12px !important;
@@ -70,12 +64,12 @@
     background-color: #ffffff !important;
 }
 
-.input-logreg:focus {
+.input-logreg:focus { /*quando è selezionato un campo del form*/
     border-color: #3b6b4c !important;
     outline: none;
 }
 
-/* --- BOTTONE INVIA --- */
+/* btn di invio*/
 .btn-logreg {
     font-family: sans-serif;
     font-weight: bold;
@@ -88,15 +82,14 @@
     border: 2px solid #3d3c3c !important;
     cursor: pointer !important; 
     margin-top: 15px !important;
-    transition: all 0.2s ease; 
 }
 
-.btn-logreg:hover {
+.btn-logreg:hover {  /*solo quando il mouse è sul bottone, si attiva e inverti i colori*/
     background-color: #fffaf0 !important; 
     color: #3b6b4c !important;
 }
 
-/* --- BOTTONE CHIUDI (X) --- */
+/*X*/
 .btn-chiudi {
     position: absolute !important;
     top: 15px !important;
@@ -110,46 +103,27 @@
     margin: 0 !important;
 }
 
-.btn-chiudi:hover {
+.btn-chiudi:hover {  /*cambia colore al passaggio del mouse*/
     color: #d32f2f !important;
 }
 
-/* ==========================================================
-   RESPONSIVE — media query per schermi piccoli
-   ========================================================== */
-
-/* NOTA: come negli altri file di questo progetto, siamo costretti
-   a usare !important anche qui, perché le regole sopra lo usano e
-   una dichiarazione senza !important non potrebbe sovrascriverle,
-   indipendentemente dall'ordine in cui è scritta. */
-
+/*responsive*/
+/*mobile*/
 @media screen and (max-width: 767px) {
 
     .login-popup, .logreg-popup {
-        /* Da 400px fissi a larghezza proporzionale: con 30px di
-           padding per lato, 400px richiedevano 460px totali —
-           più di quanto offra uno schermo da 375px. */
         width: 90% !important;
         max-width: 360px !important;
         padding: 25px 20px !important;
-
-        /* Il popup di registrazione ha 5 campi: su schermi bassi
-           (o in orizzontale) supererebbe l'altezza della viewport,
-           rendendo irraggiungibili il pulsante di invio e la X.
-           Con max-height + overflow compare invece una barra di
-           scorrimento interna. */
-        max-height: 90vh !important;
+        max-height: 90vh !important;  /*90% della viewport*/
         overflow-y: auto !important;
     }
 
-    /* Titolo leggermente più contenuto per lasciare spazio ai campi */
     .login-popup h2, .logreg-popup h2 {
         font-size: 20px;
         margin-bottom: 15px;
     }
 
-    /* Campi e pulsante un po' più compatti in verticale:
-       con 5 input, ogni pixel risparmiato conta */
     .input-logreg {
         padding: 10px !important;
         margin: 6px 0 !important;
@@ -160,16 +134,13 @@
         margin-top: 12px !important;
     }
 
-    /* La X si avvicina all'angolo, dato che il padding del
-       popup si è ridotto */
     .btn-chiudi {
         top: 10px !important;
         right: 12px !important;
     }
 }
 
-/* DA 768px A 1023px (tablet):
-   Il popup resta a larghezza fissa ma leggermente ridotta */
+/*tablet*/
 @media screen and (min-width: 768px) and (max-width: 1023px) {
 
     .login-popup, .logreg-popup {

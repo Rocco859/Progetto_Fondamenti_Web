@@ -1,20 +1,16 @@
-/* =========================================
-   LAYOUT CONTENITORE PULSANTI
-   ========================================= */
+/*container più esterno*/
 .pulsanti-container {
-    margin-top: 40px;
+    margin-top: 40px;  /*per distanziarlo dal messaggio di benvenuto*/
     text-align: center;
 }
-
+/*contanier dei due botton*/
 .bottoni-container {
     display: flex;
-    gap: 30px;
-    justify-content: center;
+    gap: 30px;                 /*a una distanza di 30 px tra di loro*/
+    justify-content: center;  /*disposti in riga*/
 }
 
-/* =========================================
-   BOTTONI PRINCIPALI (Corazzati contro stili globali)
-   ========================================= */
+/*bottoni principali*/
 .btn-card {
     background-color: #fffaf0 !important;
     border: 2px solid #3d3c3c !important;
@@ -25,30 +21,27 @@
     color: #3b6b4c !important;
     cursor: pointer !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
-    transition: all 0.2s ease !important;
-    
+    transition: all 0.2s ease !important; /*ogni volta che viene cambiata una proprietà del css, questa variazione avviene in 0.2 sec invece che instatnaneamete*/
     min-width: 180px !important; 
     display: inline-block !important;
     line-height: 1.4 !important; /* Migliora lo spazio tra le due righe di testo */
 }
 
 .btn-card:hover {
-    transform: scale(1.05) !important;
+    transform: scale(1.05) !important; /*si ingrandisce al passaggio de mouse del 5%*/
     background-color: #3b6b4c !important;
     color: #fffaf0 !important;
 }
 
-/* =========================================
-   FINESTRE MODALI (OVERLAY E CONTENUTO)
-   ========================================= */
-.modale-overlay {
+/*modali*/
+.modale-overlay {  /*overlay dietro i modali come authPopups*/
     display: flex !important; 
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.6) !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;  /*0.6 di opacità*/
     z-index: 1000 !important;
     align-items: center !important;
     justify-content: center !important;
@@ -62,13 +55,13 @@
     border: 2px solid #3d3c3c !important;
     width: 90% !important;
     max-width: 450px !important;
-    position: relative !important;
+    position: relative !important;  /*serve per rendere questo elemento positioning context per il tasto di chiusura che è absolute*/
     text-align: left !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
 }
 
 .btn-chiudi-dash {
-    position: absolute !important;
+    position: absolute !important; 
     top: 15px !important;
     right: 15px !important;
     background: none !important;
@@ -85,25 +78,23 @@
     color: #d32f2f !important;
 }
 
-/* =========================================
-   LISTE DEGLI ALIMENTI E INPUT SPESA
-   ========================================= */
+/*lista alimenti*/
 .lista-elementi {
-    list-style-type: none !important;
     padding: 0 !important;
     margin: 15px 0 0 0 !important;
 }
 
 .lista-elementi li {
     padding: 12px 0 !important;
-    border-bottom: 1px solid #ccc !important;
-    display: flex !important;
+    border-bottom: 1px solid #ccc !important; /*linea per seprare un elemento dall altro*/
+    display: flex !important;  /*perr allineare checkbox e testo*/
     align-items: center !important;
     gap: 10px !important;
     font-size: 16px !important;
 }
 
-.aggiungi-item-spesa {
+/*contenitore dell'input*/
+.aggiungi-item-spesa {        
     display: flex !important;
     gap: 10px !important;
     margin-top: 15px !important;
@@ -112,19 +103,20 @@
 }
 
 .aggiungi-item-spesa input {
-    flex-grow: 1 !important;
+    flex-grow: 1 !important; /*per occupare tutto lo spazio residuo*/
     border: 2px solid #ccc !important;
     border-radius: 8px !important;
     padding: 10px 15px !important;
     font-size: 14px !important;
     background-color: #ffffff !important;
-    outline: none !important;
+    outline: none !important; /*rimuove il contorno disegnato dal browser*/
 }
 
 .aggiungi-item-spesa input:focus {
     border-color: #3b6b4c !important;
 }
 
+/*bottone aggiungi*/
 .btn-scan {
     background-color: #3b6b4c !important;
     color: #fffaf0 !important;
@@ -144,7 +136,6 @@
 }
 
 /*barra di ricerca e liste*/
-
 .input-ricerca {
     width: 100% !important;
     padding: 10px !important;
@@ -170,22 +161,9 @@
     height: 18px !important;
 }
 
-/* ==========================================================
-   RESPONSIVE — media query per schermi piccoli
-   ========================================================== */
+/*responsive*/
 
-/* NOTA TECNICA: in questo file tutte le regole usano !important.
-   Di conseguenza siamo costretti a usarlo anche qui dentro,
-   perché una regola senza !important non potrebbe mai
-   sovrascriverne una che ce l'ha, indipendentemente dal fatto
-   che sia scritta dopo o dentro una media query. */
-
-/* TABLET — fino a 1024px:
-   I bottoni restano affiancati, ma più compatti per non
-   occupare tutta la larghezza dello schermo.
-   Va prima del blocco mobile: nella cascata CSS vince l'ultima
-   regola scritta a parità di specificità, quindi le regole
-   mobile (sotto) sovrascrivono queste quando si scende sotto i 768px. */
+/*tablet*/
 @media (max-width: 1024px) {
 
     .bottoni-container {
@@ -199,15 +177,11 @@
     }
 }
 
-/* MOBILE — fino a 768px */
+/*mobile*/
 @media (max-width: 768px) {
 
-    /* I due bottoni principali passano da affiancati a impilati.
-       Affiancati richiederebbero oltre 500px di larghezza
-       (180px minimi + 80px di padding ciascuno + 30px di gap),
-       impossibili su uno schermo da 375px. */
     .bottoni-container {
-        flex-direction: column !important;
+        flex-direction: column !important; /*bottoni da affiancati a impilati*/
         gap: 15px !important;
         align-items: center !important;
     }

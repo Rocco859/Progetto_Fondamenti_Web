@@ -13,7 +13,7 @@ Aiuta l'utente a:
 Rispondi SEMPRE in italiano, in modo amichevole e conciso (massimo 3-4 frasi).
 Non rispondere a domande che non riguardano cibo, cucina o gestione della spesa.`;
 
-const model = genAI.getGenerativeModel({
+const model = genAI.getGenerativeModel({  //isatanza del modello gemini da usare
     model: 'gemini-3.6-flash',
     systemInstruction: {
         role: "system",
@@ -23,27 +23,38 @@ const model = genAI.getGenerativeModel({
 
 exports.inviaMessaggio = async (req, res) => {
     try{
-        const {testo, cronologia} = req.body;
+        const {testo, cronologia} = req.body;  //estrae dal body della richiesta dell utente il messaggio attuale e la cronologia
 
-        if (!testo || testo.trim() === '') {
+
+        //blocca la richiesta se è vuota o fatta da spazi vuoti
+        if (!testo || testo.trim() === '') {   // .trim rimuove gli spazi ai bordi
             return res.status(400).json({
                 success: false, 
                 message: 'Il messaggio non può essere vuoto.' });
         }
+
+
+        //converte il formato della webapp con mittente e testo nel formato accettato dall api di gemini
+        //(un array di oggetti con role e parts). Se il mittente era l'utente si avrà role "user" altrimenti role "model"
         const cronologiaGemini = (cronologia || []).map(msg=>({
             role: msg.mittente === 'utente' ? 'user' : 'model',
             parts: [{text: msg.testo}]
         }))
+
+        //avvio di una sessione di chat con gemini
         const chat = model.startChat({
             history: cronologiaGemini,
         });
-        const risultato = await chat.sendMessage(testo);
-        const rispostaAI =risultato.response.text();
-        res.status(200).json({
+
+
+        const risultato = await chat.sendMessage(testo);  //invio messaggio dell'utente
+        const rispostaAI =risultato.response.text();  //estrae il testo dalla risposta di gemini
+        res.status(200).json({     
             success: true,
             risposta: rispostaAI 
         });
 
+        //gestione errori
     }catch (errore){
         console.error("Errore nel controller cchatbot:", errore.message);
         res.status(500).json({

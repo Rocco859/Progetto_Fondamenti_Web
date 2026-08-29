@@ -4,21 +4,20 @@ import BASE_URL from '../config';
 import { useAppContext } from '../context/AppContext';
 
 
-// Legge isLoggedIn, setActivePopup, refreshTrigger direttamente dal context
+
 function MenuPulsanti() {
-    const { isLoggedIn, setActivePopup, refreshTrigger } = useAppContext();
+    const { isLoggedIn, setActivePopup, refreshTrigger } = useAppContext();  //recupero dal context
     const [isFrigoOpen, setIsFrigoOpen] = useState(false);
     const [isSpesaOpen, setIsSpesaOpen] = useState(false);
 
+    //stati per la spesa
     const [listaSpesa, setListaSpesa] = useState([]);
     const [loadingSpesa, setLoadingSpesa] = useState(false);
     const [nuovoAlimento, setNuovoAlimento] = useState('');
 
-    // --- NUOVI STATI PER IL FRIGO ---
+    //stati per il frigo
     const [alimentiFrigo, setAlimentiFrigo] = useState([]);
     const [loadingFrigo, setLoadingFrigo] = useState(false);
-
-    // --- STATO PER LA RICERCA NEL FRIGO ---
     const [ricercaFrigo, setRicercaFrigo] = useState('');
 
     const handleAggiungiSpesa = async () => {
@@ -44,7 +43,7 @@ function MenuPulsanti() {
         }
     };
 
-    // 2. Creiamo il "Buttafuori" per il Frigo
+    //controllo per il frigo
     const handleClickFrigo = () => {
         if (isLoggedIn) {
             setIsFrigoOpen(true); // Se è loggato, apre il suo frigo
@@ -53,7 +52,7 @@ function MenuPulsanti() {
         }
     };
 
-    // 3. Creiamo il "Buttafuori" per la Spesa
+    //controllo per la spesa (funziona come il frigo)
     const handleClickSpesa = () => {
         if (isLoggedIn) {
             setIsSpesaOpen(true);
@@ -75,7 +74,7 @@ function MenuPulsanti() {
             });
 
             if (response.ok) {
-                // Se il backend conferma l'eliminazione, rimuoviamolo anche dall'array visibile senza ricaricare la pagina
+                //se l'eliminazione è confermata viene eliminato anche nell array
                 setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
             } else {
                 console.error("Errore durante l'eliminazione");
@@ -85,7 +84,7 @@ function MenuPulsanti() {
         }
     };
 
-    // Effettua la chiamata al backend per ottenere il frigo quando si apre il popup
+    //funzione quando apriamo il tasto firgo
     useEffect(() => {
         if (isFrigoOpen) {
             setRicercaFrigo(''); // Resetta la barra di ricerca all'apertura
@@ -102,7 +101,7 @@ function MenuPulsanti() {
                     const data = await response.json();
 
                     if (response.ok) {
-                        // Se il backend restituisce i dati, li salviamo (adattalo se la struttura JSON è diversa)
+                        //se il backend da conferma salviamo i dati che ci passa
                         setAlimentiFrigo(data.alimenti || data || []);
                     } else {
                         console.error("Errore nel caricamento del frigo:", data.message);
@@ -117,7 +116,7 @@ function MenuPulsanti() {
         }
     }, [isFrigoOpen, refreshTrigger]); // Si attiva ogni volta che apri il frigo o quando aggiungi un nuovo alimento
 
-    // Effettua la chiamata al backend per ottenere la lista della spesa quando si apre il popup
+    //funzione quando aprimao la spesa (uguale al frigo)
     useEffect(() => {
         if (isSpesaOpen) {
             const fetchSpesa = async () => {
@@ -145,6 +144,8 @@ function MenuPulsanti() {
         }
     }, [isSpesaOpen, refreshTrigger]);
 
+
+    //uguale a frigo
     const handleRimuoviDaSpesa = async (id) => {
         try {
             const token = localStorage.getItem('tokenFridgy');
@@ -162,7 +163,7 @@ function MenuPulsanti() {
         }
     };
 
-    // Filtra gli alimenti in base al testo inserito nella barra di ricerca
+    //funzione per la ricerca
     const alimentiFiltrati = alimentiFrigo.filter(alimento =>
         (alimento.nomeAlimento || alimento.nome || '').toLowerCase().includes(ricercaFrigo.toLowerCase())
     );
@@ -171,7 +172,7 @@ function MenuPulsanti() {
         <div className="pulsanti-container">
 
             <div className="bottoni-container">
-                {/* ORA USANO LE FUNZIONI COL BUTTAFUORI */}
+            
                 <button className="btn-card" onClick={handleClickFrigo}>
                     IL TUO<br />FRIGO
                 </button>
@@ -179,7 +180,7 @@ function MenuPulsanti() {
                     LISTA<br />SPESA
                 </button>
             </div>
-            {/* MODALE FRIGO */}
+            {/*Frigo*/}
             {isFrigoOpen && (
                  <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-frigo" onClick={() => setIsFrigoOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
@@ -187,7 +188,7 @@ function MenuPulsanti() {
 
                         <h2 id="titolo-frigo">CONTENUTO FRIGO</h2>
 
-                        {/* BARRA DI RICERCA */}
+                        {/*barra di ricerca*/}
                         <input
                             type="text"
                             placeholder="Cerca alimento nel frigo..."
@@ -198,11 +199,11 @@ function MenuPulsanti() {
 
                         <ul className="lista-elementi lista-scrollabile">
                             {loadingFrigo ? (
-                                <li>Caricamento in corso... ⏳</li>
+                                <li>Caricamento in corso...</li>
                             ) : alimentiFrigo.length === 0 ? (
-                                <li>Il tuo frigo è vuoto! ❄️</li>
+                                <li>Il tuo frigo è vuoto!</li>
                             ) : alimentiFiltrati.length === 0 ? (
-                                <li>Nessun alimento trovato. 🔍</li>
+                                <li>Nessun alimento trovato.</li>
                             ) : (
                                 alimentiFiltrati.map((alimento, index) => (
                                     <li key={alimento._id || index}>
@@ -212,7 +213,7 @@ function MenuPulsanti() {
                                             className="checkbox-rimozione"
                                         />
                                         <span>
-                                            🥦 {alimento.nomeAlimento || alimento.nome}
+                                            {alimento.nomeAlimento || alimento.nome}
                                             {alimento.dataScadenza || alimento.scadenzaAlimento ? ` (Scad: ${new Date(alimento.dataScadenza || alimento.scadenzaAlimento).toLocaleDateString()})` : ''}
                                             {alimento.quantita || alimento.quantitaAlimento ? ` - Qtà: ${alimento.quantita || alimento.quantitaAlimento}` : ''}
                                         </span>
@@ -224,7 +225,7 @@ function MenuPulsanti() {
                 </div>
             )}
 
-            {/* MODALE SPESA */}
+            {/*spesa*/}
             {isSpesaOpen && (
                     <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-spesa" onClick={() => setIsSpesaOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
@@ -246,9 +247,9 @@ function MenuPulsanti() {
 
                         <ul className="lista-elementi">
                             {loadingSpesa ? (
-                                <li>Caricamento in corso... ⏳</li>
+                                <li>Caricamento in corso...</li>
                             ) : listaSpesa.length === 0 ? (
-                                <li>La tua lista della spesa è vuota! 🛒</li>
+                                <li>La tua lista della spesa è vuota!</li>
                             ) : (
                                 listaSpesa.map((item) => (
                                     <li key={item._id}>
@@ -257,7 +258,7 @@ function MenuPulsanti() {
                                             onChange={() => handleRimuoviDaSpesa(item._id)}
                                             className = "checkbox-rimozione"
                                         />
-                                        <span>🛒 {item.nome}</span>
+                                        <span>{item.nome}</span>
                                     </li>
                                 ))
                             )}

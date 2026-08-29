@@ -1,34 +1,16 @@
-/* ==========================================================
-   ChatbotWidget.css  –  Stili del widget Chatbot
-   Fridgy Web App
-   ========================================================== */
-
-
-/* ── Animazioni ── */
-@keyframes bounce {
-    0%, 80%, 100% { transform: translateY(0); }
-    40%           { transform: translateY(-6px); }
-}
-
-@keyframes slideFadeIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0)    scale(1);    }
-}
-
-
-/* ── Contenitore principale (fisso in basso a sinistra) ── */
+/*contenitore principale (pillola in basso asinistra)*/
 .chatbot-widget {
     position: fixed;
     bottom: 40px;
     left: 40px;
     z-index: 1000;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /*i figli saranno disposti in colonna*/
     align-items: flex-start;
 }
 
 
-/* ── Finestra della chat ── */
+/*Finestra della chat*/
 .chat-window {
     background-color: #ffffff;
     border-radius: 20px;
@@ -38,12 +20,10 @@
     overflow: hidden;
     margin-bottom: 30px;
     height: 500px;
-    box-shadow: 0 20px 60px rgba(59, 107, 76, 0.18);
-    animation: slideFadeIn 0.25s ease forwards;
 }
 
 
-/* ── Header della chat ── */
+/*header*/
 .chat-header {
     background-color: #3b6b4c;
     color: #ffffff;
@@ -65,24 +45,18 @@
     margin: 0;
 }
 
+/*X*/
 .chat-header-chiudi {
     background: none;
     border: none;
     color: #ffffff;
     font-size: 20px;
     cursor: pointer;
-    line-height: 1;
     padding: 4px;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-}
-
-.chat-header-chiudi:hover {
-    opacity: 1;
 }
 
 
-/* ── Body: area dei messaggi ── */
+/*corpo messaggi*/
 .chat-body {
     flex: 1;
     padding: 15px;
@@ -91,7 +65,7 @@
 }
 
 
-/* ── Footer: input e bottone invio ── */
+/*footer*/
 .chat-footer {
     background-color: #f0f0f0;
     padding: 15px;
@@ -127,7 +101,6 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 .chat-bottone-invio:disabled {
@@ -136,18 +109,18 @@
 }
 
 
-/* ── Singolo messaggio ── */
+/*Singolo messaggio*/
 .messaggio-riga {
     display: flex;
     margin-bottom: 10px;
 }
 
 .messaggio-riga.utente {
-    justify-content: flex-end;
+    justify-content: flex-end; /*posto a destra*/
 }
 
 .messaggio-riga.ai {
-    justify-content: flex-start;
+    justify-content: flex-start; /*posto a sinistra*/
 }
 
 .messaggio-nuvoletta {
@@ -171,7 +144,7 @@
 }
 
 
-/* ── Indicatore di caricamento (pallini) ── */
+/*pallini*/
 .caricamento-riga {
     display: flex;
     justify-content: flex-start;
@@ -193,11 +166,10 @@
     border-radius: 50%;
     background-color: #3b6b4c;
     display: inline-block;
-    animation: bounce 1.2s infinite;
 }
 
 
-/* ── Bottone apri/chiudi in basso ── */
+/*bottone apri/chiudi*/
 .chatbot-btn {
     background-color: #3b6b4c; 
     color: #ffffff;
@@ -211,7 +183,6 @@
     font-size: 15px;
     box-shadow: 0 8px 20px rgba(59, 107, 76, 0.3); 
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
     white-space: nowrap;
 }
 
@@ -228,7 +199,7 @@
     height: 60px;
     min-width: 30px;
     min-height: 30px;
-    flex-shrink: 0;
+    flex-shrink: 0;  /*impedisce all elemento di restringersi se lo spazio nel contenitore non basta*/
     border-radius: 50%;
     border: 2px solid #ffffff;
     background-color: #6aad80;
@@ -241,14 +212,9 @@
 }
 
 
-/* ==========================================================
-   RESPONSIVE — media query per schermi piccoli
-   ========================================================== */
+/*responsive*/
 
-/* TABLET — fino a 1024px:
-   La finestra si restringe leggermente rispetto al desktop,
-   per non occupare una fetta eccessiva dello schermo.
-   Stesso motivo di ordine spiegato in MenuPulsanti.css. */
+/*tablet*/
 @media (max-width: 1024px) {
 
     .chat-window {
@@ -262,7 +228,7 @@
     }
 }
 
-/* MOBILE — fino a 768px */
+/*mobile*/
 @media (max-width: 768px) {
 
     .chatbot-widget {

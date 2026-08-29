@@ -1,26 +1,25 @@
     .sr-only {
-      position: absolute;
-      width: 1px;
+      position: absolute; /*toglie l'elemento dal flusso del documento*/
+      width: 1px;  /*non a zero perchè alcuni screen reader ignorano gli elementi con dimensione 0*/
       height: 1px;
       padding: 0;
       margin: -1px;
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
+      white-space: nowrap;  /*impedisce che il testo vada a capo*/
       border: 0;
     }
 
     .layout-principale {
       display: flex;
-      justify-content: space-between;
-      gap: 40px;
+      justify-content: space-between;  /*dispone le colonne di destra e di sinistra alla massima distanza tra di loro*/
+      gap: 40px;      /*spazio minimo grantito*/
       max-width: 1200px;
       margin: 0 auto;
       width: 100%;
     }
 
     .colonna-sinistra {
-      align-items: center;
       width: 100%;
     }
 
@@ -29,7 +28,7 @@
     }
 
     .quick-add-bar {
-      display: flex;
+      display: flex;       /*dispone gli elementi in riga allineati verticalmente al centro*/
       align-items: center;
       background-color: #fffaf0;
       border: 2px solid #3d3c3c;
@@ -41,16 +40,16 @@
     }
 
     .btn-add {
-      background: none;
+      background: none;  /*rimuove lo stile di defoult applicato dal browser*/
       border: none;
       font-size: 28px;
       color: #3d3c3c;
-      cursor: pointer;
+      cursor: pointer;  /*manina*/
       padding: 0 5px;
       font-weight: bold;
     }
 
-    .quick-add-bar input {
+    .quick-add-bar input {    /*per rimuovere  il bordo e lo sfondo di defoult a tutti gli input discendenti do quick add bar*/
       border: none;
       background: transparent;
       color: #3d3c3c;
@@ -60,10 +59,11 @@
     }
 
     #nomeAlimento {
-      flex-grow: 1;
+      flex-grow: 1; /*per occupare lo spazio extra disponibile*/
       text-transform: uppercase;
       width: 250px;
     }
+
     #quantitaAlimento {
       flex-grow: 1;
       width: 120px;
@@ -74,7 +74,7 @@
       font-family: inherit;
     }
 
-    .btn-barcode {
+   /* .btn-barcode {
       background-color: transparent;
       border: 2px solid #3d3c3c;
       border-radius: 8px;
@@ -84,56 +84,36 @@
       color: #3d3c3c;
       cursor: pointer;
       letter-spacing: 2px;
-    }
+    }  */
 
-/* ==========================================================
-   RESPONSIVE — media query per schermi piccoli
-   ========================================================== */
 
-/* Questa media query si attiva SOLO quando la larghezza dello
-   schermo è al massimo 767px (smartphone in verticale).
-   Sopra i 767px, tutto ciò che sta qui dentro viene ignorato
-   e resta valido il layout originale scritto più in alto. */
-@media screen and (max-width: 767px) {
+/*responsive*/
+@media (max-width: 768px) {
 
-    .quick-add-bar {
-        /* Da "row" (default del flex) a "column": gli elementi
-           si dispongono uno SOTTO l'altro invece che in fila */
-        flex-direction: column;
+    .quick-add-bar {  
+       
+        flex-direction: column;  /*elementi ora disposti in colonna e non più in fila
 
-        /* "stretch" fa sì che ogni figlio occupi tutta la
-           larghezza del contenitore, invece di restringersi
-           al proprio contenuto */
-        align-items: stretch;
+       
+        align-items: stretch;      /*stretch fa si che ogni figlio occupi tutta la larghezza del contenitore*/
 
-        /* 50px di raggio erano pensati per una barra
-           orizzontale (effetto pillola). Su un blocco
-           verticale risulterebbe deformato: 25px è più
-           equilibrato */
-        border-radius: 25px;
+        
+        border-radius: 25px;  /*da 50 a 25 */
 
-        /* Padding uniforme e ridotto: su schermo stretto
-           ogni pixel orizzontale conta */
         padding: 20px;
 
-        /* Un po' meno spazio tra i campi impilati */
         gap: 12px;
     }
 
-    /* Le larghezze fisse (250px, 120px, 150px) servivano per
-       distribuire lo spazio in orizzontale. Impilati, ogni
-       campo deve semplicemente occupare tutta la riga. */
-    #nomeAlimento,
+    
+    #nomeAlimento,           /*ogni campo deve ora occupare tutta la riga*/
     #quantitaAlimento,
     #data-scadenza {
         width: 100%;
         text-align: center;
     }
 
-    /* Il pulsante "+" diventa una riga a sé stante, con una
-       linea di separazione sotto, così resta ben distinguibile
-       dai campi di input invece di sembrarne parte */
-    .btn-add {
+    .btn-add {                    /* Il pulsante "+" diventa una riga a sé stante*/
         width: 100%;
         padding: 8px 0;
         border-bottom: 2px solid #3d3c3c;

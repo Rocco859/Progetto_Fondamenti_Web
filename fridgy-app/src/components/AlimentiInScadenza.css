@@ -4,36 +4,31 @@
     padding: 20px 60px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
-    flex-direction: column;
+    flex-direction: column;  /*dispone i figli diretti in colonna*/
     overflow: hidden;
     min-height: 400px;
     width: 25%;
-    margin-right: 0;    /* era 25px: quel margine spostava il bordo destro
-                            del widget 25px più a sinistra rispetto al bordo
-                            del layout, e quindi rispetto alla navbar */
+    margin-right: 0;    
     box-sizing: border-box;
     height: 90%;
-    /* NOTA: rimossi "grid-area: sidebar" (nessun antenato usa display:grid,
-       quindi non aveva effetto) e un "height: auto" duplicato che veniva
-       comunque sovrascritto da "height: 90%" più in basso */
 }
 
 .titolo-scadenza {
-    white-space: nowrap;
+    white-space: nowrap;  /*impedisce al testo di andare a capo*/
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;  /*mostra i tre punti di sospensione se viene tagliato il testo*/
 }
 
 .lista-scadenza-conteiner {
-    flex-grow: 1;
+    flex-grow: 1;   /*occupa tutto lo spazio verticale residuo*/
     overflow-y: auto;
     padding-right: 8px;
     overflow-x: hidden;
 }
 
-.item-scadenza {
+.item-scadenza {   /*card di ogni singolo alimentp*/
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  /*dispone i tre elmeneti in riga e allineati al centro*/
     align-items: center;
     width: 100%;
     background: #fcfcfc;
@@ -45,7 +40,7 @@
 }
 
 .item-centro {
-    flex-grow: 1;
+    flex-grow: 1;       /*occupa tutto lo spazio orizzontale disponibile*/
     text-align: left;
     margin-left: 12px;
     margin-right: 12px;
@@ -82,20 +77,20 @@
     text-overflow: ellipsis;
 }
 
-/* --- MOBILE: fino a 768px --- */
+
+/*responsive*/
+/*mobile*/
 @media (max-width: 768px) {
-    /* Qui SOLO le proprietà che cambiano: il widget passa da colonna
-       laterale stretta a blocco impilato a larghezza piena */
     #alimenti-scadenza-widget {
-        width: 100%;        /* era 25%: ora è sotto, non più affiancato */
-        padding: 20px;      /* era 20px 60px: 60px per lato su uno schermo
-                                da 375px lascerebbe pochissimo spazio utile */
-        height: auto;       /* era 90%, percentuale legata alla riga flex
-                                desktop che ora non esiste più */
-        min-height: 300px;  /* ridotto rispetto ai 400px desktop */
+        width: 100%;        /*schermo intero*/
+        padding: 20px;      
+                               
+        height: auto;       
+                                
+        min-height: 300px;  
     }
 
     .item-scadenza {
-        padding: 15px 20px; /* era 20px 50px */
+        padding: 15px 20px;
     }
 }

@@ -3,14 +3,12 @@ const User = require('../models/User');
 const httpStatus = require('http-status-codes');
 
 async function verificaTokenEUtente(token) {
-    // jwt.verify lancia un'eccezione sincrona se il token non è valido
-    // o è scaduto (errori chiamati "JsonWebTokenError" o "TokenExpiredError").
-    // Non serve try/catch qui, lasciamo che l'eccezione salga a chi ha
-    // chiamato questa funzione (uno tra authMiddleware.js o socket.js)
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // jwt.verify lancia un'eccezione sincrona se il token non è valido
+    // o è scaduto(Errori "JsonWebTokenError" o "TokenExpiredError"), non si usa try catch, l'eccezione sale fino a chi ha chaiamato la funzione
 
-    //verifica che l'utente sia ancora presente nel db
-    const user = await User.findById(decoded.id);
+    
+    const user = await User.findById(decoded.id);//verifica che l'utente sia ancora presente nel db
 
     if (!user) {
         const error = new Error("Utente non trovato");

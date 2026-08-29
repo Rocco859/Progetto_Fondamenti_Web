@@ -1,7 +1,7 @@
-# Dipendenze (ricostruibili con npm install)
+# dipendenze che si ricostruiscono con npm install
 node_modules/
 
-# Variabili d'ambiente con credenziali reali
+# Variabili d'ambiente con credenziali
 .env
 
 # Build di produzione

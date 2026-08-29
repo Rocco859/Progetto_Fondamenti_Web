@@ -1,4 +1,4 @@
-/* --- STRUTTURA DELLA NAVBAR --- */
+
 .navbar-container {
     background-color: #fffaf0;
     border-radius: 50px;
@@ -7,13 +7,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 40px; 
-    width: calc(100% - 40px);  /* identico al layout: è ciò che garantisce
-                                   che i bordi destro e sinistro dei due
-                                   elementi coincidano */
+    width: calc(100% - 40px);  
     margin: 15px auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    position: relative;
-    /* RIMOSSO "max-width: 1600px", stesso motivo del layout in App.css */
+    position: relative;  /*lo rende positioning context per il menu a tendina*/
 }
 .section-sx {
     display: flex;
@@ -33,7 +30,7 @@
     align-items: center;
 }
 
-/* --- PULSANTI ACCEDI / REGISTRATI --- */
+/*ACCEDI/REGISTRATI*/
 .btn-accreg-nav {
     display: flex;
     flex-direction: row;
@@ -43,7 +40,7 @@
     list-style: none; /* Rimuove i pallini della lista */
 }
 
-/* Lo stile pulito applicato direttamente sul tag <a> */
+/*stile dei link*/
 .link-nav {
     color: #3d3c3c !important;
     font-size: 16px !important;
@@ -59,14 +56,10 @@
     color: #3b6b4c !important; /* Diventa verde quando ci passi sopra */
 }
 
-/* --- UTENTE LOGGATO --- */
+/*utente loggato*/
 .section-dx {
     display: flex;
     align-items: center;
-    /* AGGIUNTA: senza questa riga un elemento flex non si restringe mai
-       sotto la larghezza naturale del proprio contenuto (ha un
-       "min-width: auto" implicito) — la catena di restringimento verso
-       .nomeutente qui sotto si bloccherebbe subito */
     min-width: 0;
 }
 
@@ -76,7 +69,6 @@
     align-items: center;
     gap: 12px;
     cursor: pointer;
-    /* AGGIUNTA: stesso motivo di .section-dx, un livello più dentro */
     min-width: 0;
 }
 
@@ -87,18 +79,10 @@
     text-decoration: none;
     margin-right: 10px;
     margin-top: 5px;
-
-    /* AGGIUNTE — sostituiscono il vecchio max-width:100px fisso, che
-       troncava il testo SEMPRE, a prescindere da quanto spazio ci fosse
-       davvero */
-    min-width: 0;             /* permette allo span di restringersi oltre
-                                  la larghezza naturale del testo */
+    min-width: 0;             
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    /* niente max-width numerico: il browser calcola da solo quanto
-       spazio resta (larghezza navbar meno logo, meno bottone ☰, meno
-       gap) e tronca SOLO se quello spazio è davvero insufficiente */
 }
 
 
@@ -112,7 +96,7 @@
     margin: 0 !important;
 }
 
-/* --- MENU A TENDINA UTENTE --- */
+/*menu a tendina*/
 .menu-tendina {
     position: absolute; 
     top: 65px; 
@@ -151,10 +135,7 @@
     color: #d32f2f !important; 
 }
 
-/* --- TABLET/MOBILE: fino a 768px ---
-   .section-dx / .accesso-eff / .nomeutente NON compaiono qui perché la
-   protezione (min-width:0 + ellissi) è nella regola base qui sopra e
-   vale già a QUALSIASI larghezza schermo, non solo sotto 768px */
+/*responsive*/
 @media (max-width: 768px) {
     .navbar-container {
         padding: 10px 16px;  /* era 10px 40px: 40px per lato è troppo su

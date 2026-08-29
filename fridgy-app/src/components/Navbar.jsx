@@ -3,19 +3,19 @@ import './Navbar.css';
 import { useAppContext } from '../context/AppContext';
 
 function Navbar() {
-    const { isLoggedIn, nomeUtente, setActivePopup, handleLogout } = useAppContext();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isLoggedIn, nomeUtente, setActivePopup, handleLogout } = useAppContext(); //estrazione dal context*/
+    const [isMenuOpen, setIsMenuOpen] = useState(false); //stato locale
 
     return (
         <nav className="navbar-container">
-            {/* PARTE SINISTRA: LOGO */}
+            {/*parte sinistra (manca il logo)*/}
             <div className="section-sx">
                 <section className="logo">
                     <h1>Fridgy</h1>
                 </section>
             </div>
 
-            {/* SE NON È LOGGATO */}
+            {/*se non loggato*/}
             {!isLoggedIn && (
                 <div className="sectionnolog-dx">
                     <ul className="btn-accreg-nav">
@@ -33,7 +33,7 @@ function Navbar() {
                 </div>
             )}
 
-            {/* SE È LOGGATO */}
+            {/*utente loggato*/}
             {isLoggedIn && (
                 <div className='section-dx'>
                     <div className='accesso-eff' onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -43,10 +43,7 @@ function Navbar() {
                 </div>
             )}
 
-            {/* MENU A TENDINA
-                Rimosso il tag <aside>! Ora il div è libero di galleggiare
-                con il suo "position: absolute" senza rompere il Flexbox.
-            */}
+            {/*menu a tendina*/}
             {isLoggedIn && isMenuOpen && (
                 <div className="menu-tendina aperta">
                     <a href="#" className="testo-rosso" onClick={(e) => {

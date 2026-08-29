@@ -159,6 +159,7 @@ function ChatbotWidget() {
             {/*header*/}
             <div className="chat-header">
               <div className="chat-header-info">
+                <img src="/chatbot-logo.png" alt="Assistente Fridgy" className="chat-header-logo" />
                 <h3>Assistente Fridgy</h3>
               </div>
               {/*X*/}
@@ -207,7 +208,10 @@ function ChatbotWidget() {
           onClick={toggleChat}
         >
           <div className="chatbot-btn-icona">
-            {aperta ? "✕" : "🤖"} {/* icona X se aperta, icona se chiusa */}
+            {aperta ?(
+              "✕" 
+            ):(
+             <img src="/chatbot-logo.png" alt="Assistente Fridgy" className="chatbot-logo-img" />)} {/* icona X se aperta, icona se chiusa */}
           </div>
           <span>{aperta ? "CHIUDI CHAT" : "CHAT CON AI"}</span> {/* testo del bottone */}
         </button>

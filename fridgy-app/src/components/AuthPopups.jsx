@@ -13,7 +13,6 @@ function AuthPopups() {
     //variabili di stato locali
     const [nome, setNome] = useState('');
     const [cognome, setCognome] = useState('');
-    const [codiceFiscale, setCodiceFiscale] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confermaPassword, setConfermaPassword] = useState('')
@@ -35,7 +34,6 @@ function AuthPopups() {
                 body: JSON.stringify({
                     nome: nome,
                     cognome: cognome,
-                    codiceFiscale: codiceFiscale,
                     email: email,
                     password: password
                 })
@@ -103,7 +101,6 @@ function AuthPopups() {
                 <form onSubmit={handleRegister}>
                     <input type="text" id="Nome" className="input-logreg" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
                     <input type="text" id="Cognome" className="input-logreg" placeholder="Cognome" value={cognome} onChange={(e) => setCognome(e.target.value)} required />
-                    <input type="text" id="codiceFiscale" className="input-logreg" placeholder="Codice Fiscale" minLength="16" value={codiceFiscale} onChange={(e) => setCodiceFiscale(e.target.value)} maxLength="16" required />
                     <input type="email" id="email" className="input-logreg" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     <input type="password" id="Password" className="input-logreg" placeholder="Password" minLength="8" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     <input type="password" id="ConfermaPassword" className="input-logreg" placeholder="Conferma Password" minLength="8" value={confermaPassword} onChange={(e) => setConfermaPassword(e.target.value)} required />

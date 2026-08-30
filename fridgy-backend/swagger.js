@@ -56,11 +56,10 @@ const options = {
                 // ---------- Autenticazione ----------
                 RegisterRequest: {
                     type: "object",
-                    required: ["nome", "cognome", "codiceFiscale", "email", "password"],
+                    required: ["nome", "cognome", "email", "password"],
                     properties: {
                         nome: { type: "string", example: "Rocco" },
                         cognome: { type: "string", example: "Colicchio" },
-                        codiceFiscale: { type: "string", example: "CLCRCC00A01A662X" },
                         email: { type: "string", format: "email", example: "rocco@example.com" },
                         password: { type: "string", format: "password", minLength: 8, example: "password123" },
                     },

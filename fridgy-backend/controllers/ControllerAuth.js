@@ -6,10 +6,10 @@ const { campiMancanti } = require('../utils/validazione');
 //Registrazione
 exports.register = async (req, res) => {
   try {
-    const { nome, cognome, codiceFiscale, email, password } = req.body; //destrutturazione della richiesta json mandata dal client
+    const { nome, cognome, email, password } = req.body; //destrutturazione della richiesta json mandata dal client
 
     //in caso di campi non compilati da errore
-    const mancanti = campiMancanti(req.body, ['nome', 'cognome', 'codiceFiscale', 'email', 'password']);
+    const mancanti = campiMancanti(req.body, ['nome', 'cognome', 'email', 'password']);
     if (mancanti.length > 0){
       return res.status(400).json({
         success: false,
@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //Creazione utente con password criptata e salvataggio nel db
-    const nuovoUtente = new User({ nome, cognome, codiceFiscale, email, password: hashedPassword });
+    const nuovoUtente = new User({ nome, cognome, email, password: hashedPassword });
     await nuovoUtente.save();
 
     //token jwt
@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
 
     //errori in caso di duplicati
     if (error.code === 11000) {
-      return res.status(400).json({ success: false, message: "Email o codice fiscale già registrati." });
+      return res.status(400).json({ success: false, message: "Email già registrata." });
     }
 
     console.error("Errore nella registrazione:", error);

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import BASE_URL from '../config';
+import { chatbot } from '../services/api';
 import "./ChatbotWidget.css";
 
 /*vomponente da lasciare fuori a chatbotWidget per non ricaricarlo a ogni render*/
@@ -94,33 +94,15 @@ function ChatbotWidget() {
         //prende il valore di messaggi senza l'ultimo messaggio, l ultimo messaggio inviato verrà inviato nel body nel campo testo
 
       //Chiamata al backend
-      const risposta = await fetch(`${BASE_URL}/api/v1/chatbot/messaggio`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`   // invia il token per autenticazione
-        },
-        body: JSON.stringify({
-          testo: testo,          //ultimo messaggio inviato
-          cronologia: cronologiaPerBackend  //cronologia prima dell'ultimo messaggio
-        }),
-      });
-
-      //controlla se la risposta http sia andata a buonfine
-      if (!risposta.ok) {
-        throw new Error(`Errore HTTP: ${risposta.status}`);
-      }
-
-      const dati = await risposta.json();
+      // api.js si occupa di token, header e controllo dello status HTTP:
+      // se qualcosa va storto lancia un'eccezione, catturata dal catch qui sotto
+      const dati = await chatbot.inviaMessaggio(testo, cronologiaPerBackend);
 
       //Aggiunta risposta dell'ai
-      if (dati.success) {
-        setMessaggi((prev) => [...prev,
-          { id: Date.now(), testo: dati.risposta, mittente: "ai", tipo: 'normale' }
-        ]);
-      } else {
-        throw new Error(dati.message || "Errore sconosciuto dal server");
-      }
+      setMessaggi((prev) => [...prev,
+        { id: Date.now(), testo: dati.risposta, mittente: "ai", tipo: 'normale' }
+      ]);
+
     } catch (errore) {
       console.error("Errore nella chiamata al backend:", errore);
       setMessaggi((prev) => [...prev,

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import BASE_URL from '../config';
+import React, { useState } from 'react';
+import { frigo } from '../services/api';
 import './AddAlimento.css';
 import { useAppContext } from '../context/AppContext';
 
@@ -17,39 +17,21 @@ function AddAlimento() {
         
         e.preventDefault();  //no refresh browser
         try {
-            //recupero token  dal localstoreg
-            const token = localStorage.getItem('tokenFridgy');
+            // Una riga sola: il token e gli header li mette api.js
+            const data = await frigo.aggiungi(nomeAlimento, quantitaAlimento, scadenzaAlimento);
 
-            //chiamata http al backend per aggiungere l'alimento
-            const response = await fetch(`${BASE_URL}/api/v1/frigo/aggiungi`, {
-                //header
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                //payload
-                body: JSON.stringify({
-                    nomeAlimento: nomeAlimento,
-                    quantitaAlimento: quantitaAlimento,
-                    scadenzaAlimento: scadenzaAlimento
-                })
-            });
+            aggiungiMessaggio("Alimento aggiunto al frigo!");
+            setNomeAlimento('');
+            setQuantitaAlimento('');
+            setScadenzaAlimento('');
+            setRefreshTrigger(prev => !prev); //fa ricaricare MenuPulsanti e AlimentiInScadenza
 
-
-            const data = await response.json();  //converte la risposta del server da json a oggetto js
-            
-            if (data.success) {
-                aggiungiMessaggio("Alimento aggiunto al frigo!"); //notifica di aggiunta
-                setNomeAlimento('');
-                setQuantitaAlimento('');
-                setScadenzaAlimento('');
-                setRefreshTrigger(prev => !prev); //fa ricaricare MenuPulsanti e AlimentiInScadenza
-            } else { 
-                aggiungiMessaggio("Errore: " + data.message);
-            }
         } catch (error) {
+            // Prima c'era un "else" per l'errore del server e un "catch"
+            // per l'errore di rete. Ora api.js lancia un'eccezione in
+            // entrambi i casi, quindi basta un solo blocco
             console.error("Errore nell'aggiunta:", error);
+            aggiungiMessaggio("Errore: " + error.message);
         }
     };
 

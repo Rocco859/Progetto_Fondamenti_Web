@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './AuthPopups.css';
-import BASE_URL from '../config';
+import { auth } from '../services/api';
 import { useAppContext } from '../context/AppContext';
 
 function AuthPopups() {
@@ -25,32 +25,23 @@ function AuthPopups() {
             return;
         }
 
-        try {
+                try {
+            const data = await auth.registra(nome, cognome, email, password);
 
-            //chiamata http all endpoint della registrazione
-            const response = await fetch(`${BASE_URL}/api/v1/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    nome: nome,
-                    cognome: cognome,
-                    email: email,
-                    password: password
-                })
-            });
+            //se la registrazione ha successo mostra il messaggio di conferma,
+            //salva il token, aggiorna lo stato globale e chiude il popup
+            aggiungiMessaggio(data.message);
+            localStorage.setItem('tokenFridgy', data.token);
+            setIsLoggedIn(true);
+            onClose();
 
-            const data = await response.json();
-            if (data.success) {                                     //se la registrazione ha successo mostra il messaggio di conferma
-                aggiungiMessaggio(data.message);                    //salva il token, aggiorna lo stato globale e chiude il popup
-                localStorage.setItem('tokenFridgy', data.token);
-                setIsLoggedIn(true);
-                onClose();
-            } else {
-                aggiungiMessaggio("Errore: " + data.message);
-            }
         } catch (error) {
-            console.error("Errore di connessione al server:", error);
-            aggiungiMessaggio("Impossibile contattare il server. Riprova più tardi.");
+            // Un solo catch per due casi che prima erano separati:
+            // errore del server (es. "Email già registrata") ed errore di rete.
+            // error.message contiene già il messaggio del backend, quindi
+            // l'utente vede l'errore giusto invece di uno generico
+            console.error("Errore nella registrazione:", error);
+            aggiungiMessaggio("Errore: " + error.message);
         }
     };
 
@@ -58,25 +49,17 @@ function AuthPopups() {
     //più o meno come register
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`${BASE_URL}/api/v1/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, password: password })
-            });
+                try {
+            const data = await auth.accedi(email, password);
 
-            const data = await response.json();
-            if (data.success) {
-                aggiungiMessaggio(data.message);
-                localStorage.setItem('tokenFridgy', data.token);
-                setIsLoggedIn(true);
-                onClose();
-            } else {
-                aggiungiMessaggio("Errore: " + data.message);
-            }
+            aggiungiMessaggio(data.message);
+            localStorage.setItem('tokenFridgy', data.token);
+            setIsLoggedIn(true);
+            onClose();
+
         } catch (error) {
-             console.error("Errore di connessione al server:", error);
-            aggiungiMessaggio("Impossibile contattare il server. Riprova più tardi.");
+            console.error("Errore nel login:", error);
+            aggiungiMessaggio("Errore: " + error.message);
         }
     };
 

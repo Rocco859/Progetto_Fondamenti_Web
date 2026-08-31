@@ -44,7 +44,7 @@ export function AppProvider({ children }) {
 
         const token = localStorage.getItem('tokenFridgy');
         if (!token) return;
-        
+
         //apertura connessione verso il backend
         const socket = io(BASE_URL, {
             auth: { token }
@@ -78,16 +78,28 @@ export function AppProvider({ children }) {
     }, [isLoggedIn]);  //si riattiva ogni volta che lo stato del login cambia
 
     /* Aggiunge un nuovo messaggio all'array*/
+    const DURATA_MESSAGGIO = 4000;
+
+    /* Aggiunge un nuovo messaggio all'array e ne programma la rimozione */
     const aggiungiMessaggio = (testo) => {
-        const nuovoMessaggio = { id: Date.now(), testo: testo };
+        const nuovoMessaggio = { id: `${Date.now()}-${Math.random()}`, testo: testo };
         setMessaggiNonLetti(precedenti => [...precedenti, nuovoMessaggio]);
+
+        // setTimeout esegue la funzione una volta sola, dopo il ritardo indicato.
+        // Filtriamo per id (non per posizione) perché nel frattempo l'utente
+        // potrebbe aver chiuso altri messaggi a mano, cambiando l'ordine
+        setTimeout(() => {
+            setMessaggiNonLetti(precedenti =>
+                precedenti.filter(m => m.id !== nuovoMessaggio.id)
+            );
+        }, DURATA_MESSAGGIO);
     };
 
     /* Rimuove un messaggio dall'array quando l'utente lo "legge"*/
     const rimuoviMessaggio = (id) => {
         setMessaggiNonLetti(precedenti => precedenti.filter(m => m.id !== id)); //.filter crea un nuovo array invece di modificarlo
     };
-    
+
     // Funzione di logout
     const handleLogout = () => {
         localStorage.removeItem('tokenFridgy');

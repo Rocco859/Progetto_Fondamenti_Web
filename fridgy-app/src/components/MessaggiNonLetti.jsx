@@ -1,4 +1,3 @@
-import React from 'react';
 import './MessaggiNonLetti.css';
 import { useAppContext } from '../context/AppContext';
 

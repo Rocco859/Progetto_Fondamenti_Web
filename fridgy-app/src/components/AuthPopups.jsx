@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AuthPopups.css';
 import BASE_URL from '../config';
 import { useAppContext } from '../context/AppContext';

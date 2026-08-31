@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './MenuPulsanti.css';
 import BASE_URL from '../config';
 import { useAppContext } from '../context/AppContext';

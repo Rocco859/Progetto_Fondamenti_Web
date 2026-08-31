@@ -25,6 +25,17 @@
     font-weight: bold;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    height: 40px;
+    width: auto;
+}
+
 .sectionnolog-dx {
     display: flex;
     align-items: center;
@@ -136,7 +147,7 @@
 }
 
 /*responsive*/
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .navbar-container {
         padding: 10px 16px;  /* era 10px 40px: 40px per lato è troppo su
                                  schermo stretto, ruberebbe spazio a logo,
@@ -147,6 +158,11 @@
 
     .logo h1 {
         font-size: 22px; /* era 28px */
+    }
+
+    .logo-icon {         
+        height: 32px;
+        width: auto;
     }
 
     .btn-accreg-nav {

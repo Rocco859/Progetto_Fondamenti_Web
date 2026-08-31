@@ -11,7 +11,7 @@ function Navbar() {
             {/*parte sinistra (manca il logo)*/}
             <div className="section-sx">
                 <section className="logo">
-                    <img src="/logo-app.png" alt="" className="logo-icon" />
+                    <img src="/logo-app.png" alt="Logo Fridgy" className="logo-icon" />
                     <h1>Fridgy</h1>
                 </section>
             </div>

@@ -44,9 +44,6 @@ L'applicazione è una SPA: il browser scarica l'interfaccia una sola volta e suc
 | Documentazione API | Swagger (`swagger-jsdoc` + `swagger-ui-express`) |
 | Containerizzazione | Docker Compose + Nginx |
 
-
-## 3. Struttura del progetto
-
 ## 3. Struttura del progetto
 
 ```

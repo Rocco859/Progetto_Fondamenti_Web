@@ -17,7 +17,6 @@ function AddAlimento() {
         
         e.preventDefault();  //no refresh browser
         try {
-            // Una riga sola: il token e gli header li mette api.js
             const data = await frigo.aggiungi(nomeAlimento, quantitaAlimento, scadenzaAlimento);
 
             aggiungiMessaggio("Alimento aggiunto al frigo!");
@@ -27,9 +26,6 @@ function AddAlimento() {
             setRefreshTrigger(prev => !prev); //fa ricaricare MenuPulsanti e AlimentiInScadenza
 
         } catch (error) {
-            // Prima c'era un "else" per l'errore del server e un "catch"
-            // per l'errore di rete. Ora api.js lancia un'eccezione in
-            // entrambi i casi, quindi basta un solo blocco
             console.error("Errore nell'aggiunta:", error);
             aggiungiMessaggio("Errore: " + error.message);
         }

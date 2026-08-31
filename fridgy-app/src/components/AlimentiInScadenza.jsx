@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './AlimentiInScadenza.css';
 import { frigo } from '../services/api';
 import { useAppContext } from '../context/AppContext';

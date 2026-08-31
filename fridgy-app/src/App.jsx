@@ -1,5 +1,4 @@
 //import
-import React from 'react';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';

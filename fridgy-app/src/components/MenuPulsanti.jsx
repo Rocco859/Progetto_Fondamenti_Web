@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './MenuPulsanti.css';
 import { frigo, spesa } from '../services/api';
 import { useAppContext } from '../context/AppContext';

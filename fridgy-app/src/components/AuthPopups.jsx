@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AuthPopups.css';
 import { auth } from '../services/api';
 import { useAppContext } from '../context/AppContext';

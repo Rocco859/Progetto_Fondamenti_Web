@@ -86,16 +86,14 @@ function ChatbotWidget() {
 
     setCaricamento(true);  //mostra i pallini di caricamento
 
-    /* API gemini */
+    //api gemini
     try {
       const cronologiaPerBackend = messaggi
         .filter(m => m.tipo === 'normale')   //filtro che prende solo i messaggi di chat escludendo benvenuto ed errori vari
         .map(m => ({ mittente: m.mittente, testo: m.testo }));
-        //prende il valore di messaggi senza l'ultimo messaggio, l ultimo messaggio inviato verrà inviato nel body nel campo testo
+        //prende il valore di messaggi senza l'ultimo messaggio
 
       //Chiamata al backend
-      // api.js si occupa di token, header e controllo dello status HTTP:
-      // se qualcosa va storto lancia un'eccezione, catturata dal catch qui sotto
       const dati = await chatbot.inviaMessaggio(testo, cronologiaPerBackend);
 
       //Aggiunta risposta dell'ai

@@ -27,8 +27,6 @@ function MenuPulsanti() {
                 setListaSpesa([...listaSpesa, data.elemento]);
                 setNuovoAlimento('');
             } catch (error) {
-                // Prima l'errore del server finiva nell'"if (response.ok)"
-                // saltato in silenzio; ora arriva qui insieme a quelli di rete
                 console.error("Errore durante l'aggiunta alla lista spesa:", error);
             }
         }

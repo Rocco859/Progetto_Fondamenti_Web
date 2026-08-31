@@ -17,6 +17,7 @@ function AuthPopups() {
     const [password, setPassword] = useState('');
     const [confermaPassword, setConfermaPassword] = useState('')
 
+    //register
     const handleRegister = async (e) => {
         e.preventDefault();  //blocca il reload della pagina
 
@@ -27,26 +28,19 @@ function AuthPopups() {
 
                 try {
             const data = await auth.registra(nome, cognome, email, password);
-
-            //se la registrazione ha successo mostra il messaggio di conferma,
-            //salva il token, aggiorna lo stato globale e chiude il popup
             aggiungiMessaggio(data.message);
             localStorage.setItem('tokenFridgy', data.token);
             setIsLoggedIn(true);
-            onClose();
+            onClose();  
 
         } catch (error) {
-            // Un solo catch per due casi che prima erano separati:
-            // errore del server (es. "Email già registrata") ed errore di rete.
-            // error.message contiene già il messaggio del backend, quindi
-            // l'utente vede l'errore giusto invece di uno generico
             console.error("Errore nella registrazione:", error);
             aggiungiMessaggio("Errore: " + error.message);
         }
     };
 
 
-    //più o meno come register
+    //login
     const handleLogin = async (e) => {
         e.preventDefault();
                 try {

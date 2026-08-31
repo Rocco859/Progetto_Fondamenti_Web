@@ -6,13 +6,10 @@ import { useAppContext } from '../context/AppContext';
 
 const AlimentiInScadenza = () => {
     const { isLoggedIn, refreshTrigger } = useAppContext();  //estrazione dal context
-    //stato locale che contiene la lista degli almenti in scadenza
     const [alimenti, setAlimenti] = useState([]); /*array vuoto che conterrà gli alimenti prelervati da mongodb */
 
     //controllo token
     const caricaAlimenti = async () => {
-        // Il controllo sul token resta: evita una chiamata inutile
-        // quando l'utente non è loggato
         const token = localStorage.getItem('tokenFridgy');
         if (!token) return;
 

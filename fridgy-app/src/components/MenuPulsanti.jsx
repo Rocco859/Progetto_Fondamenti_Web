@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MenuPulsanti.css';
-import BASE_URL from '../config';
+import { frigo, spesa } from '../services/api';
 import { useAppContext } from '../context/AppContext';
 
 
@@ -23,21 +23,12 @@ function MenuPulsanti() {
     const handleAggiungiSpesa = async () => {
         if (nuovoAlimento.trim() !== '') {
             try {
-                const token = localStorage.getItem('tokenFridgy');
-                const response = await fetch(`${BASE_URL}/api/v1/spesa/aggiungi`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ nomeAlimento: nuovoAlimento.trim() })
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    setListaSpesa([...listaSpesa, data.elemento]);
-                    setNuovoAlimento('');
-                }
+                const data = await spesa.aggiungi(nuovoAlimento.trim());
+                setListaSpesa([...listaSpesa, data.elemento]);
+                setNuovoAlimento('');
             } catch (error) {
+                // Prima l'errore del server finiva nell'"if (response.ok)"
+                // saltato in silenzio; ora arriva qui insieme a quelli di rete
                 console.error("Errore durante l'aggiunta alla lista spesa:", error);
             }
         }
@@ -65,22 +56,11 @@ function MenuPulsanti() {
     const handleRimuoviAlimento = async (id) => {
         if (!id) return;
         try {
-            const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`${BASE_URL}/api/v1/frigo/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                //se l'eliminazione è confermata viene eliminato anche nell array
-                setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
-            } else {
-                console.error("Errore durante l'eliminazione");
-            }
+            await frigo.elimina(id);   // non serve il valore restituito
+            //se l'eliminazione è confermata viene eliminato anche nell array
+            setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
         } catch (error) {
-            console.error("Errore di rete:", error);
+            console.error("Errore durante l'eliminazione:", error);
         }
     };
 
@@ -91,23 +71,11 @@ function MenuPulsanti() {
             const fetchFrigo = async () => {
                 setLoadingFrigo(true);
                 try {
-                    const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch(`${BASE_URL}/api/v1/frigo`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        //se il backend da conferma salviamo i dati che ci passa
-                        setAlimentiFrigo(data.alimenti || data || []);
-                    } else {
-                        console.error("Errore nel caricamento del frigo:", data.message);
-                    }
+                    const data = await frigo.elenco();
+                    //se il backend da conferma salviamo i dati che ci passa
+                    setAlimentiFrigo(data.alimenti || data || []);
                 } catch (error) {
-                    console.error("Errore di rete:", error);
+                    console.error("Errore nel caricamento del frigo:", error);
                 } finally {
                     setLoadingFrigo(false);
                 }
@@ -122,20 +90,10 @@ function MenuPulsanti() {
             const fetchSpesa = async () => {
                 setLoadingSpesa(true);
                 try {
-                    const token = localStorage.getItem('tokenFridgy');
-                    const response = await fetch(`${BASE_URL}/api/v1/spesa`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        setListaSpesa(data.lista || []);
-                    }
+                    const data = await spesa.elenco();
+                    setListaSpesa(data.lista || []);
                 } catch (error) {
-                    console.error("Errore di rete:", error);
+                    console.error("Errore nel caricamento della spesa:", error);
                 } finally {
                     setLoadingSpesa(false);
                 }
@@ -145,19 +103,12 @@ function MenuPulsanti() {
     }, [isSpesaOpen, refreshTrigger]);
 
 
+
     //uguale a frigo
     const handleRimuoviDaSpesa = async (id) => {
         try {
-            const token = localStorage.getItem('tokenFridgy');
-            const response = await fetch(`${BASE_URL}/api/v1/spesa/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                setListaSpesa(prev => prev.filter(item => item._id !== id));
-            }
+            await spesa.elimina(id);
+            setListaSpesa(prev => prev.filter(item => item._id !== id));
         } catch (error) {
             console.error("Errore durante la rimozione dalla lista spesa:", error);
         }
@@ -172,7 +123,7 @@ function MenuPulsanti() {
         <div className="pulsanti-container">
 
             <div className="bottoni-container">
-            
+
                 <button className="btn-card" onClick={handleClickFrigo}>
                     IL TUO<br />FRIGO
                 </button>
@@ -182,7 +133,7 @@ function MenuPulsanti() {
             </div>
             {/*Frigo*/}
             {isFrigoOpen && (
-                 <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-frigo" onClick={() => setIsFrigoOpen(false)}>
+                <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-frigo" onClick={() => setIsFrigoOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsFrigoOpen(false)}>✕</button>
 
@@ -194,7 +145,7 @@ function MenuPulsanti() {
                             placeholder="Cerca alimento nel frigo..."
                             value={ricercaFrigo}
                             onChange={(e) => setRicercaFrigo(e.target.value)}
-                            className = "input-ricerca"
+                            className="input-ricerca"
                         />
 
                         <ul className="lista-elementi lista-scrollabile">
@@ -227,7 +178,7 @@ function MenuPulsanti() {
 
             {/*spesa*/}
             {isSpesaOpen && (
-                    <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-spesa" onClick={() => setIsSpesaOpen(false)}>
+                <div className="modale-overlay attivo" role="dialog" aria-modal="true" aria-labelledby="titolo-spesa" onClick={() => setIsSpesaOpen(false)}>
                     <div className="modale-contenuto" onClick={(e) => e.stopPropagation()}>
                         <button className="btn-chiudi-dash" onClick={() => setIsSpesaOpen(false)}>✕</button>
 
@@ -256,7 +207,7 @@ function MenuPulsanti() {
                                         <input
                                             type="checkbox"
                                             onChange={() => handleRimuoviDaSpesa(item._id)}
-                                            className = "checkbox-rimozione"
+                                            className="checkbox-rimozione"
                                         />
                                         <span>{item.nome}</span>
                                     </li>

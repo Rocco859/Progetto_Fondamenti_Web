@@ -138,26 +138,19 @@
 /*responsive*/
 @media (max-width: 768px) {
     .navbar-container {
-        padding: 10px 16px;  /* era 10px 40px: 40px per lato è troppo su
-                                 schermo stretto, ruberebbe spazio a logo,
-                                 link e nome utente */
-        border-radius: 30px; /* era 50px: con meno padding un raggio troppo
-                                 grande farebbe sembrare la "pillola" schiacciata */
+        padding: 10px 16px;  
+        border-radius: 30px; 
     }
 
     .logo h1 {
-        font-size: 22px; /* era 28px */
+        font-size: 22px;
     }
 
     .btn-accreg-nav {
-        gap: 15px; /* era 30px: così "Accedi" e "Registrati" stanno comodi
-                       affiancati anche su schermi piccoli */
+        gap: 15px;
     }
 
     .link-nav {
-        font-size: 14px !important; /* era 16px; !important necessario perché
-                                        la regola originale lo usa già —
-                                        senza, a parità di specificità,
-                                        vincerebbe quella scritta per prima */
+        font-size: 14px !important; 
     }
 }

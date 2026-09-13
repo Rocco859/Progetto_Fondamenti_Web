@@ -6,8 +6,7 @@ async function richiesta(percorso, opzioni = {}) {
 
     const headers = { ...opzioni.headers };
 
-    // Content-Type serve solo quando c'è un body da inviare:
-    // aggiungerlo a una GET è inutile
+   
     if (opzioni.body) {
         headers['Content-Type'] = 'application/json';
     }
@@ -50,7 +49,7 @@ export const auth = {
 //frigo
 export const frigo = {
     elenco: () =>
-        richiesta('/frigo'),   // GET è il metodo di default di fetch
+        richiesta('/frigo'),   
 
     inScadenza: () =>
         richiesta('/alimenti-scadenza'),

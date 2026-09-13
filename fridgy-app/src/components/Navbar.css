@@ -10,7 +10,7 @@
     width: calc(100% - 40px);  
     margin: 15px auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    position: relative;  /*lo rende positioning context per il menu a tendina*/
+    position: relative;  
 }
 .section-sx {
     display: flex;
@@ -45,10 +45,10 @@
 .btn-accreg-nav {
     display: flex;
     flex-direction: row;
-    gap: 30px; /* Spazio perfetto tra i due link */
+    gap: 30px; 
     margin: 0;
     padding: 0;
-    list-style: none; /* Rimuove i pallini della lista */
+    list-style: none; 
 }
 
 /*stile dei link*/
@@ -56,7 +56,7 @@
     color: #3d3c3c !important;
     font-size: 16px !important;
     font-weight: bold !important;
-    text-decoration: none !important; /* Toglie la sottolineatura blu brutta */
+    text-decoration: none !important; 
     cursor: pointer !important; 
     transition: color 0.2s ease;
     display: inline-block;
@@ -64,7 +64,7 @@
 }
 
 .link-nav:hover {
-    color: #3b6b4c !important; /* Diventa verde quando ci passi sopra */
+    color: #3b6b4c !important; 
 }
 
 /*utente loggato*/

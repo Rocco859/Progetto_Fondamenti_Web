@@ -1,19 +1,19 @@
     .sr-only {
-      position: absolute; /*toglie l'elemento dal flusso del documento*/
-      width: 1px;  /*non a zero perchè alcuni screen reader ignorano gli elementi con dimensione 0*/
+      position: absolute; 
+      width: 1px;  
       height: 1px;
       padding: 0;
       margin: -1px;
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
-      white-space: nowrap;  /*impedisce che il testo vada a capo*/
+      white-space: nowrap;  
       border: 0;
     }
 
     .layout-principale {
       display: flex;
-      justify-content: space-between;  /*dispone le colonne di destra e di sinistra alla massima distanza tra di loro*/
-      gap: 40px;      /*spazio minimo grantito*/
+      justify-content: space-between;  
+      gap: 40px;      
       max-width: 1200px;
       margin: 0 auto;
       width: 100%;
@@ -28,7 +28,7 @@
     }
 
     .quick-add-bar {
-      display: flex;       /*dispone gli elementi in riga allineati verticalmente al centro*/
+      display: flex;      
       align-items: center;
       background-color: #fffaf0;
       border: 2px solid #3d3c3c;
@@ -40,16 +40,16 @@
     }
 
     .btn-add {
-      background: none;  /*rimuove lo stile di defoult applicato dal browser*/
+      background: none;  
       border: none;
       font-size: 28px;
       color: #3d3c3c;
-      cursor: pointer;  /*manina*/
+      cursor: pointer;  
       padding: 0 5px;
       font-weight: bold;
     }
 
-    .quick-add-bar input {    /*per rimuovere  il bordo e lo sfondo di defoult a tutti gli input discendenti do quick add bar*/
+    .quick-add-bar input {    
       border: none;
       background: transparent;
       color: #3d3c3c;
@@ -59,7 +59,7 @@
     }
 
     #nomeAlimento {
-      flex-grow: 1; /*per occupare lo spazio extra disponibile*/
+      flex-grow: 1; 
       text-transform: uppercase;
       width: 250px;
     }
@@ -92,13 +92,13 @@
 
     .quick-add-bar {  
        
-        flex-direction: column;  /*elementi ora disposti in colonna e non più in fila
+        flex-direction: column;  
 
        
-        align-items: stretch;      /*stretch fa si che ogni figlio occupi tutta la larghezza del contenitore*/
+        align-items: stretch;    
 
         
-        border-radius: 25px;  /*da 50 a 25 */
+        border-radius: 25px;  
 
         padding: 20px;
 
@@ -106,14 +106,14 @@
     }
 
     
-    #nomeAlimento,           /*ogni campo deve ora occupare tutta la riga*/
+    #nomeAlimento,           
     #quantitaAlimento,
     #data-scadenza {
         width: 100%;
         text-align: center;
     }
 
-    .btn-add {                    /* Il pulsante "+" diventa una riga a sé stante*/
+    .btn-add {                    
         width: 100%;
         padding: 8px 0;
         border-bottom: 2px solid #3d3c3c;

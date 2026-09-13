@@ -5,7 +5,7 @@
     left: 40px;
     z-index: 1000;
     display: flex;
-    flex-direction: column; /*i figli saranno disposti in colonna*/
+    flex-direction: column; 
     align-items: flex-start;
 }
 
@@ -116,11 +116,11 @@
 }
 
 .messaggio-riga.utente {
-    justify-content: flex-end; /*posto a destra*/
+    justify-content: flex-end; 
 }
 
 .messaggio-riga.ai {
-    justify-content: flex-start; /*posto a sinistra*/
+    justify-content: flex-start; 
 }
 
 .messaggio-nuvoletta {

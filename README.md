@@ -6,7 +6,7 @@ Single Page Application per la gestione del frigorifero e della lista della spes
 **Autori**: Rocco Colicchio, Andrea Di Giacomo, Savino Martire
 
 
-## 📑 Indice
+## Indice
 
 1. [Descrizione](#1-descrizione)
 2. [Stack tecnologico](#2-stack-tecnologico)

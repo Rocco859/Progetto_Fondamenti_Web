@@ -1,10 +1,8 @@
-// Importa la libreria che genera la specifica OpenAPI a partire da un
-// oggetto di configurazione JavaScript.
 const swaggerJsdoc = require("swagger-jsdoc");
 
 const options = {
     definition: {
-        // Versione dello standard OpenAPI utilizzata
+        
         openapi: "3.0.0",
 
         info: {
@@ -14,8 +12,7 @@ const options = {
                 "API backend per Fridgy — gestione frigo, lista della spesa e assistente AI. Progetto per il corso di Fondamenti del Web A.A. 2025/2026",
         },
 
-        // Indirizzi su cui l'API è raggiungibile. Swagger UI li mostra in
-        // un menu a tendina e usa quello selezionato per le prove dal vivo.
+        
         servers: [
             {
                 url: "http://localhost:3000",
@@ -27,7 +24,7 @@ const options = {
             },
         ],
 
-        // I tag raggruppano gli endpoint per area funzionale nell'interfaccia
+        //endpoint
         tags: [
             { name: "Sistema", description: "Controllo di stato del server" },
             { name: "AuthController", description: "Registrazione e autenticazione utente" },
@@ -38,9 +35,7 @@ const options = {
         ],
 
         components: {
-            // Descrive il meccanismo di autenticazione. Grazie a questo,
-            // Swagger UI mostra il pulsante "Authorize" dove incollare il
-            // token, che viene poi allegato automaticamente alle richieste.
+            
             securitySchemes: {
                 bearerAuth: {
                     type: "http",
@@ -50,10 +45,8 @@ const options = {
                 },
             },
 
-            // Schemi riutilizzabili: definiti una volta, richiamati ovunque
-            // servano con $ref. Evita di ripetere le stesse strutture.
             schemas: {
-                // ---------- Autenticazione ----------
+                // Autenticazione
                 RegisterRequest: {
                     type: "object",
                     required: ["nome", "cognome", "email", "password"],
@@ -78,12 +71,12 @@ const options = {
                     type: "object",
                     properties: {
                         success: { type: "boolean", example: true },
-                        message: { type: "string", example: "👋 Bentornato!" },
+                        message: { type: "string", example: " Bentornato!" },
                         token: { type: "string", description: "Token JWT valido 1 giorno" },
                     },
                 },
 
-                // ---------- Alimenti ----------
+                // Alimenti
                 Alimento: {
                     type: "object",
                     properties: {
@@ -118,7 +111,7 @@ const options = {
                     },
                 },
 
-                // ---------- Spesa ----------
+                // Spesa
                 Spesa: {
                     type: "object",
                     properties: {
@@ -136,7 +129,7 @@ const options = {
                     },
                 },
 
-                // ---------- Chatbot ----------
+                //Chatbot
                 MessaggioChat: {
                     type: "object",
                     properties: {
@@ -167,7 +160,7 @@ const options = {
                     },
                 },
 
-                // ---------- Generiche ----------
+                //Generiche
                 SuccessMessage: {
                     type: "object",
                     properties: {
@@ -187,7 +180,7 @@ const options = {
         },
 
         paths: {
-            // ==================== SISTEMA ====================
+            //controllo sistema
             "/health": {
                 get: {
                     tags: ["Sistema"],
@@ -212,7 +205,7 @@ const options = {
                 },
             },
 
-            // ==================== AUTENTICAZIONE ====================
+            //autenticazione
             "/api/v1/register": {
                 post: {
                     tags: ["AuthController"],
@@ -236,7 +229,7 @@ const options = {
                         },
                         400: {
                             description:
-                                "Campi obbligatori mancanti, password inferiore a 8 caratteri, oppure email/codice fiscale già registrati",
+                                "Campi obbligatori mancanti, password inferiore a 8 caratteri, oppure email già registrata",
                             content: {
                                 "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } },
                             },
@@ -284,7 +277,7 @@ const options = {
                 },
             },
 
-            // ==================== ALIMENTI IN SCADENZA ====================
+            //alimenti in scadenza
             "/api/v1/alimenti-scadenza": {
                 get: {
                     tags: ["AlimentiController"],
@@ -332,7 +325,7 @@ const options = {
                 },
             },
 
-            // ==================== FRIGO ====================
+            //frigo
             "/api/v1/frigo": {
                 get: {
                     tags: ["GestioneAlimentoController"],
@@ -422,7 +415,7 @@ const options = {
                 },
             },
 
-            // ==================== SPESA ====================
+            // spesa
             "/api/v1/spesa": {
                 get: {
                     tags: ["SpesaController"],
@@ -517,7 +510,7 @@ const options = {
                 },
             },
 
-            // ==================== CHATBOT ====================
+            //chatbot
             "/api/v1/chatbot/messaggio": {
                 post: {
                     tags: ["ChatbotController"],
@@ -548,12 +541,8 @@ const options = {
         },
     },
 
-    // Percorsi da cui swagger-jsdoc estrarrebbe commenti in formato JSDoc.
-    // Qui è vuoto perché la specifica è definita per intero nell'oggetto
-    // "definition" sopra, come nell'esercitazione del corso.
     apis: [],
 };
 
-// Genera la specifica finale e la esporta per l'uso in server.js
 const swaggerSpec = swaggerJsdoc(options);
 module.exports = swaggerSpec;

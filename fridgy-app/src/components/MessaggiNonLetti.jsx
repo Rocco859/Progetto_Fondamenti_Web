@@ -2,12 +2,12 @@ import './MessaggiNonLetti.css';
 import { useAppContext } from '../context/AppContext';
 
 function MessaggiNonLetti() {
-    const { messaggiNonLetti, rimuoviMessaggio} = useAppContext(); //Estrazione dal context
+    const { messaggiNonLetti, rimuoviMessaggio } = useAppContext();
     if (messaggiNonLetti.length === 0) {
-        return null; // Non mostrare nulla se non ci sono messaggi non letti
+        return null;
     }
 
-    return(
+    return (
         <div className="messaggi-contenitore">
             {messaggiNonLetti.map((messaggio) => (
                 <div key={messaggio.id} className="messaggio-non-letto">

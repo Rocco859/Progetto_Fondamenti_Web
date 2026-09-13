@@ -6,7 +6,7 @@ import { useAppContext } from '../context/AppContext';
 
 
 function MenuPulsanti() {
-    const { isLoggedIn, setActivePopup, refreshTrigger } = useAppContext();  //recupero dal context
+    const { isLoggedIn, setActivePopup, refreshTrigger } = useAppContext();
     const [isFrigoOpen, setIsFrigoOpen] = useState(false);
     const [isSpesaOpen, setIsSpesaOpen] = useState(false);
 
@@ -35,9 +35,9 @@ function MenuPulsanti() {
     //controllo per il frigo
     const handleClickFrigo = () => {
         if (isLoggedIn) {
-            setIsFrigoOpen(true); // Se è loggato, apre il suo frigo
+            setIsFrigoOpen(true);
         } else {
-            setActivePopup('login'); // Se è ospite, apre il popup di accesso
+            setActivePopup('login');
         }
     };
 
@@ -54,8 +54,7 @@ function MenuPulsanti() {
     const handleRimuoviAlimento = async (id) => {
         if (!id) return;
         try {
-            await frigo.elimina(id);   // non serve il valore restituito
-            //se l'eliminazione è confermata viene eliminato anche nell array
+            await frigo.elimina(id);
             setAlimentiFrigo(prev => prev.filter(alimento => alimento._id !== id));
         } catch (error) {
             console.error("Errore durante l'eliminazione:", error);
@@ -65,12 +64,11 @@ function MenuPulsanti() {
     //funzione quando apriamo il tasto firgo
     useEffect(() => {
         if (isFrigoOpen) {
-            setRicercaFrigo(''); // Resetta la barra di ricerca all'apertura
+            setRicercaFrigo('');
             const fetchFrigo = async () => {
                 setLoadingFrigo(true);
                 try {
                     const data = await frigo.elenco();
-                    //se il backend da conferma salviamo i dati che ci passa
                     setAlimentiFrigo(data.alimenti || data || []);
                 } catch (error) {
                     console.error("Errore nel caricamento del frigo:", error);
@@ -80,9 +78,8 @@ function MenuPulsanti() {
             };
             fetchFrigo();
         }
-    }, [isFrigoOpen, refreshTrigger]); // Si attiva ogni volta che apri il frigo o quando aggiungi un nuovo alimento
+    }, [isFrigoOpen, refreshTrigger]);
 
-    //funzione quando aprimao la spesa (uguale al frigo)
     useEffect(() => {
         if (isSpesaOpen) {
             const fetchSpesa = async () => {

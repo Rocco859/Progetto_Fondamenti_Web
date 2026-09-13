@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { chatbot } from '../services/api';
 import "./ChatbotWidget.css";
 
-/*vomponente da lasciare fuori a chatbotWidget per non ricaricarlo a ogni render*/
+
 function MessaggioChat({ testo, mittente }) {
-  const isUtente = mittente === "utente"; //controlla che il mittente del messaggio corrisponda con l'utente attualmente loggato
+  const isUtente = mittente === "utente";
   return (
     <div className={`messaggio-riga ${isUtente ? "utente" : "ai"}`}>
       <div className={`messaggio-nuvoletta ${isUtente ? "utente" : "ai"}`}>
-        {testo} {/*stampa il testo del messaggio all'interno della nuvoletta */}
+        {testo}
       </div>
     </div>
   );
@@ -22,7 +22,7 @@ function IndicatoreCaricamento() {
       <div className="caricamento-nuvoletta">
         {[0, 1, 2].map((i) => (
           <span
-            key={i} //l'indice come key è accettabile perché la lista è statica e non cambia mai, sono sempre gli stessi 3 pallini, non vengono riordinati né rimossi
+            key={i}
             className="caricamento-pallino"
           ></span>
         ))}
@@ -34,7 +34,7 @@ function IndicatoreCaricamento() {
 
 // Funzione principale
 function ChatbotWidget() {
-  const [aperta, setAperta] = useState(false); //stato della chat che parte da chiusa (false)
+  const [aperta, setAperta] = useState(false);
   //Array di tutti i messaggi della chat che parte con un messaggio di benvenuto dell'ai
   const [messaggi, setMessaggi] = useState([
     {
@@ -44,7 +44,7 @@ function ChatbotWidget() {
       tipo: 'benvenuto',   // messaggio iniziale: escluso dalla cronologia inviata al backend
     },
   ]);
-  const [inputTesto, setInputTesto] = useState("");      //stato del testo scritto dall'utente che parte vuoto
+  const [inputTesto, setInputTesto] = useState("");
   const [caricamento, setCaricamento] = useState(false); //stato del caricamento true (l'ai sta pensando) appariranno i pallini
 
   const chatBodyRef = useRef(null); //per lo scorrimento della chat
@@ -52,10 +52,10 @@ function ChatbotWidget() {
 
   // Scroll automatico all'ultimo messaggio
   useEffect(() => {
-    if (chatBodyRef.current) {  //verifica che il riferimento al corpo della chat sia corretto
-      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight; //imposta la posizione dello scroll all'altezza totale del contenuto
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
-  }, [messaggi, caricamento]); //si attiva quando cambiano messaggi o caricamento
+  }, [messaggi, caricamento]);
 
 
   //interruttore per aprire e chiudere la chat
@@ -63,15 +63,15 @@ function ChatbotWidget() {
 
 
   //Funzione per l'invio del messaggio
-  const inviaMessaggio = async () => { 
-    const testo = inputTesto.trim(); //prende il testo digitato e rimuove gli spazi iniziali e finali
-    if (!testo || caricamento) return; //se il messaggio è vuoto o l'ai sta rispondendo, blocca l'esecuzione
+  const inviaMessaggio = async () => {
+    const testo = inputTesto.trim();
+    if (!testo || caricamento) return;
 
     const token = localStorage.getItem("tokenFridgy"); //recupera il token JWT dal localStorage
 
     const nuovoId = Date.now(); //id unico basato sul timestamp attuale
-    setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente", tipo: 'normale' }]); //aggiunge il messaggio mantenendo i precedenti
-    setInputTesto(""); //svuota la casella di testo
+    setMessaggi((prev) => [...prev, { id: nuovoId, testo, mittente: "utente", tipo: 'normale' }]);
+    setInputTesto("");
 
     //verifica del token
     if (!token) {
@@ -79,9 +79,9 @@ function ChatbotWidget() {
         id: Date.now(),
         testo: "Non sei loggato. Accedi per usare il chatbot.",
         mittente: "ai",
-        tipo: 'errore',   // messaggio di errore: escluso dalla cronologia inviata al backend
+        tipo: 'errore',
       }]);
-      return; //se non c'è il token, blocca l'esecuzione
+      return;
     }
 
     setCaricamento(true);  //mostra i pallini di caricamento
@@ -91,25 +91,25 @@ function ChatbotWidget() {
       const cronologiaPerBackend = messaggi
         .filter(m => m.tipo === 'normale')   //filtro che prende solo i messaggi di chat escludendo benvenuto ed errori vari
         .map(m => ({ mittente: m.mittente, testo: m.testo }));
-        //prende il valore di messaggi senza l'ultimo messaggio
+
 
       //Chiamata al backend
       const dati = await chatbot.inviaMessaggio(testo, cronologiaPerBackend);
 
       //Aggiunta risposta dell'ai
       setMessaggi((prev) => [...prev,
-        { id: Date.now(), testo: dati.risposta, mittente: "ai", tipo: 'normale' }
+      { id: Date.now(), testo: dati.risposta, mittente: "ai", tipo: 'normale' }
       ]);
 
     } catch (errore) {
       console.error("Errore nella chiamata al backend:", errore);
       setMessaggi((prev) => [...prev,
-        {
-          id: Date.now(),
-          testo: "Non riesco a connettermi al server",
-          mittente: "ai",
-          tipo: 'errore',   //escluso dalla cronologia del backend
-        }
+      {
+        id: Date.now(),
+        testo: "Non riesco a connettermi al server",
+        mittente: "ai",
+        tipo: 'errore',   //escluso dalla cronologia del backend
+      }
       ]);
     } finally {
       setCaricamento(false);
@@ -119,10 +119,10 @@ function ChatbotWidget() {
 
 
   // Funzionamento tasto invio su tastiera
-  const gestisciTasto = (e) => { 
+  const gestisciTasto = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {  //verifica se il tasto premuto è Invio e che Shift non sia premuto
-      e.preventDefault(); //sostituisce il comportamento di default del browser
-      inviaMessaggio();   //richiama la funzione di invio
+      e.preventDefault();
+      inviaMessaggio();
     }
   };
 
@@ -136,25 +136,25 @@ function ChatbotWidget() {
         {aperta && (
           <div className="chat-window">
 
-            {/*header*/}
+
             <div className="chat-header">
               <div className="chat-header-info">
                 <img src="/chatbot-logo.png" alt="Assistente Fridgy" className="chat-header-logo" />
                 <h3>Assistente Fridgy</h3>
               </div>
-              {/*X*/}
+
               <button className="chat-header-chiudi" onClick={toggleChat}>
                 ✕
               </button>
             </div>
 
-            {/* Body*/}
+
             <div ref={chatBodyRef} className="chat-body">
-              {/*renderizza ogni messaggioChat */}
-              {messaggi.map((msg) => ( //stampa a schermo tutti i messaggi della conversazione
+
+              {messaggi.map((msg) => (
                 <MessaggioChat key={msg.id} testo={msg.testo} mittente={msg.mittente} />
               ))}
-              {caricamento && <IndicatoreCaricamento />} {/* i pallini appaiono solo mentre l'ai pensa */}
+              {caricamento && <IndicatoreCaricamento />}
             </div>
 
             {/*footer*/}
@@ -163,16 +163,16 @@ function ChatbotWidget() {
                 type="text"
                 className="chat-input"
                 value={inputTesto}
-                onChange={(e) => setInputTesto(e.target.value)} //aggiorna lo stato ad ogni tasto premuto
+                onChange={(e) => setInputTesto(e.target.value)}
                 onKeyDown={gestisciTasto}
                 placeholder="Chiedi qualcosa a Fridgy…"
-                disabled={caricamento} //bloccato mentre l'ai risponde
+                disabled={caricamento}
               />
               <button
                 type="button"
                 className="chat-bottone-invio"
                 onClick={inviaMessaggio}
-                disabled={caricamento || !inputTesto.trim()} //disabilitato se l'ai sta pensando o la casella è vuota
+                disabled={caricamento || !inputTesto.trim()}
               >
                 ➤
               </button>
@@ -188,12 +188,12 @@ function ChatbotWidget() {
           onClick={toggleChat}
         >
           <div className="chatbot-btn-icona">
-            {aperta ?(
-              "✕" 
-            ):(
-             <img src="/chatbot-logo.png" alt="Assistente Fridgy" className="chatbot-logo-img" />)} {/* icona X se aperta, icona se chiusa */}
+            {aperta ? (
+              "✕"
+            ) : (
+              <img src="/chatbot-logo.png" alt="Assistente Fridgy" className="chatbot-logo-img" />)}
           </div>
-          <span>{aperta ? "CHIUDI CHAT" : "CHAT CON AI"}</span> {/* testo del bottone */}
+          <span>{aperta ? "CHIUDI CHAT" : "CHAT CON AI"}</span>
         </button>
 
       </div>

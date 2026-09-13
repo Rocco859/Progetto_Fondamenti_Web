@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import BASE_URL from '../config';
 
-//crea il context
+
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
@@ -25,15 +25,15 @@ export function AppProvider({ children }) {
         const tokenSalvato = localStorage.getItem('tokenFridgy');
         if (isLoggedIn && tokenSalvato) {
             try {
-                const payloadDecoded = JSON.parse(atob(tokenSalvato.split('.')[1]));    //converte il jscon in un oggetto js e decodifica il token
+                const payloadDecoded = JSON.parse(atob(tokenSalvato.split('.')[1]));
                 setNomeUtente(payloadDecoded.nome || "Utente");
             } catch (error) {
                 console.error("Errore nella decodifica del token:", error);
             }
-        } else {  //in caso di logout viene svuotato il nomeutente
+        } else {
             setNomeUtente("");
         }
-    }, [isLoggedIn]);  //si riattiva ogni volta che lo stato del login cambia
+    }, [isLoggedIn]);
 
 
     // gestione real time
@@ -50,23 +50,19 @@ export function AppProvider({ children }) {
             auth: { token }
         });
 
-        //conferma connessione
         socket.on('connect', () => {
             console.log('Connesso al server in tempo reale');
         });
 
-        //errore connessione
         socket.on('connect_error', (err) => {
             console.error('Errore connessione real-time:', err.message);
         });
 
-        //listener per il frigo aggiornatp
         socket.on('frigo-aggiornato', () => {
             console.log('Frigo aggiornato in tempo reale');
             setRefreshTrigger(prev => !prev);
         });
 
-        //listener per la spesa aggiornata
         socket.on('spesa-aggiornata', () => {
             console.log('🛒 Lista della spesa aggiornata in tempo reale');
             setRefreshTrigger(prev => !prev);
@@ -75,17 +71,15 @@ export function AppProvider({ children }) {
         return () => {
             socket.disconnect();
         };
-    }, [isLoggedIn]);  //si riattiva ogni volta che lo stato del login cambia
+    }, [isLoggedIn]);
 
-    //Aggiunge un nuovo messaggio all'array
+
     const DURATA_MESSAGGIO = 4000;
 
-    //Aggiunge un nuovo messaggio all'array e ne programma la rimozione
     const aggiungiMessaggio = (testo) => {
         const nuovoMessaggio = { id: `${Date.now()}-${Math.random()}`, testo: testo };
         setMessaggiNonLetti(precedenti => [...precedenti, nuovoMessaggio]);
 
-        // setTimeout esegue la funzione una volta sola dopo il ritardo
         setTimeout(() => {
             setMessaggiNonLetti(precedenti =>
                 precedenti.filter(m => m.id !== nuovoMessaggio.id)
@@ -93,7 +87,7 @@ export function AppProvider({ children }) {
         }, DURATA_MESSAGGIO);
     };
 
-    //Rimuove un messaggio dall'array
+
     const rimuoviMessaggio = (id) => {
         setMessaggiNonLetti(precedenti => precedenti.filter(m => m.id !== id)); //.filter crea un nuovo array invece di modificarlo
     };
@@ -109,8 +103,8 @@ export function AppProvider({ children }) {
         isLoggedIn,
         setIsLoggedIn,
         nomeUtente,
-        setNomeUtente,         //oggetto che contine tutto il contesto che deve essere condiviso globalmente
-        activePopup,           //oggetto che verra letto da chiunque chiami useAppContext
+        setNomeUtente,
+        activePopup,
         setActivePopup,
         refreshTrigger,
         setRefreshTrigger,

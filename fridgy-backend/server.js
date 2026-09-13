@@ -46,7 +46,7 @@ app.use('/health', healthRoutes);
 
 
 
-//aggancia la rotta al percorso
+//Collegamenti rotte/percorsi
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', alimentiRoutes);
 app.use('/api/v1/frigo', gestioneAlimentoRoutes);

@@ -6,7 +6,7 @@ exports.getAlimentoScadenza = async (req, res, next) => {
   try {
     const userId = req.userId;   //legge l'ìd dell'utente da authMiddleware
 
-    const alimenti = await Alimento.find({ utente: userId }); //query al db
+    const alimenti = await Alimento.find({ utente: userId }); 
     const oggi = new Date();
 
     const listaFiltrata = alimenti.map(doc => {
@@ -21,8 +21,8 @@ exports.getAlimentoScadenza = async (req, res, next) => {
           giorniMancanti: giorniMancanti
         };
       })
-      .filter(alimento => alimento.giorniMancanti >= 0 && alimento.giorniMancanti < 7) /*filtra solo quelli che hanno meno di 7 giorni alla scadenza*/
-      .sort((a, b) => a.giorniMancanti - b.giorniMancanti); /*ordina in base ai giorni mancanti, dal più vicino alla scadenza al più lontano*/
+      .filter(alimento => alimento.giorniMancanti >= 0 && alimento.giorniMancanti < 7) 
+      .sort((a, b) => a.giorniMancanti - b.giorniMancanti);
 
 
       //risposta finalw

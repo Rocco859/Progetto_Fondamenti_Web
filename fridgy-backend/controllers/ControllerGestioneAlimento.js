@@ -6,7 +6,7 @@ exports.registraAlimento = async (req, res) => {
   try {
     const userId = req.userId;
 
-    //recupero dei dati dal frontend
+    
     const { nomeAlimento, scadenzaAlimento, quantitaAlimento } = req.body;
 
 
@@ -45,7 +45,7 @@ exports.getAlimentiUtente = async (req, res) => {
   try {
     const userId = req.userId;
 
-    //ricerca nel db di tutti gli alimenti che appartengono a questo utente
+    //ricerca nel db
     const alimenti = await Alimento.find({ utente: userId });
     res.status(200).json({ success: true, alimenti });
   } catch (error) {
@@ -57,7 +57,7 @@ exports.getAlimentiUtente = async (req, res) => {
 exports.rimuoviAlimento = async (req, res) => {
   try {
     const userId = req.userId;
-    const idAlimento = req.params.id;  //legge l'id dell almento da eliminare dai parametri dell'URL
+    const idAlimento = req.params.id;  
 
     // Elimina alimento
     const risultato = await Alimento.findOneAndDelete({ _id: idAlimento, utente: userId });

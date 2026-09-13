@@ -46,11 +46,11 @@ const model = genAI.getGenerativeModel({  //isatanza del modello gemini da usare
 
 exports.inviaMessaggio = async (req, res) => {
     try{
-        const {testo, cronologia} = req.body;  //estrae dal body della richiesta dell utente il messaggio attuale e la cronologia
+        const {testo, cronologia} = req.body; 
 
 
-        //blocca la richiesta se è vuota o fatta da spazi vuoti
-        if (!testo || testo.trim() === '') {   // .trim rimuove gli spazi ai bordi
+        
+        if (!testo || testo.trim() === '') {  
             return res.status(400).json({
                 success: false, 
                 message: 'Il messaggio non può essere vuoto.' });
@@ -70,8 +70,8 @@ exports.inviaMessaggio = async (req, res) => {
         });
 
 
-        const risultato = await chat.sendMessage(testo);  //invio messaggio dell'utente
-        const rispostaAI =risultato.response.text();  //estrae il testo dalla risposta di gemini
+        const risultato = await chat.sendMessage(testo);  
+        const rispostaAI =risultato.response.text();  
         res.status(200).json({     
             success: true,
             risposta: rispostaAI 

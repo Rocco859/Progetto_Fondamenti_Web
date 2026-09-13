@@ -1,13 +1,13 @@
 /*container più esterno*/
 .pulsanti-container {
-    margin-top: 40px;  /*per distanziarlo dal messaggio di benvenuto*/
+    margin-top: 40px; 
     text-align: center;
 }
 /*contanier dei due botton*/
 .bottoni-container {
     display: flex;
-    gap: 30px;                 /*a una distanza di 30 px tra di loro*/
-    justify-content: center;  /*disposti in riga*/
+    gap: 30px;                 
+    justify-content: center;  
 }
 
 /*bottoni principali*/
@@ -21,10 +21,10 @@
     color: #3b6b4c !important;
     cursor: pointer !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
-    transition: all 0.2s ease !important; /*ogni volta che viene cambiata una proprietà del css, questa variazione avviene in 0.2 sec invece che instatnaneamete*/
+    transition: all 0.2s ease !important; 
     min-width: 180px !important; 
     display: inline-block !important;
-    line-height: 1.4 !important; /* Migliora lo spazio tra le due righe di testo */
+    line-height: 1.4 !important; 
 }
 
 .btn-card:hover {
@@ -41,7 +41,7 @@
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.6) !important;  /*0.6 di opacità*/
+    background-color: rgba(0, 0, 0, 0.6) !important;  
     z-index: 1000 !important;
     align-items: center !important;
     justify-content: center !important;
@@ -55,7 +55,7 @@
     border: 2px solid #3d3c3c !important;
     width: 90% !important;
     max-width: 450px !important;
-    position: relative !important;  /*serve per rendere questo elemento positioning context per il tasto di chiusura che è absolute*/
+    position: relative !important;  
     text-align: left !important;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
 }
@@ -86,8 +86,8 @@
 
 .lista-elementi li {
     padding: 12px 0 !important;
-    border-bottom: 1px solid #ccc !important; /*linea per seprare un elemento dall altro*/
-    display: flex !important;  /*perr allineare checkbox e testo*/
+    border-bottom: 1px solid #ccc !important; 
+    display: flex !important;  
     align-items: center !important;
     gap: 10px !important;
     font-size: 16px !important;
@@ -99,17 +99,17 @@
     gap: 10px !important;
     margin-top: 15px !important;
     margin-bottom: 10px !important;
-    align-items: stretch !important; /* Fa in modo che input e bottone abbiano la stessa altezza */
+    align-items: stretch !important; 
 }
 
 .aggiungi-item-spesa input {
-    flex-grow: 1 !important; /*per occupare tutto lo spazio residuo*/
+    flex-grow: 1 !important; 
     border: 2px solid #ccc !important;
     border-radius: 8px !important;
     padding: 10px 15px !important;
     font-size: 14px !important;
     background-color: #ffffff !important;
-    outline: none !important; /*rimuove il contorno disegnato dal browser*/
+    outline: none !important;
 }
 
 .aggiungi-item-spesa input:focus {
@@ -127,7 +127,7 @@
     font-weight: bold !important;
     cursor: pointer !important;
     transition: all 0.2s !important;
-    white-space: nowrap !important; /* Impedisce che il testo vada a capo se non c'è spazio */
+    white-space: nowrap !important; 
 }
 
 .btn-scan:hover {
@@ -181,7 +181,7 @@
 @media (max-width: 768px) {
 
     .bottoni-container {
-        flex-direction: column !important; /*bottoni da affiancati a impilati*/
+        flex-direction: column !important; 
         gap: 15px !important;
         align-items: center !important;
     }

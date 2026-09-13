@@ -2,11 +2,11 @@
 .messaggi-contenitore {
     position: fixed;
     top: 20px;
-    left: 50%;  /*per centrare elementi i larghezza variabile*/
+    left: 50%;  
     transform: translateX(-50%);
     z-index: 100000;
     display: flex;
-    flex-direction: column;  /*impila verticalmente più notifiche*/
+    flex-direction: column;  
     gap: 10px;
     max-width: 350px;
 }
@@ -16,7 +16,7 @@
 .messaggio-non-letto {
     display: flex;
     align-items: center;
-    justify-content: space-between;  /*tra il testo e la X*/
+    justify-content: space-between;  
     gap: 12px;
     padding: 14px 18px;
     border-radius: 12px;

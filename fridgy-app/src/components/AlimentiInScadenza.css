@@ -4,7 +4,7 @@
     padding: 20px 60px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
-    flex-direction: column;  /*dispone i figli diretti in colonna*/
+    flex-direction: column;  
     overflow: hidden;
     min-height: 400px;
     width: 25%;
@@ -14,21 +14,21 @@
 }
 
 .titolo-scadenza {
-    white-space: nowrap;  /*impedisce al testo di andare a capo*/
+    white-space: nowrap;  
     overflow: hidden;
-    text-overflow: ellipsis;  /*mostra i tre punti di sospensione se viene tagliato il testo*/
+    text-overflow: ellipsis;  
 }
 
 .lista-scadenza-conteiner {
-    flex-grow: 1;   /*occupa tutto lo spazio verticale residuo*/
+    flex-grow: 1;  
     overflow-y: auto;
     padding-right: 8px;
     overflow-x: hidden;
 }
 
-.item-scadenza {   /*card di ogni singolo alimentp*/
+.item-scadenza {   
     display: flex;
-    justify-content: space-between;  /*dispone i tre elmeneti in riga e allineati al centro*/
+    justify-content: space-between;  
     align-items: center;
     width: 100%;
     background: #fcfcfc;
@@ -40,7 +40,7 @@
 }
 
 .item-centro {
-    flex-grow: 1;       /*occupa tutto lo spazio orizzontale disponibile*/
+    flex-grow: 1;       
     text-align: left;
     margin-left: 12px;
     margin-right: 12px;
@@ -82,7 +82,7 @@
 /*mobile*/
 @media (max-width: 768px) {
     #alimenti-scadenza-widget {
-        width: 100%;        /*schermo intero*/
+        width: 100%;        
         padding: 20px;      
                                
         height: auto;       

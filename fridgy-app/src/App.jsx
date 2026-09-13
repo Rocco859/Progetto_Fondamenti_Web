@@ -1,4 +1,4 @@
-//import
+
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import AuthPopups from './components/AuthPopups';
@@ -26,28 +26,27 @@ function AppShell() {
 
             <div className="layout-schermo-intero">
                 <div className="sezione-centrale">
-                    {/*rendering condizionale  */}
-                    {isLoggedIn ? (
-                         //ramo utente loggato
-                         <main className="welcome-container">
-                            <div className='add-container'>
-                                
-                                    <AddAlimento />
-                               
-                            </div>
-                             
 
-                            
-                                <div className="welcome-message">
-                                    <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy</h2>
-                                    
-                                    <MenuPulsanti/>
-                                </div>
-                            </main>
-                        
+                    {isLoggedIn ? (
+
+                        <main className="welcome-container">
+                            <div className='add-container'>
+
+                                <AddAlimento />
+
+                            </div>
+
+
+
+                            <div className="welcome-message">
+                                <h2 className="welcome-title">Benvenuto {nomeUtente} su Fridgy</h2>
+
+                                <MenuPulsanti />
+                            </div>
+                        </main>
+
                     ) : (
 
-                        //ramo utente non loggato
                         <main className="welcome-container">
                             <div className="welcome-message">
                                 <h2 className="welcome-title">Benvenuto su Fridgy</h2>

@@ -4,12 +4,12 @@ import { auth } from '../services/api';
 import { useAppContext } from '../context/AppContext';
 
 function AuthPopups() {
-    //estrazione dal context
+
     const { activePopup, setActivePopup, setIsLoggedIn, aggiungiMessaggio } = useAppContext();
-    const type = activePopup;                        // alias leggibile
-    const onClose = () => setActivePopup(null);      // chiude il popup
-    const isVisible = type !== null;  // se type è diverso da null allora il booleano isVisible è true
-    
+    const type = activePopup;
+    const onClose = () => setActivePopup(null);
+    const isVisible = type !== null;
+
     //variabili di stato locali
     const [nome, setNome] = useState('');
     const [cognome, setCognome] = useState('');
@@ -26,12 +26,12 @@ function AuthPopups() {
             return;
         }
 
-                try {
+        try {
             const data = await auth.registra(nome, cognome, email, password);
             aggiungiMessaggio(data.message);
             localStorage.setItem('tokenFridgy', data.token);
             setIsLoggedIn(true);
-            onClose();  
+            onClose();
 
         } catch (error) {
             console.error("Errore nella registrazione:", error);
@@ -43,7 +43,7 @@ function AuthPopups() {
     //login
     const handleLogin = async (e) => {
         e.preventDefault();
-                try {
+        try {
             const data = await auth.accedi(email, password);
 
             aggiungiMessaggio(data.message);
@@ -58,7 +58,7 @@ function AuthPopups() {
     };
 
     return (
-        <div className={`overlay ${isVisible ? 'visible' : ''}`}> {/*conteiner più esterno che oscura tutta la pagina in base al valore di isVisible */}
+        <div className={`overlay ${isVisible ? 'visible' : ''}`}>
 
             {/*popup login*/}
             <div className={`login-popup ${type === 'login' ? 'visible' : ''}`}>

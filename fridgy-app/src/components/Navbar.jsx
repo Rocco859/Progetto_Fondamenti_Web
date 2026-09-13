@@ -3,12 +3,12 @@ import './Navbar.css';
 import { useAppContext } from '../context/AppContext';
 
 function Navbar() {
-    const { isLoggedIn, nomeUtente, setActivePopup, handleLogout } = useAppContext(); //estrazione dal context*/
+    const { isLoggedIn, nomeUtente, setActivePopup, handleLogout } = useAppContext();
     const [isMenuOpen, setIsMenuOpen] = useState(false); //stato locale
 
     return (
         <nav className="navbar-container">
-            {/*parte sinistra (manca il logo)*/}
+            {/*parte sinistra */}
             <div className="section-sx">
                 <section className="logo">
                     <img src="/logo-app.png" alt="Logo Fridgy" className="logo-icon" />

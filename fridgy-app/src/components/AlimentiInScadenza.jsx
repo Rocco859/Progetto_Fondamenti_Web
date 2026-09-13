@@ -21,20 +21,19 @@ const AlimentiInScadenza = () => {
         }
     };
 
-    useEffect(() => {                       //funzione che carica e cancella gli elementi in base 
-        if (isLoggedIn) {                   //a se cambia isLoggedIn o se c'è una nuovo elemento dal socket, quindi
-            caricaAlimenti();               //se cambia refreshTrigger
+    useEffect(() => {
+        if (isLoggedIn) {
+            caricaAlimenti();
         } else {
             setAlimenti([]);
         }
     }, [isLoggedIn, refreshTrigger]);
 
 
-    //per rimuovere un alimento tramite checkbox
+
     const handleRimuovi = async (id) => {
         try {
             await frigo.elimina(id);
-            //se la risposta ha succeesso l'elemento viene cancellato dall array
             setAlimenti(prev => prev.filter(a => a._id !== id));
         } catch (error) {
             console.error("Errore durante l'eliminazione:", error);

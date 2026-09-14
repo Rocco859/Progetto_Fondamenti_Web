@@ -19,7 +19,6 @@ function AddAlimento() {
 
             const data = await frigo.aggiungi(nomeAlimento, quantitaAlimento, scadenzaAlimento);
 
-            aggiungiMessaggio("Alimento aggiunto al frigo!");
             setNomeAlimento('');
             setQuantitaAlimento('');
             setScadenzaAlimento('');
@@ -62,7 +61,7 @@ function AddAlimento() {
                 <label htmlFor="quantitaAlimento" className="sr-only">Quantità</label>
 
                 <input
-                    type="number" id="quantitaAlimento" name="quantitaAlimento" placeholder="QUANTITÀ" value={quantitaAlimento} onChange={(e) => setQuantitaAlimento(e.target.value)} required
+                    type="number" id="quantitaAlimento" min="1" name="quantitaAlimento" placeholder="QUANTITÀ" value={quantitaAlimento} onChange={(e) => setQuantitaAlimento(e.target.value)} required
                 />
 
                 <label htmlFor="data-scadenza" className="sr-only">Data di scadenza</label>

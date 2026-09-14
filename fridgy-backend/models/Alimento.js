@@ -12,7 +12,8 @@ const alimentoSchema = mongoose.Schema({
     quantita: {
         type: Number,
         required: false,
-        default: 1
+        default: 1,
+        min: [1, "La quantità deve essere almeno 1"]
     },
     utente: {
         type: mongoose.Schema.Types.ObjectId,

@@ -88,7 +88,7 @@ Progetto_Fondamenti_Web/
 │   ├── package.json
 │   └── package-lock.json
 │
-├── fridgy-app/                            # Interfaccia React
+├── fridgy-frontend/                            # Interfaccia React
 │   ├── public/
 │   │   ├── chatbot-logo.png               # Icona dell'assistente virtuale
 │   │   ├── favicon.svg                    # Icona della scheda del browser
@@ -183,7 +183,7 @@ Il server si avvia su `http://localhost:3000`.
 
 **Terminale 2 — frontend:**
 ```bash
-cd fridgy-app
+cd fridgy-frontend
 npm install
 npm run dev
 ```
@@ -193,10 +193,10 @@ L'interfaccia è disponibile su `http://localhost:5173`.
 
 | Cartella | Comando | Descrizione |
 | `fridgy-backend` | `npm start` | Avvia il server |
-| `fridgy-app` | `npm run dev` | Server di sviluppo con aggiornamento automatico |
-| `fridgy-app` | `npm run build` | Compila la versione di produzione in `dist/` |
-| `fridgy-app` | `npm run preview` | Anteprima locale della build |
-| `fridgy-app` | `npm run lint` | Analisi statica del codice |
+| `fridgy-frontend` | `npm run dev` | Server di sviluppo con aggiornamento automatico |
+| `fridgy-frontend` | `npm run build` | Compila la versione di produzione in `dist/` |
+| `fridgy-frontend` | `npm run preview` | Anteprima locale della build |
+| `fridgy-frontend` | `npm run lint` | Analisi statica del codice |
 
 
 ## 7. Avvio con Docker

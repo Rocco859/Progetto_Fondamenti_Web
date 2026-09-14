@@ -31,7 +31,7 @@ services:
   
   frontend:
     build:
-      context: ./fridgy-app
+      context: ./fridgy-frontend
 
       args: 
          VITE_API_URL: http://localhost

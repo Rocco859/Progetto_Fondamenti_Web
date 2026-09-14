@@ -1,45 +1,55 @@
 const Alimento = require('../models/Alimento');
 const { getIO } = require('../socket');
-const {campiMancanti} = require('../utils/validazione');
+const { campiMancanti } = require('../utils/validazione');
 
 exports.registraAlimento = async (req, res) => {
   try {
     const userId = req.userId;
 
-    
+
     const { nomeAlimento, scadenzaAlimento, quantitaAlimento } = req.body;
 
 
-    //verifica che siano stati compilati tutti i campi
+
     const mancanti = campiMancanti(req.body, ['nomeAlimento', 'scadenzaAlimento', 'quantitaAlimento']);
-    if (mancanti.length > 0){
+    if (mancanti.length > 0) {
       return res.status(400).json({
         success: false,
         message: `Campi obbligatori mancanti: ${mancanti.join(', ')}`
       })
     }
 
-    //creazione alimento
+
+    const quantita = Number(quantitaAlimento);
+    if (Number.isNaN(quantita) || quantita < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "La quantità deve essere un numero maggiore o uguale a 1"
+      });
+    }
+
+
     const nuovoAlimento = new Alimento({
       nome: nomeAlimento,
       dataScadenza: scadenzaAlimento,
-      quantita: quantitaAlimento,
+      quantita: quantita,
       utente: userId
     });
     await nuovoAlimento.save();
 
 
-    //aggiornamento del frigo real time
+
     getIO().to(userId.toString()).emit('frigo-aggiornato');
 
 
-    //risposta finale
+
     res.status(201).json({ success: true, message: "Alimento registrato con successo!" });
   } catch (error) {
     console.error("Errore nella registrazione dell'alimento:", error);
     res.status(500).json({ success: false, message: "Si è verificato un errore interno, riprova più tardi." });
   }
 };
+
 
 exports.getAlimentiUtente = async (req, res) => {
   try {
@@ -57,7 +67,7 @@ exports.getAlimentiUtente = async (req, res) => {
 exports.rimuoviAlimento = async (req, res) => {
   try {
     const userId = req.userId;
-    const idAlimento = req.params.id;  
+    const idAlimento = req.params.id;
 
     // Elimina alimento
     const risultato = await Alimento.findOneAndDelete({ _id: idAlimento, utente: userId });

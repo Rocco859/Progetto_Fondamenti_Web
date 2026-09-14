@@ -13,7 +13,6 @@ export function AppProvider({ children }) {
         return Boolean(tokenSalvato);
     });
 
-
     //inizializzazion di tutte le variabili necessarie
     const [nomeUtente, setNomeUtente] = useState("");
     const [activePopup, setActivePopup] = useState(null);
@@ -61,11 +60,16 @@ export function AppProvider({ children }) {
         socket.on('frigo-aggiornato', () => {
             console.log('Frigo aggiornato in tempo reale');
             setRefreshTrigger(prev => !prev);
+            //notifica unica per tutte le sessioni dell'utente, compresa quella
+            //che ha fatto la modifica. Testo generico perché lo stesso evento
+            //viene emesso sia per l'aggiunta che per la rimozione
+            aggiungiMessaggio("Frigo aggiornato");
         });
 
         socket.on('spesa-aggiornata', () => {
             console.log('🛒 Lista della spesa aggiornata in tempo reale');
             setRefreshTrigger(prev => !prev);
+            aggiungiMessaggio("Lista della spesa aggiornata");
         });
 
         return () => {
